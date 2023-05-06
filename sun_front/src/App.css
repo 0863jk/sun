@@ -1,0 +1,60 @@
+.wrap {
+    margin-top: 30px;
+}
+
+.MainContainer {
+    width: 100%;
+    background-color: white;
+}
+
+.LabelWrapper {
+    width: 1200px;
+    margin: 0 auto;
+    margin-top: 30px;
+    padding-left: 1rem;
+    text-align: center;
+}
+
+.ContentContainer {
+    margin-top: 20px;
+}
+
+.FelxContainer {
+    display: flex;
+    justify-content: center;
+}
+/* .LabelWrapper label {
+    font-size: 20px;
+    font-weight: bold;
+} */
+
+.LabelTitle {
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+}
+
+ul {
+    list-style: none;
+}
+
+li {
+    margin: 0;
+    padding: 0;
+}
+
+
+.clearfix {
+    *zoom: 1;
+}
+
+.clearfix:before,
+.clearfix:after {
+    display: block;
+    content: '';
+    line-height: 0;
+}
+
+.clearfix:after {
+    clear: both;
+}

@@ -1,0 +1,10 @@
+.MainContainer {
+    width: 100%;
+    background-color: white;
+}
+
+.CenterListContainer {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
