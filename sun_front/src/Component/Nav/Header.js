@@ -4,18 +4,22 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
-const Logo = <img src={"img/Logo.png"} style={{
+const Logo = <img src={process.env.PUBLIC_URL + '/img/Logo.png'} style={{
     height: '35px',
     width: '35px',
     marginLeft: '10px'
-}} />
+}} />;
 
 function Header() {
     const [auth, setAuth] = useState('')
+    const [name, setName] = useState('')
+    const [role, setRole] = useState('')
 
     useEffect(() => {
         if (localStorage.getItem('token') !== null) {
             setAuth(true);
+            setName(localStorage.getItem('username'));
+            setRole(localStorage.getItem('role'));
         }
     }, [])
 
@@ -48,18 +52,19 @@ function Header() {
                         <Nav.Link href="/center/list">나의 센터</Nav.Link>
                         <NavDropdown title="센터 등록" id="basic-nav-dropdown">
                             <NavDropdown.Item href="/center/search">센터 ID로 검색</NavDropdown.Item>
-                            {/* {role === "manager" ? <NavDropdown.Item href="/center/register">센터 새로 등록</NavDropdown.Item> : <></>} */}
+                            {role === "manager" ? <NavDropdown.Item href="/center/register">센터 새로 등록</NavDropdown.Item> : <></>}
                         </NavDropdown>
                         <Nav.Link href="/">시간표</Nav.Link>
                     </Nav>
                     <Navbar.Collapse className="justify-content-end">
-                        {auth ? <Nav.Link onClick={handleLogout}>로그아웃</Nav.Link> : <Nav.Link href="/login">로그인</Nav.Link>}
-                        {/* <NavDropdown title="트레이너" id="basic-nav-dropdown">
-                            <NavDropdown.Item disabled="true">계정 유형</NavDropdown.Item>
+                        {auth ? (<>
+                            <NavDropdown title={name} id="basic-nav-dropdown">
+                            <NavDropdown.Item disabled="true">{role}</NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.2">프로필 수정</NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.3">로그아웃</NavDropdown.Item>
-                        </NavDropdown> */}
+                            <NavDropdown.Item onClick={handleLogout}>로그아웃</NavDropdown.Item>
+                        </NavDropdown>
+                        </>) : (<Nav.Link href="/login">로그인</Nav.Link>)}
                     </Navbar.Collapse>
                 </Container>
             </Navbar>

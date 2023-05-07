@@ -19,6 +19,29 @@ function LoginForm() {
         }
     }, [])
 
+    const fetchUserData = (email) => {
+        const userData = { email: email };
+
+        fetch('http://localhost:8000/account/getUsername/', {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify(userData)
+        })
+            .then(res => res.json())
+            .then(data => {
+                // 가져온 유저 데이터 처리
+                const username = data[0].username;
+                const role = data[0].role;
+
+                // localStorage에 저장
+                localStorage.setItem('username', username);
+                localStorage.setItem('role', role);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    };
+
     const SubmitHandler = (event) => {
         event.preventDefault();
         const datas = new FormData(event.target);
@@ -43,6 +66,8 @@ function LoginForm() {
                 if (data) {
                     localStorage.clear();
                     localStorage.setItem('token', data.key);
+                    // 유저 데이터 가져오기
+                    fetchUserData(email);
                     window.location.replace('http://localhost:3000/');
                 } else {
                     setEmail('');
@@ -51,8 +76,6 @@ function LoginForm() {
                     setErrors(true);
                 }
             });
-
-        // navigate("/");
     }
 
 

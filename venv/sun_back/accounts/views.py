@@ -33,3 +33,12 @@ def login(request):
     serializer = UserDataSerializer(data, many=True)
     
     return Response(serializer.data)
+
+@api_view(['POST'])
+def getUsername(request):
+    reqData = request.data
+    email = reqData['email']
+    data = User.objects.filter(email=email)
+    serializer = UserDataSerializer(data, many=True)
+        
+    return Response(serializer.data)

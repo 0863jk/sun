@@ -79,14 +79,6 @@ export default function SignUpForm(props) {
                         </Form.Group>
                         <Form.Group as={Row} className="mb-3">
                             <Form.Label column sm="2">
-                                ID
-                            </Form.Label>
-                            <Col sm="10">
-                                <Form.Control type="text" placeholder="ID를 입력해 주세요..." name="username" />
-                            </Col>
-                        </Form.Group>
-                        <Form.Group as={Row} className="mb-3">
-                            <Form.Label column sm="2">
                                 Email
                             </Form.Label>
                             <Col sm="10">
