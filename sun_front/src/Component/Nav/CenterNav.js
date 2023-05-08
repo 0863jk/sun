@@ -6,11 +6,21 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { useParams } from "react-router-dom";
 
-function CenterNav({ pRole }) {
-    const [role, setRole] = useState(null);
+function CenterNav() {
+    const [auth, setAuth] = useState('');
+    const [name, setName] = useState('');
+    const [role, setRole] = useState('');
 
     useEffect(() => {
-        setRole(pRole);
+        if (localStorage.getItem('token') !== null | localStorage.getItem('token') !== undefined | localStorage.getItem('token') !== 'undefined') {
+            setAuth(true);
+            setName(localStorage.getItem('username'));
+            setRole(localStorage.getItem('role'));
+        // } else if(localStorage.getItem('token') === null | localStorage.getItem('token') === undefined) {
+        } else {
+            setAuth(false);
+            window.location.replace('http://localhost:3000/login');
+        }
     }, [])
 
     return (

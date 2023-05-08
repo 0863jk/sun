@@ -31,10 +31,12 @@ function LoginForm() {
             .then(data => {
                 // 가져온 유저 데이터 처리
                 const username = data[0].username;
+                const id = data[0].id;
                 const role = data[0].role;
 
                 // localStorage에 저장
                 localStorage.setItem('username', username);
+                localStorage.setItem('id', id);
                 localStorage.setItem('role', role);
             })
             .catch(error => {

@@ -9,4 +9,4 @@ class User(AbstractUser):
     # 기본적으로 제공하는 필드 외에 원하는 필드를 적어준다.
     username = models.CharField(max_length=150, unique=False, verbose_name='username')
     phone = models.CharField(null=False, blank=False, unique=False, max_length=255)
-    role = models.CharField(choices=ROLE_CHOICES, null = True, blank = True, max_length=255)
+    role = models.CharField(choices=ROLE_CHOICES, null = False, max_length=255)

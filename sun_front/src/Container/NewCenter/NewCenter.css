@@ -2,6 +2,10 @@
     font-weight: bold;
 }
 
+.preBtn {
+    margin-right: 10px;
+}
+
 .TeacherListContainer {
     margin-bottom: 20px;
 }

@@ -13,12 +13,14 @@ const Logo = <img src={process.env.PUBLIC_URL + '/img/Logo.png'} style={{
 function Header() {
     const [auth, setAuth] = useState('');
     const [name, setName] = useState('');
+    const [id, setId] = useState('');
     const [role, setRole] = useState('');
 
     useEffect(() => {
         if (localStorage.getItem('token') !== null | localStorage.getItem('token') !== undefined | localStorage.getItem('token') !== 'undefined') {
             setAuth(true);
             setName(localStorage.getItem('username'));
+            setId(localStorage.getItem('Id'));
             setRole(localStorage.getItem('role'));
         // } else if(localStorage.getItem('token') === null | localStorage.getItem('token') === undefined) {
         } else {

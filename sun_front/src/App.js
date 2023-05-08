@@ -43,10 +43,11 @@ function App() {
             <Route path="/" element={<CenterList  />}></Route>
             <Route path="/center/list" element={<CenterList />}></Route>
             <Route path="/center/search" element={<CenterSearch  />}></Route>
-            <Route path="/center/register" element={<CenterRegister  />}></Route>
+            <Route path="/center/register" element={<CenterRegister />}></Route>
+            {/* <Route path="/center/register/:pPage" element={<CenterRegister />}></Route>
             <Route path="/center/register/info" element={<CenterRegister  />}></Route>
             <Route path="/center/register/plan" element={<PlanRegister  />}></Route>
-            <Route path="/center/register/teacher" element={<TeacherRegister  />}></Route>
+            <Route path="/center/register/teacher" element={<TeacherRegister  />}></Route> */}
 
             <Route path="/main/:pCenterId" element={<Weekly/>}></Route>
             <Route path="/weekly/:pCenterId" element={<Weekly  />}></Route>
