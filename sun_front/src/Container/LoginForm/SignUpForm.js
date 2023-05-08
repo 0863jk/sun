@@ -35,22 +35,21 @@ function SelectUserRole() {
 
 export default function SignUpForm(props) {
     const { pUserRole } = useParams();
-    const [role, setRole] = useState();
 
     const handleSumbit = (event) => {
         event.preventDefault();
         const data = new FormData(event.target);
         const email = data.get("email");
-        const  username = data.get("username");
         const password1 = data.get("password1");
         const password2 = data.get("password2");
+        const username = data.get("username");
         const phone = data.get("phone");
         const role = data.get("role");
         const datas = JSON.stringify({
             email: email,
-            username: username,
             password1: password1,
             password2: password2,
+            username: username,
             phone: phone,
             role: role
         });
@@ -109,7 +108,7 @@ export default function SignUpForm(props) {
                                 Name
                             </Form.Label>
                             <Col sm="10">
-                                <Form.Control type="text" placeholder="Name" name="name" />
+                                <Form.Control type="text" placeholder="Name" name="username" />
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} className="mb-3">

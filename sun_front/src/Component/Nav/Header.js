@@ -11,15 +11,19 @@ const Logo = <img src={process.env.PUBLIC_URL + '/img/Logo.png'} style={{
 }} />;
 
 function Header() {
-    const [auth, setAuth] = useState('')
-    const [name, setName] = useState('')
-    const [role, setRole] = useState('')
+    const [auth, setAuth] = useState('');
+    const [name, setName] = useState('');
+    const [role, setRole] = useState('');
 
     useEffect(() => {
-        if (localStorage.getItem('token') !== null) {
+        if (localStorage.getItem('token') !== null | localStorage.getItem('token') !== undefined | localStorage.getItem('token') !== 'undefined') {
             setAuth(true);
             setName(localStorage.getItem('username'));
             setRole(localStorage.getItem('role'));
+        // } else if(localStorage.getItem('token') === null | localStorage.getItem('token') === undefined) {
+        } else {
+            setAuth(false);
+            window.location.replace('http://localhost:3000/login');
         }
     }, [])
 
@@ -35,6 +39,9 @@ function Header() {
             .then(data => {
                 console.log(data);
                 localStorage.clear();
+                setAuth(false);
+                setName("");
+                setRole("");
                 window.location.replace('http://localhost:3000/login');
             });
     };
@@ -45,8 +52,6 @@ function Header() {
                 <Container>
                     <Navbar.Brand href="/">
                         {Logo}
-                        {/*<img src={"img/Logo.png"}
-                        style={{height: '45px', width: '45px', marginRight: '3px'}}/>*/}
                     </Navbar.Brand>
                     <Nav className="me-auto">
                         <Nav.Link href="/center/list">나의 센터</Nav.Link>
