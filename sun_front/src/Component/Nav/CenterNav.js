@@ -32,10 +32,10 @@ function CenterNav() {
                         <Nav.Link href="/weekly/centerid">시간표</Nav.Link>
                         <NavDropdown title="이용권" id="basic-nav-dropdown">
                             <NavDropdown.Item href="/plan/centerid">이용권 목록</NavDropdown.Item>
-                            {(role === "general" ? <NavDropdown.Item href="/plan/centerid/userid">나의 이용권 정보</NavDropdown.Item> : <NavDropdown.Item href="/plan/modify/centerid">이용권 정보 수정</NavDropdown.Item>)}
+                            {(role === "general" ? <NavDropdown.Item href="/plan/centerid/userid">나의 이용권 정보</NavDropdown.Item> : role === "manager" ? <NavDropdown.Item href="/plan/modify/centerid">이용권 정보 수정</NavDropdown.Item> : <></>)}
                         </NavDropdown>
                         <NavDropdown title="레슨" id="basic-nav-dropdown">
-                            {(role === "general" ? <NavDropdown.Item href="/lesson/centerid/userid">나의 레슨 기록</NavDropdown.Item> : <NavDropdown.Item href="/lesson/centerid/userid">나의 레슨</NavDropdown.Item>)}
+                            {(role === "general" ? <NavDropdown.Item href="/lesson/centerid/userid">나의 레슨 기록</NavDropdown.Item> : role === "trainer" ? <NavDropdown.Item href="/lesson/centerid/userid">나의 레슨</NavDropdown.Item> : <></>)}
                             {(role === "general" ? <Nav.Link href="/centerid/lesson/evaluate/lessonid">강의평 작성하기</Nav.Link> : <></>)}
                         </NavDropdown>
 

@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import { useNavigate } from 'react-router-dom';
 
 const Logo = <img src={process.env.PUBLIC_URL + '/img/Logo.png'} style={{
     height: '35px',
@@ -11,23 +12,27 @@ const Logo = <img src={process.env.PUBLIC_URL + '/img/Logo.png'} style={{
 }} />;
 
 function Header() {
+    const navigate = useNavigate();
     const [auth, setAuth] = useState('');
     const [name, setName] = useState('');
     const [id, setId] = useState('');
     const [role, setRole] = useState('');
 
     useEffect(() => {
-        if (localStorage.getItem('token') !== null | localStorage.getItem('token') !== undefined | localStorage.getItem('token') !== 'undefined') {
+        if (localStorage.getItem('token') !== null && localStorage.getItem('token') !== undefined && localStorage.getItem('token') !== 'undefined' && localStorage.getItem('token') !== 'null' && localStorage.getItem('token') !== "") {
+            console.log(localStorage.getItem('token'));
             setAuth(true);
             setName(localStorage.getItem('username'));
             setId(localStorage.getItem('Id'));
             setRole(localStorage.getItem('role'));
-        // } else if(localStorage.getItem('token') === null | localStorage.getItem('token') === undefined) {
-        } else {
+            // } else if(localStorage.getItem('token') === null | localStorage.getItem('token') === undefined) {
+            } else if(localStorage.getItem('token') === null || localStorage.getItem('token') === 'null') {
+            console.log("if문에 안 걸림" + auth);
             setAuth(false);
-            window.location.replace('http://localhost:3000/login');
+            navigate('/login');
+            // window.location.replace('http://localhost:3000/login');
         }
-    }, [])
+    }, [auth])
 
     const handleLogout = () => {
         fetch('http://127.0.0.1:8000/auth/logout/', {

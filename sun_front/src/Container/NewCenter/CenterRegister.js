@@ -8,7 +8,7 @@ import CardGroup from 'react-bootstrap/CardGroup';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { useNavigate, useParams } from "react-router-dom";
 
-function CenterInfoRegister({ onSubmit, setPage, centerCreate }) {
+function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
     const handleSubmit = (event) => {
         event.preventDefault();
         const formData = new FormData(event.target);
@@ -26,7 +26,7 @@ function CenterInfoRegister({ onSubmit, setPage, centerCreate }) {
         const CenterInfoData = JSON.stringify(centerInfo);
         console.log(CenterInfoData);
         onSubmit(centerInfo);
-        centerCreate(centerInfo);
+        setCenterid(centerid);
         setPage('plan');
     };
 
@@ -61,7 +61,7 @@ function CenterInfoRegister({ onSubmit, setPage, centerCreate }) {
     );
 }
 
-function PlanRegister({ onSubmit, setPage }) {
+function PlanRegister({ onSubmit, setPage, centerid }) {
     const [planType, setPlanType] = useState('');
 
     const handlePlanTypeChange = (e) => {
@@ -80,6 +80,7 @@ function PlanRegister({ onSubmit, setPage }) {
         const constraints = formData.get('constraints');
 
         const plan = {
+            centerid: centerid,
             planname: planname,
             plantype: planType,
             period: period,
@@ -87,7 +88,7 @@ function PlanRegister({ onSubmit, setPage }) {
         };
         const planData = JSON.stringify(plan);
         console.log(planData);
-        onSubmit(planData);
+        onSubmit(plan);
         setPage('teacher')
     };
 
@@ -182,9 +183,6 @@ function TeacherRegister({ setPage }) {
                     <Button variant="primary" onClick={preBtnHandler} className="preBtn">
                         이전
                     </Button>
-                    <Button variant="primary" type="submit">
-                        제출
-                    </Button>
                 </Form.Group>
             </Form>
         </>
@@ -209,70 +207,63 @@ function CenterRegister() {
     const handlePlanSubmit = (data) => {
         setPlanData(data);
     };
-    
+
+    const handleCenterId = (data) => {
+        setCenterid(data);
+    };
+
     const setPageHandler = (data) => {
         setPage(data);
     }
 
-    const registerPlan = (centerid, data) => {
-        const centeriddata = {
-            centerid : centerid
-        }
-        const planData = JSON.stringify(data);
-        planData.append(centeriddata);
-        console.log(planData);
+    const registerPlan = (data) => {
+        const planJson = JSON.stringify(data);
+        console.log(planJson);
 
-        // fetch('http://localhost:8000/center/plan/registerPlan/', {
-        //     method: 'POST',
-        //     headers: { 'Content-type': 'application/json' },
-        //     // body: JSON.stringify(planData)
-        // })
-        //     .then(res => res.json())
-        //     .then(data => {
-        //         // 가져온 유저 데이터 처리
-        //         const username = data[0].username;
-        //         const id = data[0].id;
-        //         const role = data[0].role;
-
-        //         // localStorage에 저장
-        //         localStorage.setItem('username', username);
-        //         localStorage.setItem('id', id);
-        //         localStorage.setItem('role', role);
-        //     })
-        //     .catch(error => {
-        //         console.error('Error:', error);
-        //     });
+        fetch('http://localhost:8000/center/plan/registerPlan/', {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: planJson
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     };
 
     const centerCreate = (e) => {
         const centerJson = JSON.stringify(centerInfoData);
 
-        fetch('http://localhost:8000/center/registerCenter/', {
-            method: 'POST',
-            headers: { 'Content-type': 'application/json' },
-            body: centerJson
-        })
-        .then(res => {
-            return res.json();
-        }).then(data => {
-            setCenterid(data.id);
-        })
+        // fetch('http://localhost:8000/center/registerCenter/', {
+        //     method: 'POST',
+        //     headers: { 'Content-type': 'application/json' },
+        //     body: centerJson
+        // })
+        //     .then(res => {
+        //         return res.json();
+        //     }).then(data => {
+        //         setCenterid(centerJson.centerid);
+        //         console.log(centerid);
+        //     })
     };
 
     const onSubmit = (e) => {
         const centerJson = JSON.stringify(centerInfoData);
-        // const planJson = JSON.stringify(planData);
 
         fetch('http://localhost:8000/center/registerCenter/', {
             method: 'POST',
             headers: { 'Content-type': 'application/json' },
             body: centerJson
         })
-        .then(res => {
-            return res.json();
-        }).then(data => {
-            registerPlan(data.id, planData);
-        })
+            .then(res => {
+                return res.json();
+            }).then(data => {
+                console.log(data);
+                registerPlan(planData);
+            })
     };
 
     return (
@@ -295,8 +286,8 @@ function CenterRegister() {
                     </div>
                     <div className="ContentContainer">
                         {
-                            page === 'info' ? <CenterInfoRegister onSubmit={handleCenterInfoSubmit} setPage={setPageHandler} centerCreate={centerCreate} /> :
-                                page === 'plan' ? <PlanRegister onSubmit={handlePlanSubmit} setPage={setPageHandler} /> :
+                            page === 'info' ? <CenterInfoRegister onSubmit={handleCenterInfoSubmit} setPage={setPageHandler} setCenterid={handleCenterId} /> :
+                                page === 'plan' ? <PlanRegister onSubmit={handlePlanSubmit} setPage={setPageHandler} centerid={centerid} /> :
                                     page === 'teacher' ? <TeacherRegister setPage={setPageHandler} /> :
                                         <CenterInfoRegister />
                         }
@@ -304,12 +295,7 @@ function CenterRegister() {
                             centerInfoData !== null && planData !== null ?
                                 (<Button variant="primary" onClick={onSubmit}>
                                     Submit
-                                </Button>) : centerInfoData !== null || planData !== null ?
-                                (<Button variant="primary" onClick={onSubmit}>
-                                    하나만 비어잇내
-                                </Button>) : (<Button variant="primary" onClick={onSubmit}>
-                                    다 비어잇내
-                                </Button>)
+                                </Button>) : <></>
                         }
                     </div>
                 </div>

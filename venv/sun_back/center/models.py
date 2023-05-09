@@ -18,7 +18,6 @@ class Center(models.Model):
 class CenterPlan(models.Model):
     SYSTEM_CHOICE = (('fixed-term', '기간제'),
                     ('number-of-times', '횟수제'))
-    planid = models.IntegerField(auto_created=True, unique=True)
     planname = models.CharField(max_length=200)
     centerid = models.CharField(max_length=200)
     period = models.CharField(max_length=200)
