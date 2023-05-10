@@ -234,22 +234,6 @@ function CenterRegister() {
             });
     };
 
-    const centerCreate = (e) => {
-        const centerJson = JSON.stringify(centerInfoData);
-
-        // fetch('http://localhost:8000/center/registerCenter/', {
-        //     method: 'POST',
-        //     headers: { 'Content-type': 'application/json' },
-        //     body: centerJson
-        // })
-        //     .then(res => {
-        //         return res.json();
-        //     }).then(data => {
-        //         setCenterid(centerJson.centerid);
-        //         console.log(centerid);
-        //     })
-    };
-
     const onSubmit = (e) => {
         const centerJson = JSON.stringify(centerInfoData);
 
