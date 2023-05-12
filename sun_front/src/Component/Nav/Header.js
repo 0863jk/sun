@@ -28,7 +28,6 @@ function Header() {
         } else if (localStorage.getItem('token') === null || localStorage.getItem('token') === 'null') {
             setAuth(false);
             navigate('/login');
-            window.location.replace('http://localhost:3000/login');
         }
     }, [auth])
 

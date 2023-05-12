@@ -19,8 +19,8 @@ class Plan(models.Model):
     SYSTEM_CHOICE = (('fixed-term', '기간제'),
                     ('number-of-times', '횟수제'))
     planid = models.AutoField(primary_key=True)
-    centerid = models.CharField(max_length=200)
     planname = models.CharField(max_length=200)
+    centerid = models.CharField(max_length=200)
     introduction = models.CharField(max_length=200)
     plantype = models.CharField(choices=SYSTEM_CHOICE, null = False, max_length=255)
     period = models.CharField(max_length=200) # 기간 형식으로 수정 필요
