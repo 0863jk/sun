@@ -3,7 +3,11 @@ from . import views
 
 urlpatterns = [
     path('getCenters/', views.getCenters, name="getCenters"),
+    path('getAllCenterMember/', views.getAllCenterMember, name="getAllCenterMember"),
+    path('getMemberCenters/<str:userid>', views.getMemberCenters, name="getMemberCenters"),
     path('registerCenter/', views.registerCenter, name="registerCenter"),
-    path('plan/getPlans/', views.getCenterPlans, name="getCenterPlans"),
-    path('plan/registerPlan/', views.registerCenterPlan, name="registerCenterPlan"),
+    path('registerCenterMember/', views.registerCenterMember, name="registerCenterMember"),
+    path('plan/getPlans/', views.getPlans, name="getPlans"),
+    path('plan/getCenterPlans/', views.getCenterPlans, name="getCenterPlans"),
+    path('plan/registerPlan/', views.registerPlan, name="registerCenterPlan"),
 ]

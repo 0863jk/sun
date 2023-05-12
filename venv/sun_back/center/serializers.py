@@ -1,4 +1,4 @@
-from .models import Center, CenterPlan
+from .models import Center, Plan, CenterMember
 from rest_framework import serializers
 
 class CenterDataSerializer(serializers.ModelSerializer):
@@ -6,7 +6,12 @@ class CenterDataSerializer(serializers.ModelSerializer):
         model = Center
         fields = '__all__'
 
-class CenterPlanDataSerializer(serializers.ModelSerializer):
+class PlanDataSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CenterPlan
+        model = Plan
+        fields = '__all__'
+
+class CenterMemberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CenterMember
         fields = '__all__'

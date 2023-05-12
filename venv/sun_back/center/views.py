@@ -1,8 +1,8 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import Center, CenterPlan
-from .serializers import CenterDataSerializer, CenterPlanDataSerializer
+from .models import Center, Plan, CenterMember, CenterTrainer
+from .serializers import CenterDataSerializer, PlanDataSerializer, CenterMemberSerializer
 from django.shortcuts import render
 
 # Create your views here.
@@ -15,9 +15,39 @@ def getCenters(request):
     return Response(serializer.data)
 
 @api_view(['GET'])
+def getAllCenterMember(request):
+    datas = CenterMember.objects.all()
+    serializer = CenterMemberSerializer(datas, many=True)
+    
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def getMemberCenters(request, userid):
+    # userid = request.GET.get('userid')
+    center_ids = CenterMember.objects.filter(userid=userid).values_list('centerid')
+    datas = Center.objects.filter(centerid__in=center_ids)
+
+    # center_ids = CenterMember.objects.filter(userid=userid).values_list('centerid')
+    serializer = CenterMemberSerializer(datas, many=True)
+
+
+    serializer = CenterDataSerializer(datas, many=True)
+    
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def getPlans(request):
+    datas = Plan.objects.all()
+    serializer = PlanDataSerializer(datas, many=True)
+
+    return Response(serializer.data)
+
+@api_view(['GET'])
 def getCenterPlans(request):
-    datas = CenterPlan.objects.all()
-    serializer = CenterPlanDataSerializer(datas, many=True)
+    centerid = request.GET.get('centerid')
+
+    datas = Plan.objects.filter(centerid=centerid)
+    serializer = PlanDataSerializer(datas, many=True)
 
     return Response(serializer.data)
 
@@ -31,9 +61,18 @@ def registerCenter(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
-def registerCenterPlan(request):
+def registerCenterMember(request):
     reqData = request.data
-    serializer = CenterPlanDataSerializer(data=reqData)
+    serializer = CenterMemberSerializer(data=reqData)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def registerPlan(request):
+    reqData = request.data
+    serializer = PlanDataSerializer(data=reqData)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
