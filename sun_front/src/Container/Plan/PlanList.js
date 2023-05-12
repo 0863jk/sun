@@ -16,12 +16,6 @@ function PlanList() {
                         <div className="CenterListContainer">
                             <CardGroup className="CardGroup">
                                 <PlanCard />
-                                <PlanCard />
-                                <PlanCard />
-                                <PlanCard />
-                                <PlanCard />
-                                <PlanCard />
-                                <PlanCard />
                             </CardGroup>
                         </div>
                     </div>

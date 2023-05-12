@@ -3,25 +3,24 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Link } from "react-router-dom";
 
-function PlanCard() {
+function PlanCard({ planname, introduction, plantype, period, constraints, planid } ) {
     return (
         <>
             <div className="PlanCard">
                 <Card style={{ width: "284px" }}>
                     <Card.Body>
-                        <Card.Title>플랜명</Card.Title>
+                        <Card.Title>{planname}</Card.Title>
                         <Card.Text>
-                            Some quick example text to build on the card title and make up the
-                            bulk of the card's content.
+                            {introduction}
                         </Card.Text>
                     </Card.Body>
                     <ListGroup className="list-group-flush">
-                        <ListGroup.Item>플랜 유형</ListGroup.Item>
-                        <ListGroup.Item>1개월</ListGroup.Item>
-                        <ListGroup.Item>일주일에 n번</ListGroup.Item>
+                        <ListGroup.Item>{plantype}</ListGroup.Item>
+                        <ListGroup.Item>{period}</ListGroup.Item>
+                        <ListGroup.Item>{constraints}</ListGroup.Item>
                     </ListGroup>
                     <Card.Body>
-                        <Card.Link href="/plan/info/planid">정보 보기</Card.Link>
+                        <Card.Link href={`/plan/${planid}`}>정보 보기</Card.Link>
                     </Card.Body>
                 </Card>
             </div>
