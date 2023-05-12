@@ -23,14 +23,12 @@ function Header() {
             console.log(localStorage.getItem('token'));
             setAuth(true);
             setName(localStorage.getItem('username'));
-            setId(localStorage.getItem('Id'));
+            setId(localStorage.getItem('id'));
             setRole(localStorage.getItem('role'));
-            // } else if(localStorage.getItem('token') === null | localStorage.getItem('token') === undefined) {
-            } else if(localStorage.getItem('token') === null || localStorage.getItem('token') === 'null') {
-            console.log("if문에 안 걸림" + auth);
+        } else if (localStorage.getItem('token') === null || localStorage.getItem('token') === 'null') {
             setAuth(false);
             navigate('/login');
-            // window.location.replace('http://localhost:3000/login');
+            window.location.replace('http://localhost:3000/login');
         }
     }, [auth])
 
@@ -71,11 +69,11 @@ function Header() {
                     <Navbar.Collapse className="justify-content-end">
                         {auth ? (<>
                             <NavDropdown title={name} id="basic-nav-dropdown">
-                            <NavDropdown.Item disabled="true">{role}</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">프로필 수정</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item onClick={handleLogout}>로그아웃</NavDropdown.Item>
-                        </NavDropdown>
+                                <NavDropdown.Item disabled="true">{role}</NavDropdown.Item>
+                                <NavDropdown.Item href="#action/3.2">프로필 수정</NavDropdown.Item>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item onClick={handleLogout}>로그아웃</NavDropdown.Item>
+                            </NavDropdown>
                         </>) : (<Nav.Link href="/login">로그인</Nav.Link>)}
                     </Navbar.Collapse>
                 </Container>
