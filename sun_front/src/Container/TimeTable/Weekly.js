@@ -4,17 +4,17 @@ import WeeklyTable from '../../Component/TimeTable/WeeklyTable';
 import { useEffect, useState } from 'react';
 
 function Weekly() {
-    // const pRole = useParams("pRole");
-    // const [role, setRole] = useState(null);
+    const { pCenterId } = useParams();
+    const [centerid, setCenterid] = useState('');
 
-    // useEffect(() => {
-    //     setRole(pRole);
-    // }, []);
+    useEffect(() => {
+        setCenterid(pCenterId);
+    }, []);
 
     return (
         <>
             <div className="header">
-                <CenterNav/>
+                <CenterNav centerid={centerid}/>
             </div>
             <div className="LabelWrapper">
                 <div className="wrap MainContainer">

@@ -1,15 +1,23 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import PlanCard from "../../Component/Card/PlanCard"
 import CardGroup from 'react-bootstrap/CardGroup';
 import CenterNav from "../../Component/Nav/CenterNav";
 import PlanModifyCard from "../../Component/Card/PlanModifyCard";
+import { useEffect, useState } from "react";
 
 function PlanManage() {
+    const { pCenterId } = useParams();
+    const [centerid, setCenterid] = useState('');
+
+    useEffect(() => {
+        setCenterid(pCenterId);
+    }, []);
+
     return (
         <>
             <div>
                 <div className="header">
-                    <CenterNav />
+                    <CenterNav centerid={centerid}/>
                 </div>
                 <div className="MainContainer">
                     <div className="LabelWrapper">

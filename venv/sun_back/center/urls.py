@@ -8,6 +8,6 @@ urlpatterns = [
     path('registerCenter/', views.registerCenter, name="registerCenter"),
     path('registerCenterMember/', views.registerCenterMember, name="registerCenterMember"),
     path('plan/getPlans/', views.getPlans, name="getPlans"),
-    path('plan/getCenterPlans/', views.getCenterPlans, name="getCenterPlans"),
+    path('plan/getCenterPlans/<str:centerid>', views.getCenterPlans, name="getCenterPlans"),
     path('plan/registerPlan/', views.registerPlan, name="registerCenterPlan"),
 ]

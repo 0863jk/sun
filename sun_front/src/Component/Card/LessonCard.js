@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 function LessonCard() {
     return (
         <>
-            <div className="PlanCard">
+            <div className="LessonCard">
                 <Card style={{ width: "284px" }}>
                     <Card.Body>
                         <Card.Title>수업명</Card.Title>

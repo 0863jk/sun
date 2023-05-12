@@ -1,13 +1,22 @@
+import { useParams } from "react-router-dom";
 import PlanCard from "../../Component/Card/PlanCard";
 import CenterNav from "../../Component/Nav/CenterNav";
 import CardGroup from 'react-bootstrap/CardGroup';
+import { useEffect, useState } from "react";
 
 function MyPlan() {
+    const { pCenterId } = useParams();
+    const [centerid, setCenterid] = useState('');
+
+    useEffect(() => {
+        setCenterid(pCenterId);
+    }, []);
+
     return (
         <>
             <div>
                 <div className="header">
-                    <CenterNav />
+                    <CenterNav centerid={centerid}/>
                 </div>
                 <div className="MainContainer">
                     <div className="LabelWrapper">

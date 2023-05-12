@@ -23,13 +23,8 @@ def getAllCenterMember(request):
 
 @api_view(['GET'])
 def getMemberCenters(request, userid):
-    # userid = request.GET.get('userid')
     center_ids = CenterMember.objects.filter(userid=userid).values_list('centerid')
     datas = Center.objects.filter(centerid__in=center_ids)
-
-    # center_ids = CenterMember.objects.filter(userid=userid).values_list('centerid')
-    serializer = CenterMemberSerializer(datas, many=True)
-
 
     serializer = CenterDataSerializer(datas, many=True)
     
@@ -43,9 +38,7 @@ def getPlans(request):
     return Response(serializer.data)
 
 @api_view(['GET'])
-def getCenterPlans(request):
-    centerid = request.GET.get('centerid')
-
+def getCenterPlans(request, centerid):
     datas = Plan.objects.filter(centerid=centerid)
     serializer = PlanDataSerializer(datas, many=True)
 

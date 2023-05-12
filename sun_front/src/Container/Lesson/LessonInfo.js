@@ -2,13 +2,22 @@ import CenterNav from "../../Component/Nav/CenterNav";
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Link } from "react-router-dom";
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 function LessonInfo() {
+    const { pCenterId } = useParams();
+    const [centerid, setCenterid] = useState('');
+
+    useEffect(() => {
+        setCenterid(pCenterId);
+    }, []);
+
     return (
         <>
             <div>
                 <div className="header">
-                    <CenterNav />
+                    <CenterNav centerid={centerid}/>
                 </div>
                 <div className="MainContainer">
                     <div className="LabelWrapper">

@@ -25,6 +25,7 @@ import LessonInfo from './Container/Lesson/LessonInfo';
 import PlanManage from './Container/Plan/PlanManage';
 import LoginForm from './Container/LoginForm/LoginForm';
 import SignUpForm from './Container/LoginForm/SignUpForm';
+import CenterNav from './Component/Nav/CenterNav';
 //import Footer from './Component/Footer';
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
             <Route path="/center/register/plan" element={<PlanRegister  />}></Route>
             <Route path="/center/register/teacher" element={<TeacherRegister  />}></Route> */}
 
+            {/* <Route path="/main/:pCenterId" element={<CenterNav/>}></Route> */}
             <Route path="/main/:pCenterId" element={<Weekly/>}></Route>
             <Route path="/weekly/:pCenterId" element={<Weekly  />}></Route>
             {/* <Route path="/montly/:pCenterId" element={<Montly />}></Route>
