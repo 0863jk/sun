@@ -36,11 +36,11 @@ function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
                 const centerInfo = {
                     centername: centername,
                     centerid: centerid,
-                    manager: id,
-                    introduction: introduction,
-                    bizid: bizid,
-                    address: address,
                     password: password,
+                    introduction: introduction,
+                    manager: id,
+                    address: address,
+                    bizid: bizid,
                 };
                 const CenterInfoData = JSON.stringify(centerInfo);
                 console.log(CenterInfoData);

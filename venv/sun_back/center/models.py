@@ -5,11 +5,12 @@ from django.utils import timezone
 class Center(models.Model):
     centername = models.CharField(max_length=200)
     centerid = models.CharField(max_length=200, primary_key=True)
-    introduction = models.CharField(max_length=200)
-    manager = models.CharField(max_length=200, null = True, blank = True)
-    # manager = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    location = models.CharField(max_length=200, null = True, blank = True)
     password = models.CharField(max_length=200)
+    introduction = models.CharField(max_length=200)
+    manager = models.CharField(max_length=200)
+    # manager = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    address = models.CharField(max_length=200)
+    bizid = models.CharField(max_length=200)
     created_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
