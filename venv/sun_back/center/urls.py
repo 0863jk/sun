@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path('getCenters/', views.getCenters, name="getCenters"),
+    path('getCenter/<str:centerid>', views.getCenter, name="getCenter"),
     path('getAllCenterMember/', views.getAllCenterMember, name="getAllCenterMember"),
     path('getMemberCenters/<str:userid>', views.getMemberCenters, name="getMemberCenters"),
     path('registerCenter/', views.registerCenter, name="registerCenter"),

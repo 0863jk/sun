@@ -7,17 +7,16 @@ import DaumPostcode from 'react-daum-postcode';
 function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
     const [id, setId] = useState(''); // 유저 아이디
     const [ctid, setCtid] = useState(''); // 센터 아이디 관리
+    const [ctIdState, setCtIdState] = useState(false); // 센터 아이디 상태 관리
     const [bizid, setBizid] = useState(''); // 사업자 등록 번호 관리
-    const [isReady, setIsReady] = useState(false); // 등록 가능 상태 관리
     const [bizIdState, setBizIdState] = useState(false); // 사업자 등록 번호 상태 관리
     const [isOpen, setIsOpen] = useState(false); // 주소 등록 모달 상태 관리
     const [inputAddressValue, setInputAddressValue] = useState();
 
     useEffect(() => {
         setId(localStorage.getItem('id'));
-        setIsReady(false);
     }, [])
-    
+
     // 데이터 등록
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -32,7 +31,7 @@ function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
         const password = formData.get('password');
 
         if (centerid !== "" && centerid !== "" && centername !== "" && address !== "" && password !== "") {
-            if (bizIdState === true) {
+            if (bizIdState === true && ctIdState === true) {
                 const centerInfo = {
                     centername: centername,
                     centerid: centerid,
@@ -47,8 +46,12 @@ function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
                 onSubmit(centerInfo);
                 setCenterid(centerid);
                 setPage('plan');
+            } else if (bizIdState === false && ctIdState === true) {
+                alert('사업자 등록 번호 유효성 검사를 진행해 주세요.');
+            } else if (bizIdState === true && ctIdState === false) {
+                alert('센터ID 중복 검사를 진행해 주세요.');
             } else {
-                alert('isReady is False');
+                alert('오류 발생');
             }
         } else {
             alert('필수 데이터를 삽입해 주세요.');
@@ -70,12 +73,31 @@ function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
     // 센터 아이디 데이터 수집
     const getCtId = (event) => {
         const data = event.target.value
-        setCenterid(data);
+        setCtid(data);
     }
-    // // 등록 가능 상태 관리
-    // const handleCtIdState = (event) => {
-    //     ctid
-    // }
+    // 등록 가능 상태 관리
+    const handleCtIdState = (event) => {
+        chkCtId(ctid);
+    }
+
+    // 중복 검사 메소드
+    function chkCtId(ctid) {
+        fetch(`http://localhost:8000/center/getCenter/${ctid}`)
+            .then(res => {
+                return res.json();
+            })
+            .then(data => {
+                if (data[0] !== undefined && data[0] !== null && data[0] !== "undefined" && data[0] !== "" && data[0] !== "null") {
+                    setCtIdState(false);
+                    alert("사용 불가능한 아이디입니다.");
+                } else {
+                    setCtIdState(true);
+                    alert("사용 가능한 아이디입니다.")
+                }
+            }).catch(error => {
+                console.error(error);
+            })
+    }
 
     // 사업자 등록 번호 관리
     // 사업자 등록 번호 데이터 수집
@@ -86,7 +108,6 @@ function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
     // 사업자 등록 번호 상태 체크
     const handleBizId = (event) => {
         const strBizid = bizid.replace(/-/g, '');
-        console.log(strBizid);
         setBizIdState(chkBizId(strBizid));
 
         if (bizIdState === true) {
@@ -126,7 +147,7 @@ function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
         <>
             {isOpen && (
                 <Modal
-                    visible={true}
+                    open={true}
                     onOk={onToggleModal}
                     onCancel={onToggleModal} // isOpen이 false가 되고 화면이 리렌더되면서 모달이 뜨지 않는다.
                 >
@@ -140,7 +161,14 @@ function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>센터ID</Form.Label>
-                    <Form.Control type="text" name="centerid" placeholder="센터 아이디를 입력해 주세요..." />
+                    <Form.Group className="mb-3 nomargin" as={Row} >
+                        <Col xs={9} className="nomargin">
+                            <Form.Control type="text" name="centerid" placeholder="센터 아이디를 입력해 주세요..." onChange={getCtId} disabled={ctIdState ? true : false} />
+                        </Col>
+                        <Col className="nomargin">
+                            <Form.Control type="Button" value="중복 검사" onClick={handleCtIdState} />
+                        </Col>
+                    </Form.Group>
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>주소</Form.Label>
