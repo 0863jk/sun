@@ -7,59 +7,8 @@ import TeacherCard from "../../Component/Card/TeacherCard";
 import CardGroup from 'react-bootstrap/CardGroup';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { useNavigate, useParams } from "react-router-dom";
-
-function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const formData = new FormData(event.target);
-        const centerid = formData.get('centerid');
-        const centername = formData.get('centername');
-        const introduction = formData.get('introduction');
-        const password = formData.get('password');
-
-        const centerInfo = {
-            centername: centername,
-            centerid: centerid,
-            introduction: introduction,
-            password: password,
-        };
-        const CenterInfoData = JSON.stringify(centerInfo);
-        console.log(CenterInfoData);
-        onSubmit(centerInfo);
-        setCenterid(centerid);
-        setPage('plan');
-    };
-
-    return (
-        <>
-            <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3">
-                    <Form.Label>센터명</Form.Label>
-                    <Form.Control type="text" placeholder="센터 이름을 입력해 주세요..." name="centername" />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>센터ID</Form.Label>
-                    <Form.Control type="text" name="centerid" placeholder="센터 아이디를 입력해 주세요..." />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>사업자 등록번호</Form.Label>
-                    <Form.Control type="text" placeholder="사업자 등록번호를 입력해 주세요..." />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>센터소개</Form.Label>
-                    <Form.Control type="text" name="introduction" placeholder="센터 소개를 입력해 주세요..." />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" name="password" placeholder="센터를 관리할 때 사용할 비밀번호를 입력해 주세요..." />
-                </Form.Group>
-                <Button variant="primary" type="submit">
-                    다음
-                </Button>
-            </Form>
-        </>
-    );
-}
+import DaumPostcode from 'react-daum-postcode';
+import CenterInfoRegister from "./CenterInfoRegister";
 
 function PlanRegister({ onSubmit, setPage, centerid }) {
     const [planType, setPlanType] = useState('');

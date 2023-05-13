@@ -13,7 +13,7 @@ function LoginForm() {
 
     useEffect(() => {
         if (localStorage.getItem('token') !== null) {
-            window.location.replace('http://localhost:3000/login');
+            navigate('/login');
         } else {
             setLoading(false);
         }
