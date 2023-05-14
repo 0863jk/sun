@@ -1,11 +1,11 @@
-import TeacherCard from "../../Component/Card/TeacherCard";
+import TrainerCard from "../../Component/Card/TrainerCard";
 import CenterNav from "../../Component/Nav/CenterNav";
 import CardGroup from 'react-bootstrap/CardGroup';
 import Nav from 'react-bootstrap/Nav';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-function TeacherManage() {
+function TrainerManage() {
     const { pCenterId } = useParams();
     const [centerid, setCenterid] = useState('');
 
@@ -25,7 +25,7 @@ function TeacherManage() {
                         <div className="Taps">
                             <Nav className="justify-content-center" activeKey="/home">
                                 <Nav.Item>
-                                    <Nav.Link href="/admin/teacher/centerid" className="current">강사 관리</Nav.Link>
+                                    <Nav.Link href="/admin/trainer/centerid" className="current">강사 관리</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
                                     <Nav.Link href="/admin/member/centerid">회원 관리</Nav.Link>
@@ -45,7 +45,7 @@ function TeacherManage() {
                         </div>
                         <div className="CenterListContainer">
                             <CardGroup className="CardGroup">
-                                <TeacherCard />
+                                <TrainerCard />
                             </CardGroup>
                         </div>
                     </div>
@@ -54,4 +54,4 @@ function TeacherManage() {
         </>
     );
 }
-export default TeacherManage;
+export default TrainerManage;

@@ -22,8 +22,8 @@ function Header() {
         if (localStorage.getItem('token') !== null && localStorage.getItem('token') !== undefined && localStorage.getItem('token') !== 'undefined' && localStorage.getItem('token') !== 'null' && localStorage.getItem('token') !== "") {
             console.log(localStorage.getItem('token'));
             setAuth(true);
-            setName(localStorage.getItem('username'));
-            setId(localStorage.getItem('id'));
+            setName(localStorage.getItem('name'));
+            setId(localStorage.getItem('username'));
             setRole(localStorage.getItem('role'));
         } else if (localStorage.getItem('token') === null || localStorage.getItem('token') === 'null') {
             setAuth(false);

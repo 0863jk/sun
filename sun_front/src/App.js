@@ -10,8 +10,8 @@ import CenterRegister from './Container/NewCenter/CenterRegister';
 import PlanRegister from './Container/NewCenter/PlanRegister';
 import LessonRegister from './Container/Lesson/LessonRegister';
 import MemberManage from './Container/Admin/MemberManage';
-import TeacherManage from './Container/Admin/TeacherManage';
-import TeacherRegister from './Container/NewCenter/TeacherRegister';
+import TrainerManage from './Container/Admin/TrainerManage';
+import TrainerRegister from './Container/NewCenter/TrainerRegister';
 import MyPlan from './Container/Plan/MyPlan';
 import LessonHistory from './Container/MyLesson/LessonHistory';
 import Weekly from './Container/TimeTable/Weekly';
@@ -48,7 +48,7 @@ function App() {
             {/* <Route path="/center/register/:pPage" element={<CenterRegister />}></Route>
             <Route path="/center/register/info" element={<CenterRegister  />}></Route>
             <Route path="/center/register/plan" element={<PlanRegister  />}></Route>
-            <Route path="/center/register/teacher" element={<TeacherRegister  />}></Route> */}
+            <Route path="/center/register/Trainer" element={<TrainerRegister  />}></Route> */}
 
             {/* <Route path="/main/:pCenterId" element={<CenterNav/>}></Route> */}
             <Route path="/main/:pCenterId" element={<Weekly/>}></Route>
@@ -69,8 +69,8 @@ function App() {
             <Route path="/timetable/:pCenterId" element={<TimeTableRegister  />}></Route>
             <Route path="/timetable/register/:pCenterId" element={<LessonRegister  />}></Route>
             <Route path="/plan/register/:pCenterId" element={<PlanRegister  />}></Route>
-            <Route path="/admin/:pCenterId" element={<TeacherManage  />}></Route>
-            <Route path="/admin/teacher/:pCenterId" element={<TeacherManage  />}></Route>
+            <Route path="/admin/:pCenterId" element={<TrainerManage  />}></Route>
+            <Route path="/admin/Trainer/:pCenterId" element={<TrainerManage  />}></Route>
             <Route path="/admin/member/:pCenterId" element={<MemberManage  />}></Route>
             <Route path="/admin/stats/:pCenterId" element={<Stats  />}></Route>
             <Route path="/admin/lesson/:pCenterId" element={<LessonList  />}></Route>

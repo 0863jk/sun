@@ -30,8 +30,8 @@ function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
         const introduction = formData.get('introduction');
         const password = formData.get('password');
 
-        if (centerid !== "" && centerid !== "" && centername !== "" && address !== "" && password !== "") {
-            if (bizIdState === true && ctIdState === true) {
+        // if (centerid !== "" && centerid !== "" && centername !== "" && address !== "" && password !== "") {
+        //     if (bizIdState === true && ctIdState === true) {
                 const centerInfo = {
                     centername: centername,
                     centerid: centerid,
@@ -46,17 +46,16 @@ function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
                 onSubmit(centerInfo);
                 setCenterid(centerid);
                 setPage('plan');
-            } else if (bizIdState === false && ctIdState === true) {
-                alert('사업자 등록 번호 유효성 검사를 진행해 주세요.');
-            } else if (bizIdState === true && ctIdState === false) {
-                alert('센터ID 중복 검사를 진행해 주세요.');
-            } else {
-                alert('오류 발생');
-            }
-        } else {
-            alert('필수 데이터를 삽입해 주세요.');
-        }
-
+        //     } else if (bizIdState === false && ctIdState === true) {
+        //         alert('사업자 등록 번호 유효성 검사를 진행해 주세요.');
+        //     } else if (bizIdState === true && ctIdState === false) {
+        //         alert('센터ID 중복 검사를 진행해 주세요.');
+        //     } else {
+        //         alert('오류 발생');
+        //     }
+        // } else {
+        //     alert('필수 데이터를 삽입해 주세요.');
+        // }
     };
 
     // 주소 등록 모달 관리
@@ -118,7 +117,7 @@ function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
     }
     // 사업자 등록 번호 유효성 검사
     function chkBizId(strBN) {  // 012-34-56789
-        if (strBN.length != 10) {
+        if (strBN.length !== 10) {
             alert("10자리를 입력해주세요.");
             return false;
         }
@@ -136,7 +135,7 @@ function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
         chkStep1 += Math.floor(parseInt(strBN.substring(8, 9), 10) * 5 / 10);
         chkStep1 += parseInt(strBN.substring(9, 10), 10);
 
-        if (chkStep1 % 10 != 0) {
+        if (chkStep1 % 10 !== 0) {
             return false;
         } else {
             return true;

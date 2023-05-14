@@ -1,11 +1,5 @@
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
-import Nav from 'react-bootstrap/Nav';
+import { Col, Form, Row } from 'react-bootstrap';
 import { useNavigate, useParams } from "react-router-dom";
-import { signup } from "../../Hook/ApiService";
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 
 function SelectUserRole() {
     const navigate = useNavigate();
@@ -39,17 +33,19 @@ export default function SignUpForm(props) {
     const handleSumbit = (event) => {
         event.preventDefault();
         const data = new FormData(event.target);
+        const username = data.get("username");
         const email = data.get("email");
         const password1 = data.get("password1");
         const password2 = data.get("password2");
-        const username = data.get("username");
+        const name = data.get("name");
         const phone = data.get("phone");
         const role = data.get("role");
         const datas = JSON.stringify({
+            username: username,
             email: email,
             password1: password1,
             password2: password2,
-            username: username,
+            name: name,
             phone: phone,
             role: role
         });
@@ -78,9 +74,17 @@ export default function SignUpForm(props) {
                         </Form.Group>
                         <Form.Group as={Row} className="mb-3">
                             <Form.Label column sm="2">
-                                Email
+                                ID
                             </Form.Label>
                             <Col sm="10">
+                                <Form.Control type="text" placeholder="ID를 입력해 주세요..." name="username" />
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} className="mb-3">
+                            <Form.Label column sm="2">
+                                Email
+                            </Form.Label>
+                            <Col>
                                 <Form.Control type="email" placeholder="email@example.com" name="email" />
                             </Col>
                         </Form.Group>
@@ -97,25 +101,24 @@ export default function SignUpForm(props) {
                             <Form.Label column sm="2">
                                 비밀번호 확인
                             </Form.Label>
-                            <Col sm="10">
+                            <Col>
                                 <Form.Control type="password" placeholder="비밀번호 확인" name="password2" />
                             </Col>
                         </Form.Group>
-                
 
                         <Form.Group as={Row} className="mb-3">
                             <Form.Label column sm="2">
                                 Name
                             </Form.Label>
-                            <Col sm="10">
-                                <Form.Control type="text" placeholder="Name" name="username" />
+                            <Col>
+                                <Form.Control type="text" placeholder="이름을 입력해 주세요..." name="name" />
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} className="mb-3">
                             <Form.Label column sm="2">
                                 Phone
                             </Form.Label>
-                            <Col sm="10">
+                            <Col>
                                 <Form.Control type="text" placeholder="010-0000-0000" name="phone" />
                             </Col>
                         </Form.Group>

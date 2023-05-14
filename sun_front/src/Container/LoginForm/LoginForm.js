@@ -19,8 +19,8 @@ function LoginForm() {
         }
     }, [])
 
-    const fetchUserData = (email) => {
-        const userData = { email: email };
+    const fetchUserData = (username) => {
+        const userData = { username: username };
 
         fetch('http://localhost:8000/account/getUsername/', {
             method: 'POST',
@@ -31,12 +31,12 @@ function LoginForm() {
             .then(data => {
                 // 가져온 유저 데이터 처리
                 const username = data[0].username;
-                const id = data[0].id;
+                const name = data[0].name;
                 const role = data[0].role;
 
                 // localStorage에 저장
                 localStorage.setItem('username', username);
-                localStorage.setItem('id', id);
+                localStorage.setItem('name', name);
                 localStorage.setItem('role', role);
             })
             .catch(error => {
@@ -47,11 +47,11 @@ function LoginForm() {
     const SubmitHandler = (event) => {
         event.preventDefault();
         const datas = new FormData(event.target);
-        const email = datas.get("email");
+        const username = datas.get("username");
         const password = datas.get("password");
 
         const user = JSON.stringify({
-            email: email,
+            username: username,
             password: password
         });
 
@@ -69,7 +69,7 @@ function LoginForm() {
                     localStorage.clear();
                     localStorage.setItem('token', data.key);
                     // 유저 데이터 가져오기
-                    fetchUserData(email);
+                    fetchUserData(username);
                     window.location.replace('http://localhost:3000/');
                 } else {
                     setEmail('');
@@ -89,10 +89,10 @@ function LoginForm() {
                     <Form onSubmit={SubmitHandler}>
                         <Form.Group as={Row} className="mb-3">
                             <Form.Label column sm="2">
-                                EMAIL
+                                ID
                             </Form.Label>
                             <Col sm="10">
-                                <Form.Control type="email" placeholder="이메일을 입력해주세요." name="email" />
+                                <Form.Control type="text" placeholder="아이디를 입력해주세요." name="username" />
                             </Col>
                         </Form.Group>
 

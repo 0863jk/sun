@@ -25,7 +25,7 @@ function Stats() {
                         <div className="Taps">
                             <Nav className="justify-content-center" activeKey="/home">
                                 <Nav.Item>
-                                    <Nav.Link href="/admin/teacher/centerid">강사 관리</Nav.Link>
+                                    <Nav.Link href="/admin/trainer/centerid">강사 관리</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
                                     <Nav.Link href="/admin/member/centerid">회원 관리</Nav.Link>
