@@ -32,20 +32,20 @@ function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
 
         // if (centerid !== "" && centerid !== "" && centername !== "" && address !== "" && password !== "") {
         //     if (bizIdState === true && ctIdState === true) {
-                const centerInfo = {
-                    centername: centername,
-                    centerid: centerid,
-                    password: password,
-                    introduction: introduction,
-                    manager: id,
-                    address: address,
-                    bizid: bizid,
-                };
-                const CenterInfoData = JSON.stringify(centerInfo);
-                console.log(CenterInfoData);
-                onSubmit(centerInfo);
-                setCenterid(centerid);
-                setPage('plan');
+        const centerInfo = {
+            centername: centername,
+            centerid: centerid,
+            password: password,
+            introduction: introduction,
+            manager: id,
+            address: address,
+            bizid: bizid,
+        };
+        const CenterInfoData = JSON.stringify(centerInfo);
+        console.log(CenterInfoData);
+        onSubmit(centerInfo);
+        setCenterid(centerid);
+        setPage('plan');
         //     } else if (bizIdState === false && ctIdState === true) {
         //         alert('사업자 등록 번호 유효성 검사를 진행해 주세요.');
         //     } else if (bizIdState === true && ctIdState === false) {
@@ -206,9 +206,11 @@ function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" name="password" placeholder="센터를 관리할 때 사용할 비밀번호를 입력해 주세요..." />
                 </Form.Group>
-                <Button variant="primary" type="submit">
-                    다음
-                </Button>
+                <Form.Group className="mb-3">
+                    <Button variant="primary" type="submit">
+                        다음
+                    </Button>
+                </Form.Group>
             </Form>
         </>
     );
