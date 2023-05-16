@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./NewCenter.css";
 import { Modal } from "antd";
 import { Button, Form, Col, Row } from 'react-bootstrap';
@@ -6,17 +6,12 @@ import DaumPostcode from 'react-daum-postcode';
 
 function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
     const username = localStorage.getItem('username');
-    const [id, setId] = useState(''); // 유저 아이디
     const [ctid, setCtid] = useState(''); // 센터 아이디 관리
     const [ctIdState, setCtIdState] = useState(false); // 센터 아이디 상태 관리
     const [bizid, setBizid] = useState(''); // 사업자 등록 번호 관리
     const [bizIdState, setBizIdState] = useState(false); // 사업자 등록 번호 상태 관리
     const [isOpen, setIsOpen] = useState(false); // 주소 등록 모달 상태 관리
     const [inputAddressValue, setInputAddressValue] = useState();
-
-    useEffect(() => {
-        setId(localStorage.getItem('id'));
-    }, [])
 
     // 데이터 등록
     const handleSubmit = (event) => {

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import "./NewCenter.css";
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import CenterInfoRegister from "./CenterInfoRegister";
 import PlanRegister from "./PlanRegister";
@@ -13,7 +12,6 @@ function CenterRegister() {
     const [planData, setPlanData] = useState(null);
     const [centerid, setCenterid] = useState('');
     const [trainerdata, setTrainerdata] = useState(null);
-    const username = localStorage.getItem('username');
 
     useEffect(() => {
         setPage('info');

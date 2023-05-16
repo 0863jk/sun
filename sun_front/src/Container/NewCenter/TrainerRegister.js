@@ -26,10 +26,6 @@ function TrainerRegister({ onSubmit, setPage }) {
         }
     };
 
-    const preBtnHandler = (e) => {
-        setPage('plan');
-    };
-
     const getChkMember = (checkedState, selectedTrainer) => {
         if (checkedState) {
             setTrainerList([...trainerList, selectedTrainer]);

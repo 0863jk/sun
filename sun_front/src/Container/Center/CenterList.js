@@ -2,7 +2,6 @@ import "./CenterList.css";
 import CenterCard from "../../Component/Card/CenterCard"
 import CardGroup from 'react-bootstrap/CardGroup';
 import useFetch from "../../Hook/useFetch"
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 function CenterList() {

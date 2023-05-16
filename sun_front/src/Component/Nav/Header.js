@@ -15,7 +15,6 @@ function Header() {
     const navigate = useNavigate();
     const [auth, setAuth] = useState('');
     const [name, setName] = useState('');
-    const [id, setId] = useState('');
     const [role, setRole] = useState('');
 
     useEffect(() => {
@@ -23,7 +22,6 @@ function Header() {
             console.log(localStorage.getItem('token'));
             setAuth(true);
             setName(localStorage.getItem('name'));
-            setId(localStorage.getItem('username'));
             setRole(localStorage.getItem('role'));
         } else if (localStorage.getItem('token') === null || localStorage.getItem('token') === 'null') {
             setAuth(false);
