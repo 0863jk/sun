@@ -1,8 +1,22 @@
+import { useState } from "react";
 import "./Card.css";
-import { Card, ListGroup, Button } from 'react-bootstrap';
+import { Card, ListGroup, Button, Form } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 
-function TrainerCard({ name, username, email, phone, usage }) {
+function TrainerCard({ name, username, email, phone, onChecked }) {
+    const [isChecked, setIsChecked] = useState(false);
+
+    // 체크박스 선택 시 항목의 이름을 반환하는 이벤트 핸들러
+    const handleCheckboxChange = (event) => {
+        const { name, checked } = event.target;
+        if(checked) {
+            console.log(name);
+            onChecked(true, name);
+        } else {
+            onChecked(false, name);
+        }
+    };
+
     return (
         <>
             <div className="TrainerCard">
@@ -15,9 +29,15 @@ function TrainerCard({ name, username, email, phone, usage }) {
                         <ListGroup.Item>{email}</ListGroup.Item>
                         <ListGroup.Item>{phone}</ListGroup.Item>
                     </ListGroup>
-                    {usage === "register" ? (
+                    {onChecked ? (
                         <Card.Body>
-                            <Button>등록</Button>
+                            <Form.Check // prettier-ignore
+                                type='checkbox'
+                                id={username}
+                                name={username}
+                                onChange={handleCheckboxChange}
+                            />
+                            {/* <Button>등록</Button> */}
                             {/* <Card.Link href="">등록</Card.Link> */}
                         </Card.Body>
                     ) : <></>}

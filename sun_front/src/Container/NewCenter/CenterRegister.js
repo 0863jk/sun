@@ -12,6 +12,8 @@ function CenterRegister() {
     const [centerInfoData, setCenterInfoData] = useState(null);
     const [planData, setPlanData] = useState(null);
     const [centerid, setCenterid] = useState('');
+    const [trainerdata, setTrainerdata] = useState(null);
+    const username = localStorage.getItem('username');
 
     useEffect(() => {
         setPage('info');
@@ -31,7 +33,11 @@ function CenterRegister() {
 
     const setPageHandler = (data) => {
         setPage(data);
-    }
+    };
+
+    const handleTrainerData = (data) => {
+        setTrainerdata(data);
+    };
 
     const registerPlan = (data) => {
         const planJson = JSON.stringify(data);
@@ -51,6 +57,32 @@ function CenterRegister() {
             });
     };
 
+    const registerTrainer = (data) => {
+        data.forEach((userid) => {
+            const trainerdata = {
+                userid: userid,
+                centerid: centerid
+            }
+            const jsonData = JSON.stringify(trainerdata);
+
+            console.log(jsonData);
+
+            fetch('http://localhost:8000/center/registerCenterMember/', {
+                method: 'POST',
+                headers: { 'Content-type': 'application/json' },
+                body: jsonData
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    };
+
+
     const onSubmit = (e) => {
         const centerJson = JSON.stringify(centerInfoData);
 
@@ -64,6 +96,7 @@ function CenterRegister() {
             }).then(data => {
                 console.log(data);
                 registerPlan(planData);
+                registerTrainer(trainerdata);
             })
     };
 
@@ -88,8 +121,8 @@ function CenterRegister() {
                     <div className="ContentContainer">
                         {
                             page === 'info' ? <CenterInfoRegister onSubmit={handleCenterInfoSubmit} setPage={setPageHandler} setCenterid={handleCenterId} /> :
-                                page === 'plan' ? <PlanRegister onSubmit={handlePlanSubmit} setPage={setPageHandler} centerid={centerid} /> :
-                                    page === 'teacher' ? <TrainerRegister setPage={setPageHandler} /> :
+                                page === 'plan' ? <PlanRegister onSubmit={handlePlanSubmit} centerid={centerid} setPage={setPageHandler} /> :
+                                    page === 'teacher' ? <TrainerRegister onSubmit={handleTrainerData} centerid={centerid} setPage={setPageHandler} /> :
                                         <CenterInfoRegister />
                         }
                         {
