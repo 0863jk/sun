@@ -20,6 +20,12 @@ def getCenter(request, centerid):
     serializer = CenterDataSerializer(datas, many=True)
 
     return Response(serializer.data)
+@api_view(['GET'])
+def searchCenter(request, centerid):
+    datas = Center.objects.filter(centerid__contains=centerid)
+    serializer = CenterDataSerializer(datas, many=True)
+
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def getAllCenterMember(request):

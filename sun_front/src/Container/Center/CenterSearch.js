@@ -3,9 +3,23 @@ import CardGroup from 'react-bootstrap/CardGroup';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
+import useFetch from "../../Hook/useFetch";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 
 
 function CenterSearch() {
+    const [input, setInput] = useState('');
+    const [center, setCenter] = useState('');
+
+    
+    const onChangeHandler = (event) => {
+        setInput(event.target.value);
+        fetch(`http://localhost:8000/center/searchCenter/${input}`)
+        .then(res => {return res.json()})
+        .then(data => {setCenter(data)})
+    }
+
     return (
         <>
             <div className="MainContainer">
@@ -17,6 +31,7 @@ function CenterSearch() {
                                 <Form.Control
                                     placeholder="센터 ID로 검색"
                                     aria-describedby="basic-addon2"
+                                    onChange={onChangeHandler}
                                 />
                                 <Button variant="outline-secondary" id="button-addon2">
                                     Button
@@ -25,10 +40,11 @@ function CenterSearch() {
                         </div>
                         <div className="CenterListContainer">
                             <CardGroup className="CardGroup">
-                                <CenterCard />
-                                <CenterCard />
-                                <CenterCard />
-                                <CenterCard />
+                            {center && center.map(center => (
+                                <Link to={`/main/${center.centerid}`}>
+                                    <CenterCard centername={center.centername} introduction={center.introduction} manager={center.manager} location={center.location} centerid={center.centerid} />
+                                </Link>
+                            ))}
                             </CardGroup>
                         </div>
                     </div>
