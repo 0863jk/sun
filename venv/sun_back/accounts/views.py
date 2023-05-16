@@ -33,8 +33,8 @@ def getUsername(request):
     return Response(serializer.data)
 
 @api_view(['GET'])
-def searchUser(request, username):
-    datas = User.objects.filter(username__contains=username)
+def searchTrainerUser(request, username):
+    datas = User.objects.filter(username__contains=username, role='trainer')
     serializer = UserDataSerializer(datas, many=True)
 
     return Response(serializer.data)

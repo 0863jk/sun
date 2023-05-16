@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 function CenterList() {
-    const id = localStorage.getItem('id');
+    const id = localStorage.getItem('username');
     const center = useFetch(`http://localhost:8000/center/getMemberCenters/${id}`);
 
     return (

@@ -5,6 +5,7 @@ import { Button, Form, Col, Row } from 'react-bootstrap';
 import DaumPostcode from 'react-daum-postcode';
 
 function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
+    const username = localStorage.getItem('username');
     const [id, setId] = useState(''); // 유저 아이디
     const [ctid, setCtid] = useState(''); // 센터 아이디 관리
     const [ctIdState, setCtIdState] = useState(false); // 센터 아이디 상태 관리
@@ -37,7 +38,7 @@ function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
             centerid: centerid,
             password: password,
             introduction: introduction,
-            manager: id,
+            manager: username,
             address: address,
             bizid: bizid,
         };
@@ -162,7 +163,7 @@ function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
                     <Form.Label>센터ID</Form.Label>
                     <Form.Group className="mb-3 nomargin" as={Row} >
                         <Col xs={9} className="nomargin">
-                            <Form.Control type="text" name="centerid" placeholder="센터 아이디를 입력해 주세요..." onChange={getCtId} disabled={ctIdState ? true : false} />
+                            <Form.Control type="text" name="centerid" placeholder="센터 아이디를 입력해 주세요..." onChange={getCtId} readOnly={ctIdState ? true : false} />
                         </Col>
                         <Col className="nomargin">
                             <Form.Control type="Button" value="중복 검사" onClick={handleCtIdState} />
@@ -191,7 +192,7 @@ function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
                     <Form.Label>사업자 등록번호</Form.Label>
                     <Form.Group className="mb-3 nomargin" as={Row} >
                         <Col xs={9} className="nomargin">
-                            <Form.Control type="text" placeholder="사업자 등록번호를 입력해 주세요..." onChange={getBizId} disabled={bizIdState ? true : false} />
+                            <Form.Control type="text" placeholder="사업자 등록번호를 입력해 주세요..." onChange={getBizId} readOnly={bizIdState ? true : false} />
                         </Col>
                         <Col className="nomargin">
                             <Form.Control type="Button" value="유효성 검사" onClick={handleBizId} />

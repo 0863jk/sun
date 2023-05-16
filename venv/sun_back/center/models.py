@@ -31,17 +31,17 @@ class Plan(models.Model):
     def __str__(self):
         return self.planid
     
-class CenterTrainer(models.Model):
-    centerid = models.CharField(max_length=200)
-    userid = models.CharField(max_length=200, null = True, blank = True)
+# class CenterTrainer(models.Model):
+#     centerid = models.CharField(max_length=200)
+#     userid = models.CharField(max_length=200, null = True, blank = True)
 
-    def __str__(self):
-        return self.id
+#     def __str__(self):
+#         return self.id
     
 class CenterMember(models.Model):
     centerid = models.CharField(max_length=200)
     userid = models.CharField(max_length=200, null = True, blank = True)
-    planid = models.IntegerField() # 이용 중인 이용권
+    planid = models.IntegerField(null = True) # 이용 중인 이용권
     # 등록일, 만료일
     # registerDate = models.DateTimeField
 

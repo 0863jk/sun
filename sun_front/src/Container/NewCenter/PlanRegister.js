@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 function PlanRegister({ onSubmit, setPage, centerid }) {
+    const username = localStorage.getItem('username');
     const [planType, setPlanType] = useState('');
 
     const handlePlanTypeChange = (e) => {
@@ -32,6 +33,7 @@ function PlanRegister({ onSubmit, setPage, centerid }) {
             period: period,
             price: iPrice,
             constraints: constraints,
+            manager: username
         };
         onSubmit(plan);
         setPage('teacher')

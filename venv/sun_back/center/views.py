@@ -1,8 +1,8 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import Center, Plan, CenterMember, CenterTrainer
-from .serializers import CenterDataSerializer, PlanDataSerializer, CenterMemberSerializer, CenterTrainerSerializer
+from .models import Center, Plan, CenterMember
+from .serializers import CenterDataSerializer, PlanDataSerializer, CenterMemberSerializer
 from django.shortcuts import render
 
 # Create your views here.
@@ -64,15 +64,6 @@ def registerCenter(request):
 def registerPlan(request):
     reqData = request.data
     serializer = PlanDataSerializer(data=reqData)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-@api_view(['POST'])
-def registerCenterTrainer(request):
-    reqData = request.data
-    serializer = CenterTrainerSerializer(data=reqData)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
