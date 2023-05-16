@@ -5,7 +5,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { useNavigate } from 'react-router-dom';
 
-const Logo = <img src={process.env.PUBLIC_URL + '/img/Logo.png'} style={{
+const Logo = <img src={process.env.PUBLIC_URL + '/img/Logo.png'} alt="logo" style={{
     height: '35px',
     width: '35px',
     marginLeft: '10px'
