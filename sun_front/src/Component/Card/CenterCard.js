@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Link } from "react-router-dom";
 
-function CenterCard({ centername, introduction, manager, location, centerid  }) {
+function CenterCard({ centername, introduction, manager, address, centerid, from }) {
     return (
         <>
             <div className="CenterCard">
@@ -16,10 +16,17 @@ function CenterCard({ centername, introduction, manager, location, centerid  }) 
                     </Card.Body>
                     <ListGroup className="list-group-flush">
                         <ListGroup.Item>{manager}</ListGroup.Item>
-                        <ListGroup.Item>{location}</ListGroup.Item>
+                        <ListGroup.Item>{address}</ListGroup.Item>
                     </ListGroup>
+                    
                     <Card.Body>
-                        <Card.Link href={`/main/${centerid}`}>Card Link</Card.Link>
+                        {
+                            from === "list" ? (
+                                <Card.Link href={`/main/${centerid}`}>조회하기</Card.Link>
+                                ) : from === "search" ? (
+                                    <Card.Link href={`/register/${centerid}`}>등록하기</Card.Link>
+                            ) : <></>
+                        }
                     </Card.Body>
                 </Card>
             </div>

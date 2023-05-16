@@ -202,11 +202,11 @@ function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" name="password" placeholder="센터를 관리할 때 사용할 비밀번호를 입력해 주세요..." />
                 </Form.Group>
-                <Form.Group className="mb-3">
+                {/* <Form.Group className="mb-3">
                     <Button variant="primary" type="submit">
                         다음
                     </Button>
-                </Form.Group>
+                </Form.Group> */}
             </Form>
         </>
     );

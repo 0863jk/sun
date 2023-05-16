@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Link } from "react-router-dom";
 
-function PlanCard({ planname, introduction, plantype, period, constraints, planid } ) {
+function PlanCard({ planname, introduction, plantype, period, constraints, planid, from } ) {
     return (
         <>
             <div className="PlanCard">
@@ -20,7 +20,13 @@ function PlanCard({ planname, introduction, plantype, period, constraints, plani
                         <ListGroup.Item>{constraints}</ListGroup.Item>
                     </ListGroup>
                     <Card.Body>
-                        <Card.Link href={`/plan/${planid}`}>정보 보기</Card.Link>
+                        {
+                            from === "list" ? (
+                                <Card.Link href={`/plan/${planid}`}>정보 보기</Card.Link>
+                            ) : from === "modify" ? (
+                                <Card.Link href={`/plan/modify/${planid}`}>수정하기</Card.Link>
+                            ) : <></>
+                        }
                     </Card.Body>
                 </Card>
             </div>

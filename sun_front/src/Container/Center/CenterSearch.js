@@ -41,8 +41,8 @@ function CenterSearch() {
                         <div className="CenterListContainer">
                             <CardGroup className="CardGroup">
                             {center && center.map(center => (
-                                <Link to={`/main/${center.centerid}`}>
-                                    <CenterCard centername={center.centername} introduction={center.introduction} manager={center.manager} location={center.location} centerid={center.centerid} />
+                                <Link to={`/register/${center.centerid}`}>
+                                    <CenterCard from="search" centername={center.centername} introduction={center.introduction} manager={center.manager} address={center.address} centerid={center.centerid} />
                                 </Link>
                             ))}
                             </CardGroup>

@@ -24,27 +24,21 @@ class Plan(models.Model):
     centerid = models.CharField(max_length=200)
     introduction = models.CharField(max_length=200)
     plantype = models.CharField(choices=SYSTEM_CHOICE, null = False, max_length=255)
-    period = models.CharField(max_length=200) # 기간 형식으로 수정 필요
+    period = models.IntegerField() # 기간 형식으로 수정 필요
     constraints = models.CharField(max_length=200)
     price = models.IntegerField()
 
     def __str__(self):
         return self.planid
     
-# class CenterTrainer(models.Model):
-#     centerid = models.CharField(max_length=200)
-#     userid = models.CharField(max_length=200, null = True, blank = True)
-
-#     def __str__(self):
-#         return self.id
-    
 class CenterMember(models.Model):
     centerid = models.CharField(max_length=200)
-    userid = models.CharField(max_length=200, null = True, blank = True)
-    planid = models.IntegerField(null = True) # 이용 중인 이용권
-    # 등록일, 만료일
-    # registerDate = models.DateTimeField
+    userid = models.CharField(max_length=200, null = False, blank = True)
+    role = models.CharField(null = False, max_length=255)
 
+    planid = models.IntegerField(null = True) # 이용 중인 이용권
+    registerDate = models.DateField(null=True) # 등록일
+    expireDate = models.DateField(null=True) # 만료일
 
     def __str__(self):
         return self.id

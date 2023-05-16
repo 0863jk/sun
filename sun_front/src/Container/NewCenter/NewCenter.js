@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import "./NewCenter.css";
-import Button from 'react-bootstrap/Button';
-import Nav from 'react-bootstrap/Nav';
+import {Button, Nav, Form} from 'react-bootstrap';
 import CenterInfoRegister from "./CenterInfoRegister";
 import PlanRegister from "./PlanRegister";
 import TrainerRegister from "./TrainerRegister";
 
-function CenterRegister() {
+function NewCenter() {
     const [page, setPage] = useState('');
     const [centerInfoData, setCenterInfoData] = useState(null);
     const [planData, setPlanData] = useState(null);
@@ -36,6 +35,23 @@ function CenterRegister() {
     const handleTrainerData = (data) => {
         setTrainerdata(data);
     };
+
+    const btnHandler = (event) => {
+        const direction = event.target.name;
+        if (direction === "pre") {
+            if(page === "plan") {
+                setPage("info");
+            } else if(page === "trainer") {
+                setPage("plan");
+            }
+        } else if (direction === "next") {
+            if(page === "info") {
+                setPage("plan");
+            } else if(page === "plan") {
+                setPage("trainer");
+            }
+        }
+    }
 
     const registerPlan = (data) => {
         const planJson = JSON.stringify(data);
@@ -112,7 +128,7 @@ function CenterRegister() {
                                 <Nav.Link disabled href="" className={page === 'plan' ? "current" : null}>이용권 정보 등록</Nav.Link>
                             </Nav.Item>
                             <Nav.Item>
-                                <Nav.Link disabled href="" className={page === 'teacher' ? "current" : null}>강사 등록</Nav.Link>
+                                <Nav.Link disabled href="" className={page === 'trainer' ? "current" : null}>강사 등록</Nav.Link>
                             </Nav.Item>
                         </Nav>
                     </div>
@@ -120,8 +136,32 @@ function CenterRegister() {
                         {
                             page === 'info' ? <CenterInfoRegister onSubmit={handleCenterInfoSubmit} setPage={setPageHandler} setCenterid={handleCenterId} /> :
                                 page === 'plan' ? <PlanRegister onSubmit={handlePlanSubmit} centerid={centerid} setPage={setPageHandler} /> :
-                                    page === 'teacher' ? <TrainerRegister onSubmit={handleTrainerData} centerid={centerid} setPage={setPageHandler} /> :
+                                    page === 'trainer' ? <TrainerRegister onSubmit={handleTrainerData} centerid={centerid} setPage={setPageHandler} /> :
                                         <CenterInfoRegister />
+                        }
+                        {
+                            page === 'info' ? (
+                                <Form.Group className="mb-3">
+                                    <Button variant="primary" name="next" value="next" onClick={btnHandler} type="submit">
+                                        다음
+                                    </Button>
+                                </Form.Group>
+                            ) : page === 'plan' ? (
+                                <Form.Group className="mb-3">
+                                    <Button variant="primary" name="pre" value="pre" onClick={btnHandler} className="preBtn">
+                                        이전
+                                    </Button>
+                                    <Button variant="primary" name="next" value="next" onClick={btnHandler} className="preBtn">
+                                        다음
+                                    </Button>
+                                </Form.Group>
+                            ) : page === 'trainer' ? (
+                                <Form.Group className="mb-3">
+                                    <Button variant="primary" name="pre" value="pre" onClick={btnHandler} className="preBtn">
+                                        이전
+                                    </Button>
+                                </Form.Group>
+                            ) : <></>
                         }
                         {
                             centerInfoData !== null && planData !== null ?
@@ -135,4 +175,4 @@ function CenterRegister() {
         </>
     );
 }
-export default CenterRegister;
+export default NewCenter;

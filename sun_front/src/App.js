@@ -4,14 +4,12 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Header from './Component/Nav/Header';
 import CenterList from './Container/Center/CenterList';
 import CenterSearch from './Container/Center/CenterSearch';
-import CenterMain from './Container/Center/CenterMain';
 import PlanList from './Container/Plan/PlanList';
-import CenterRegister from './Container/NewCenter/CenterRegister';
+import NewCenter from './Container/NewCenter/NewCenter';
 import PlanRegister from './Container/NewCenter/PlanRegister';
 import LessonRegister from './Container/Lesson/LessonRegister';
 import MemberManage from './Container/Admin/MemberManage';
 import TrainerManage from './Container/Admin/TrainerManage';
-import TrainerRegister from './Container/NewCenter/TrainerRegister';
 import MyPlan from './Container/Plan/MyPlan';
 import LessonHistory from './Container/MyLesson/LessonHistory';
 import Weekly from './Container/TimeTable/Weekly';
@@ -25,7 +23,7 @@ import LessonInfo from './Container/Lesson/LessonInfo';
 import PlanManage from './Container/Plan/PlanManage';
 import LoginForm from './Container/LoginForm/LoginForm';
 import SignUpForm from './Container/LoginForm/SignUpForm';
-import CenterNav from './Component/Nav/CenterNav';
+import CenterRegister from './Container/Center/CenterRegister';
 //import Footer from './Component/Footer';
 
 function App() {
@@ -43,18 +41,12 @@ function App() {
             <Route path="/signup/:pUserRole" element={<SignUpForm />}></Route>
             <Route path="/" element={<CenterList  />}></Route>
             <Route path="/center/list" element={<CenterList />}></Route>
+            <Route path="/register/:pCenterId" element={<CenterRegister />}></Route>
             <Route path="/center/search" element={<CenterSearch  />}></Route>
-            <Route path="/center/register" element={<CenterRegister />}></Route>
-            {/* <Route path="/center/register/:pPage" element={<CenterRegister />}></Route>
-            <Route path="/center/register/info" element={<CenterRegister  />}></Route>
-            <Route path="/center/register/plan" element={<PlanRegister  />}></Route>
-            <Route path="/center/register/Trainer" element={<TrainerRegister  />}></Route> */}
+            <Route path="/center/register" element={<NewCenter />}></Route>
 
-            {/* <Route path="/main/:pCenterId" element={<CenterNav/>}></Route> */}
             <Route path="/main/:pCenterId" element={<Weekly/>}></Route>
             <Route path="/weekly/:pCenterId" element={<Weekly  />}></Route>
-            {/* <Route path="/montly/:pCenterId" element={<Montly />}></Route>
-            <Route path="/daily/:pCenterId" element={<Daily />}></Route> */}
             <Route path="/plan/:pCenterId" element={<PlanList  />}></Route>
             <Route path="/plan/:pCenterId/:pUserId" element={<MyPlan  />}></Route>
             <Route path="/plan/info/:pPlanId" element={<PlanModify  />}></Route>

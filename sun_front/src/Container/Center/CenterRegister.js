@@ -5,7 +5,7 @@ import CenterNav from "../../Component/Nav/CenterNav";
 import { useEffect, useState } from "react";
 import useFetch from "../../Hook/useFetch"
 
-function PlanList() {
+function CenterRegister() {
     const { pCenterId } = useParams();
     const [centerid, setCenterid] = useState('');
     const plan = useFetch(`http://localhost:8000/center/plan/getCenterPlans/${pCenterId}`);
@@ -17,9 +17,6 @@ function PlanList() {
     return (
         <>
             <div>
-                <div className="header">
-                    <CenterNav centerid={centerid} />
-                </div>
                 <div className="MainContainer">
                     <div className="LabelWrapper">
                         <label className="LabelTitle">이용권 목록</label>
@@ -27,7 +24,7 @@ function PlanList() {
                             <CardGroup className="CardGroup">
                                 {plan && plan.map(plan => (
                                     <Link to={`/plan/${plan.planid}`}>
-                                        <PlanCard from="list" planname={plan.planname} introduction={plan.introduction} plantype={plan.plantype} period={plan.period} constraints={plan.constraints} planid={plan.id}/>
+                                        <PlanCard from="register" planname={plan.planname} introduction={plan.introduction} plantype={plan.plantype} period={plan.period} constraints={plan.constraints} planid={plan.id}/>
                                     </Link>
                                 ))}
                             </CardGroup>
@@ -39,4 +36,4 @@ function PlanList() {
     );
 }
 
-export default PlanList;
+export default CenterRegister;

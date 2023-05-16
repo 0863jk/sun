@@ -85,14 +85,14 @@ function PlanRegister({ onSubmit, setPage, centerid }) {
                     <Form.Label>제약 조건</Form.Label>
                     <Form.Control type="text" placeholder="플랜의 제약 조건을 입력해 주세요..." name="constraints" />
                 </Form.Group>
-                <Form.Group className="mb-3">
+                {/* <Form.Group className="mb-3">
                     <Button variant="primary" onClick={preBtnHandler} className="preBtn">
                         이전
                     </Button>
                     <Button variant="primary" type="submit">
                         다음
                     </Button>
-                </Form.Group>
+                </Form.Group> */}
             </Form>
         </>
     );
