@@ -1,17 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./NewCenter.css";
 import { Modal } from "antd";
 import { Button, Form, Col, Row } from 'react-bootstrap';
 import DaumPostcode from 'react-daum-postcode';
 
-function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
+const initialValue = {
+    centername: "",
+    centerid: "",
+    bizid: "",
+    address1: "",
+    address2: "",
+    introduction: "",
+    password: "",   
+};
+
+function CenterInfoRegister({ data, onSubmit, setPage, setCenterid }) {
+    const [inputValues, setInputValues] = useState(initialValue);
+    const { centername, centerid, bizid, address1, address2, introduction, password } = inputValues;
+
+    useEffect(() => {
+        if(data) {
+            setInputValues(data);
+        }
+    }, [data])
+
     const username = localStorage.getItem('username');
-    const [ctid, setCtid] = useState(''); // 센터 아이디 관리
     const [ctIdState, setCtIdState] = useState(false); // 센터 아이디 상태 관리
-    const [bizid, setBizid] = useState(''); // 사업자 등록 번호 관리
     const [bizIdState, setBizIdState] = useState(false); // 사업자 등록 번호 상태 관리
     const [isOpen, setIsOpen] = useState(false); // 주소 등록 모달 상태 관리
     const [inputAddressValue, setInputAddressValue] = useState();
+
+    const onChangeInput = event => {
+        const { value, name: inputName } = event.target;
+        setInputValues({ ...inputValues, [inputName]: value });	//spread 연산자
+    }
 
     // 데이터 등록
     const handleSubmit = (event) => {
@@ -22,7 +44,7 @@ function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
         const centername = formData.get('centername');
         const address1 = formData.get('address1');
         const address2 = formData.get('address2');
-        const address = address1 + ' ' + address2;
+        const bizid = formData.get('bizid');
         const introduction = formData.get('introduction');
         const password = formData.get('password');
 
@@ -34,13 +56,12 @@ function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
             password: password,
             introduction: introduction,
             manager: username,
-            address: address,
             bizid: bizid,
+            address1: address1,
+            address2: address2,
         };
-        const CenterInfoData = JSON.stringify(centerInfo);
-        console.log(CenterInfoData);
         onSubmit(centerInfo);
-        setCenterid(centerid);
+        // setCenterid(centerid);
         setPage('plan');
         //     } else if (bizIdState === false && ctIdState === true) {
         //         alert('사업자 등록 번호 유효성 검사를 진행해 주세요.');
@@ -65,14 +86,9 @@ function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
     };
 
     // 센터 아이디 중복 검사
-    // 센터 아이디 데이터 수집
-    const getCtId = (event) => {
-        const data = event.target.value
-        setCtid(data);
-    }
     // 등록 가능 상태 관리
     const handleCtIdState = (event) => {
-        chkCtId(ctid);
+        chkCtId(inputValues.centerid);
     }
 
     // 중복 검사 메소드
@@ -90,16 +106,10 @@ function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
                     alert("사용 가능한 아이디입니다.")
                 }
             }).catch(error => {
-                console.error(error);
             })
     }
 
     // 사업자 등록 번호 관리
-    // 사업자 등록 번호 데이터 수집
-    const getBizId = (event) => {
-        const data = event.target.value
-        setBizid(data);
-    }
     // 사업자 등록 번호 상태 체크
     const handleBizId = (event) => {
         const strBizid = bizid.replace(/-/g, '');
@@ -107,8 +117,6 @@ function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
 
         if (bizIdState === true) {
             alert("사업자 등록 번호가 확인되었습니다.")
-        } else {
-            alert("사업자 등록 번호가 유효하지 않습니다.");
         }
     }
     // 사업자 등록 번호 유효성 검사
@@ -132,6 +140,7 @@ function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
         chkStep1 += parseInt(strBN.substring(9, 10), 10);
 
         if (chkStep1 % 10 !== 0) {
+            alert("사업자 등록 번호가 유효하지 않습니다.");
             return false;
         } else {
             return true;
@@ -152,13 +161,13 @@ function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                     <Form.Label>센터명</Form.Label>
-                    <Form.Control type="text" placeholder="센터 이름을 입력해 주세요..." name="centername" />
+                    <Form.Control type="text" placeholder="센터 이름을 입력해 주세요..." name="centername" onChange={onChangeInput} value={centername}/>
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>센터ID</Form.Label>
                     <Form.Group className="mb-3 nomargin" as={Row} >
                         <Col xs={9} className="nomargin">
-                            <Form.Control type="text" name="centerid" placeholder="센터 아이디를 입력해 주세요..." onChange={getCtId} readOnly={ctIdState ? true : false} />
+                            <Form.Control type="text" name="centerid" placeholder="센터 아이디를 입력해 주세요..." readOnly={ctIdState ? true : false} onChange={onChangeInput} value={centerid} />
                         </Col>
                         <Col className="nomargin">
                             <Form.Control type="Button" value="중복 검사" onClick={handleCtIdState} />
@@ -170,7 +179,7 @@ function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
                     <Form.Group as={Row}>
                         <Row className="nomargin">
                             <Col className="my-1 nomargin" xs={7}>
-                                <Form.Control type="text" name="address1" value={inputAddressValue || ''} placeholder="도로명 주소를 입력해 주세요..." onClick={onToggleModal} contentEditable="false" />
+                                <Form.Control type="text" name="address1" onChange={onChangeInput} value={inputAddressValue || address1} placeholder="도로명 주소를 입력해 주세요..." onClick={onToggleModal} contentEditable="false" />
                             </Col>
                             <Col className="my-1 nomargin">
                                 <Form.Control type="Button" value="주소 찾기" onClick={onToggleModal} />
@@ -178,7 +187,7 @@ function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
                         </Row>
                         <Row className="nomargin">
                             <Col className="my-1 nomargin">
-                                <Form.Control type="text" name="address2" placeholder="상세 주소를 입력해 주세요... " />
+                                <Form.Control type="text" name="address2" placeholder="상세 주소를 입력해 주세요... " onChange={onChangeInput} value={address2}/>
                             </Col>
                         </Row>
                     </Form.Group>
@@ -187,7 +196,7 @@ function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
                     <Form.Label>사업자 등록번호</Form.Label>
                     <Form.Group className="mb-3 nomargin" as={Row} >
                         <Col xs={9} className="nomargin">
-                            <Form.Control type="text" placeholder="사업자 등록번호를 입력해 주세요..." onChange={getBizId} readOnly={bizIdState ? true : false} />
+                            <Form.Control type="text" name="bizid" placeholder="사업자 등록번호를 입력해 주세요..." onChange={onChangeInput} readOnly={bizIdState ? true : false} value={bizid} />
                         </Col>
                         <Col className="nomargin">
                             <Form.Control type="Button" value="유효성 검사" onClick={handleBizId} />
@@ -196,17 +205,17 @@ function CenterInfoRegister({ onSubmit, setPage, setCenterid }) {
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>센터소개</Form.Label>
-                    <Form.Control type="text" name="introduction" placeholder="센터 소개를 입력해 주세요..." />
+                    <Form.Control type="text" name="introduction" placeholder="센터 소개를 입력해 주세요..." onChange={onChangeInput} value={introduction} />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" name="password" placeholder="센터를 관리할 때 사용할 비밀번호를 입력해 주세요..." />
+                    <Form.Control type="password" name="password" placeholder="센터를 관리할 때 사용할 비밀번호를 입력해 주세요..." onChange={onChangeInput} value={password} />
                 </Form.Group>
-                {/* <Form.Group className="mb-3">
+                <Form.Group className="mb-3">
                     <Button variant="primary" type="submit">
                         다음
                     </Button>
-                </Form.Group> */}
+                </Form.Group>
             </Form>
         </>
     );

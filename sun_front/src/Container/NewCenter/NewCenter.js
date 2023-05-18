@@ -1,20 +1,27 @@
 import { useEffect, useState } from "react";
 import "./NewCenter.css";
-import {Button, Nav, Form} from 'react-bootstrap';
+import { Button, Nav } from 'react-bootstrap';
 import CenterInfoRegister from "./CenterInfoRegister";
 import PlanRegister from "./PlanRegister";
 import TrainerRegister from "./TrainerRegister";
 
 function NewCenter() {
     const [page, setPage] = useState('');
+    const [centerid, setCenterid] = useState('');
     const [centerInfoData, setCenterInfoData] = useState(null);
     const [planData, setPlanData] = useState(null);
-    const [centerid, setCenterid] = useState('');
     const [trainerdata, setTrainerdata] = useState(null);
 
     useEffect(() => {
-        setPage('info');
-    }, []);
+        setPage("info");
+    }, [])
+
+    useEffect(() => {
+        if (centerInfoData) {
+            setCenterid(centerInfoData.centerid);
+            console.log(centerid);
+        }
+    }, [centerInfoData, centerid]);
 
     const handleCenterInfoSubmit = (data) => {
         setCenterInfoData(data);
@@ -35,23 +42,6 @@ function NewCenter() {
     const handleTrainerData = (data) => {
         setTrainerdata(data);
     };
-
-    const btnHandler = (event) => {
-        const direction = event.target.name;
-        if (direction === "pre") {
-            if(page === "plan") {
-                setPage("info");
-            } else if(page === "trainer") {
-                setPage("plan");
-            }
-        } else if (direction === "next") {
-            if(page === "info") {
-                setPage("plan");
-            } else if(page === "plan") {
-                setPage("trainer");
-            }
-        }
-    }
 
     const registerPlan = (data) => {
         const planJson = JSON.stringify(data);
@@ -134,34 +124,10 @@ function NewCenter() {
                     </div>
                     <div className="ContentContainer">
                         {
-                            page === 'info' ? <CenterInfoRegister onSubmit={handleCenterInfoSubmit} setPage={setPageHandler} setCenterid={handleCenterId} /> :
-                                page === 'plan' ? <PlanRegister onSubmit={handlePlanSubmit} centerid={centerid} setPage={setPageHandler} /> :
+                            page === 'info' ? <CenterInfoRegister data={centerInfoData} onSubmit={handleCenterInfoSubmit} setPage={setPageHandler} setCenterid={handleCenterId} /> :
+                                page === 'plan' ? <PlanRegister data={planData} onSubmit={handlePlanSubmit} centerid={centerid} setPage={setPageHandler} /> :
                                     page === 'trainer' ? <TrainerRegister onSubmit={handleTrainerData} centerid={centerid} setPage={setPageHandler} /> :
                                         <CenterInfoRegister />
-                        }
-                        {
-                            page === 'info' ? (
-                                <Form.Group className="mb-3">
-                                    <Button variant="primary" name="next" value="next" onClick={btnHandler} type="submit">
-                                        다음
-                                    </Button>
-                                </Form.Group>
-                            ) : page === 'plan' ? (
-                                <Form.Group className="mb-3">
-                                    <Button variant="primary" name="pre" value="pre" onClick={btnHandler} className="preBtn">
-                                        이전
-                                    </Button>
-                                    <Button variant="primary" name="next" value="next" onClick={btnHandler} className="preBtn">
-                                        다음
-                                    </Button>
-                                </Form.Group>
-                            ) : page === 'trainer' ? (
-                                <Form.Group className="mb-3">
-                                    <Button variant="primary" name="pre" value="pre" onClick={btnHandler} className="preBtn">
-                                        이전
-                                    </Button>
-                                </Form.Group>
-                            ) : <></>
                         }
                         {
                             centerInfoData !== null && planData !== null ?

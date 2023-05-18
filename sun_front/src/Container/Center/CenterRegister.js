@@ -7,12 +7,7 @@ import useFetch from "../../Hook/useFetch"
 
 function CenterRegister() {
     const { pCenterId } = useParams();
-    const [centerid, setCenterid] = useState('');
     const plan = useFetch(`http://localhost:8000/center/plan/getCenterPlans/${pCenterId}`);
-
-    useEffect(() => {
-        setCenterid(pCenterId);
-    }, [])
 
     return (
         <>
