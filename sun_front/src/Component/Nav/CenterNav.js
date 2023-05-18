@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function CenterNav({ centerid }) {
     const navigate = useNavigate();
@@ -29,15 +29,21 @@ function CenterNav({ centerid }) {
                         <Nav.Link href={`/weekly/${centerid}`}>시간표</Nav.Link>
                         <NavDropdown title="이용권" id="basic-nav-dropdown">
                             <NavDropdown.Item href={`/plan/${centerid}`}>이용권 목록</NavDropdown.Item>
-                            {(role === "general" ? <NavDropdown.Item href={`/plan/${centerid}/${id}`}>나의 이용권 정보</NavDropdown.Item> : role === "manager" ? <NavDropdown.Item href={`/plan/modify/${centerid}`}>이용권 정보 수정</NavDropdown.Item> : <></>)}
+                            {role === "general" ? (<NavDropdown.Item href={`/plan/${centerid}/${id}`}>나의 이용권 정보</NavDropdown.Item>)
+                                : role === "manager" ? (
+                                    <>
+                                        <NavDropdown.Item href={`/plan/register/${centerid}`}>이용권 추가</NavDropdown.Item>
+                                        <NavDropdown.Item href={`/plan/modify/${centerid}`}>이용권 정보 수정</NavDropdown.Item>
+                                    </>
+                                ) : <></>}
                         </NavDropdown>
                         <NavDropdown title="레슨" id="basic-nav-dropdown">
-                            {(role === "general" ? <NavDropdown.Item href={`/lesson/${centerid}/${id}`}>나의 레슨 기록</NavDropdown.Item> : role === "trainer" ? <NavDropdown.Item href={`/lesson/${centerid}/${id}`}>나의 레슨</NavDropdown.Item> : <></>)}
-                            {(role === "general" ? <Nav.Link href={`/${centerid}/lesson/evaluate/lessonid`}>강의평 작성하기</Nav.Link> : <></>)}
+                            {role === "general" ? <NavDropdown.Item href={`/lesson/${centerid}/${id}`}>나의 레슨 기록</NavDropdown.Item> : role === "trainer" ? <NavDropdown.Item href={`/lesson/${centerid}/${id}`}>나의 레슨</NavDropdown.Item> : <></>}
+                            {role === "general" ? <Nav.Link href={`/${centerid}/lesson/evaluate/lessonid`}>강의평 작성하기</Nav.Link> : <></>}
                         </NavDropdown>
 
-                        {(role === "manager" ? <Nav.Link href={`/timetable/${centerid}`}>시간표 등록</Nav.Link> : <></>)}
-                        {(role === "manager" ? <Nav.Link href={`/admin/${centerid}`}>관리</Nav.Link> : <></>)}
+                        {role === "manager" ? <Nav.Link href={`/timetable/${centerid}`}>시간표 등록</Nav.Link> : <></>}
+                        {role === "manager" ? <Nav.Link href={`/admin/${centerid}`}>관리</Nav.Link> : <></>}
                     </Nav>
                 </Container>
             </Navbar>
