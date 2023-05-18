@@ -9,7 +9,8 @@ class Center(models.Model):
     introduction = models.CharField(max_length=200)
     manager = models.CharField(max_length=200)
     # manager = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    address = models.CharField(max_length=200)
+    address1 = models.CharField(max_length=200)
+    address2 = models.CharField(max_length=200)
     bizid = models.CharField(max_length=200)
     created_date = models.DateTimeField(default=timezone.now)
 
@@ -17,14 +18,16 @@ class Center(models.Model):
         return self.centerid
     
 class Plan(models.Model):
-    SYSTEM_CHOICE = (('fixed-term', '기간제'),
-                    ('number-of-times', '횟수제'))
+    PLAN_TYPE = (('fixed-term', '기간제'), ('number-of-times', '횟수제'))
+    PERIOD_TYPE = (('days', '일'), ('months', '개월'), ('years', '년'))
+
     planid = models.AutoField(primary_key=True)
     planname = models.CharField(max_length=200)
     centerid = models.CharField(max_length=200)
     introduction = models.CharField(max_length=200)
-    plantype = models.CharField(choices=SYSTEM_CHOICE, null = False, max_length=255)
-    period = models.IntegerField() # 기간 형식으로 수정 필요
+    plantype = models.CharField(choices=PLAN_TYPE, null = False, max_length=255)
+    period = models.IntegerField()
+    periodtype = models.CharField(choices=PERIOD_TYPE, null = False, max_length=255)
     constraints = models.CharField(max_length=200)
     price = models.IntegerField()
 
