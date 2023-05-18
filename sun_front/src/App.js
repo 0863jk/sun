@@ -24,6 +24,7 @@ import PlanManage from './Container/Plan/PlanManage';
 import LoginForm from './Container/LoginForm/LoginForm';
 import SignUpForm from './Container/LoginForm/SignUpForm';
 import CenterRegister from './Container/Center/CenterRegister';
+import NewPlan from './Container/Plan/NewPlan';
 //import Footer from './Component/Footer';
 
 function App() {
@@ -48,15 +49,16 @@ function App() {
             <Route path="/main/:pCenterId" element={<Weekly/>}></Route>
             <Route path="/weekly/:pCenterId" element={<Weekly  />}></Route>
             <Route path="/plan/:pCenterId" element={<PlanList  />}></Route>
+            <Route path="/plan/register/:pCenterId" element={<NewPlan />}></Route>
             <Route path="/plan/:pCenterId/:pUserId" element={<MyPlan  />}></Route>
-            <Route path="/plan/info/:pPlanId" element={<PlanModify  />}></Route>
-            <Route path="/plan/modify/:pPlanId" element={<PlanManage  />}></Route>
+            <Route path="/plan/info/:pCenterId/:pPlanId" element={<PlanModify  />}></Route>
+            <Route path="/plan/modify/:pCenterId" element={<PlanManage  />}></Route>
             <Route path="/plan/modify/:pCenterid/:pPlanId" element={<PlanModify  />}></Route>
             <Route path="/plan/list/:pCenterId" element={<PlanList  />}></Route>
             <Route path="/lesson/:pCenterId/:pUserId" element={<LessonHistory  />}></Route>
             <Route path="/lesson/:pLessonId" element={<LessonInfo  />}></Route>
-            <Route path="/lesson/rate/:pLessonId" element={<WriteLessonReview  />}></Route>
-            <Route path="/lesson/review/:pLessonId" element={<LessonReview  />}></Route>
+            <Route path="/lesson/rate/:pCenterId/:pLessonId" element={<WriteLessonReview  />}></Route>
+            <Route path="/lesson/review/:pCenterId/:pLessonId" element={<LessonReview  />}></Route>
             <Route path="/lesson/register/:pCenterId" element={<LessonRegister  />}></Route>
             <Route path="/timetable/:pCenterId" element={<TimeTableRegister  />}></Route>
             <Route path="/timetable/register/:pCenterId" element={<LessonRegister  />}></Route>
