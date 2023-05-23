@@ -49,25 +49,22 @@ function PlanCard({ centerid, planname, introduction, plantype, period, periodty
                         </Card.Text>
                     </Card.Body>
                     <ListGroup className="list-group-flush">
-                        <ListGroup.Item>{plantype}</ListGroup.Item>
+                        <ListGroup.Item>{plantype === "fixed-term" ? "기간제" : plantype === "number-of-times" ? "횟수제" : ""}</ListGroup.Item>
                         <ListGroup.Item>{period} {periodtype}</ListGroup.Item>
                         <ListGroup.Item>{price}원</ListGroup.Item>
                         <ListGroup.Item>{constraints}</ListGroup.Item>
                     </ListGroup>
                     <Card.Body>
                         {
-                            from === "list" || from === "register" ? (
+                            from === "list" ? (
                                 <Card.Link href={`/plan/${planid}`}>정보 보기</Card.Link>
                             ) : from === "modify" ? (
                                 <Card.Link href={`/plan/modify/${planid}`}>수정하기</Card.Link>
-                            ) :
-                                <></>
-                        }
-                        {
-                            from === "register" ? (
-                                <Button name={planid}
-                                    // onClick={setPopup}
-                                    onClick={handleOpenModal}>등록</Button>
+                            ) : from === "register" ? (
+                                        <Button name={planid}
+                                            // onClick={setPopup}
+                                            onClick={handleOpenModal}>등록</Button>
+
                             ) :
                                 <></>
                         }

@@ -3,7 +3,7 @@ import PlanCard from "../../Component/Card/PlanCard"
 import CardGroup from 'react-bootstrap/CardGroup';
 import { Modal, DatePicker } from "antd";
 import useFetch from "../../Hook/useFetch";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const planData = {
     planid: "",
@@ -31,22 +31,40 @@ function CenterRegister() {
     const username = localStorage.getItem("username");
     const plan = useFetch(`http://localhost:8000/center/plan/getCenterPlans/${pCenterId}`);
     const [registerData, setRegisterData] = useState(inputValue);
-    const [selectedPlan, setSelectedPlan] = useState(planData);
 
     const RegisterMember = (plandata) => {
-        setSelectedPlan(plandata);
         const registerDate = new Date(plandata.selectedDate);
-        const expireDate = new DataTransfer(registerDate.getMonth() + 3);
+        const expireDate = new Date(plandata.selectedDate);
+        expireDate.setMonth(expireDate.getMonth() + 3);
+
+        const formattedRegiDate = registerDate.toISOString().split('T')[0];
+        const formattedExpiDate = expireDate.toISOString().split('T')[0];
+
         setRegisterData({
             centerid: pCenterId,
             userid: username,
             role: "general",
             planid: plandata.planid,
-            registerDate: registerDate,
-            expireDate: expireDate,
-        })
-        console.log(registerData);
+            registerDate: formattedRegiDate,
+            expireDate: formattedExpiDate,
+        });
     };
+
+    useEffect(() => {
+        if (registerData.registerDate && registerData.expireDate) {
+            console.log(registerData);
+            const jsonData = JSON.stringify(registerData);
+            fetch('http://localhost:8000/center/registerCenterMember/', {
+                method: 'POST',
+                headers: { 'Content-type': 'application/json' },
+                body: jsonData
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                });
+        }
+    }, [registerData]);
 
     return (
         <>
@@ -57,7 +75,7 @@ function CenterRegister() {
                         <div className="CenterListContainer">
                             <CardGroup className="CardGroup">
                                 {plan && plan.map(plan => (
-                                    <PlanCard key={plan.planid} from="register" planname={plan.planname} introduction={plan.introduction} plantype={plan.plantype} period={plan.period} price={plan.price} constraints={plan.constraints} planid={plan.planid} onSubmit={RegisterMember} />
+                                    <PlanCard key={plan.planid} from="register" planname={plan.planname} introduction={plan.introduction} plantype={plan.plantype} period={plan.period} price={plan.price} constraints={plan.constraints} planid={plan.planid} setPlanData={RegisterMember} />
                                 ))}
                             </CardGroup>
                         </div>
