@@ -13,14 +13,16 @@ function CenterList() {
             <div className="wrap MainContainer">
                 <div className="LabelWrapper">
                     <label className="LabelTitle">나의 센터</label>
-                    <div className="ContentContainer FlexContainer">
-                        <CardGroup className="CardGroup">
-                            {center && center.map(center => (
-                                <Link to={`/main/${center.centerid}`}>
-                                    <CenterCard key={center.centerid}    from="list" centername={center.centername} introduction={center.introduction} manager={center.manager} address={center.address1 + ' ' + center.address2} centerid={center.centerid} />
-                                </Link>
-                            ))}
-                        </CardGroup>
+                    <div className="ContentContainer FlexContainer ">
+                        <div className="CardListContainer">
+                            <CardGroup className="CardGroup">
+                                {center && center.map(center => (
+                                    <Link to={`/main/${center.centerid}`} className="LinkWrapper">
+                                        <CenterCard key={center.centerid} from="list" centername={center.centername} introduction={center.introduction} manager={center.manager} address={center.address1 + ' ' + center.address2} centerid={center.centerid} />
+                                    </Link>
+                                ))}
+                            </CardGroup>
+                        </div>
                     </div>
                 </div>
             </div>

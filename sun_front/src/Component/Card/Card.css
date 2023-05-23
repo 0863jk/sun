@@ -1,3 +1,48 @@
 .CenterCard {
-    margin: 5px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.Card {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.Card:hover {
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.Card.Body {
+    padding: 20px;
+}
+
+.Card.Title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.Card.Text {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 20px;
+}
+
+.list-group-flush .list-group-item {
+    background-color: transparent;
+    border: none;
+    padding: 5px 0;
+}
+
+.Card.Link {
+    color: #007bff;
+    font-size: 14px;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+.Card.Link:hover {
+    color: #0056b3;
 }

@@ -7,7 +7,7 @@ function CenterCard({ centername, introduction, manager, address, centerid, from
     return (
         <>
             <div className="CenterCard">
-                <Card style={{ width: "284px" }}>
+                <Card className="Card" style={{ width: "284px" }}>
                     <Card.Body>
                         <Card.Title>{centername}</Card.Title>
                         <Card.Text>
@@ -18,13 +18,14 @@ function CenterCard({ centername, introduction, manager, address, centerid, from
                         <ListGroup.Item>{manager}</ListGroup.Item>
                         <ListGroup.Item>{address}</ListGroup.Item>
                     </ListGroup>
-                    
+
                     <Card.Body>
                         {
                             from === "list" ? (
-                                <Card.Link href={`/main/${centerid}`}>조회하기</Card.Link>
-                                ) : from === "search" ? (
-                                    <Card.Link href={`/register/${centerid}`}>등록하기</Card.Link>
+                                <></>
+                                // <Card.Link as={Link} to={`/main/${centerid}`}>조회하기</Card.Link>
+                            ) : from === "search" ? (
+                                <Card.Link as={Link} to={`/register/${centerid}`}>등록하기</Card.Link>
                             ) : <></>
                         }
                     </Card.Body>
