@@ -1,10 +1,44 @@
+import { useState } from "react";
 import "./Card.css";
-import Card from 'react-bootstrap/Card';
-import ListGroup from 'react-bootstrap/ListGroup';
+import { Card, ListGroup, Button } from 'react-bootstrap';
 import { Link } from "react-router-dom";
+import { DatePicker, Modal, Divider } from "antd";
 
-function PlanCard({ planname, introduction, plantype, period, constraints, planid, from } ) {
+function PlanCard({ centerid, planname, introduction, plantype, period, periodtype, price, constraints, planid, from, setPlanData }) {
+
+    const [modalVisible, setModalVisible] = useState(false);
+    const [selectedDate, setSelectedDate] = useState(null);
+
+    const handleOpenModal = () => {
+        setModalVisible(true);
+    };
+
+    const handleCloseModal = () => {
+        setModalVisible(false);
+    };
+
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+    };
+
+    const handlePlanRegister = () => {
+        const planData = {
+            planid: planid,
+            planname: planname,
+            centerid: centerid,
+            introduction: introduction,
+            plantype: plantype,
+            period: period,
+            periodtype: periodtype,
+            price: price,
+            constraints: constraints,
+            selectedDate: selectedDate,
+        };
+        setPlanData(planData);
+        handleCloseModal();
+    };
     return (
+        // setPopUp을 보내서 등록을 누르면 True로 뜨게하는 거 어때
         <>
             <div className="PlanCard">
                 <Card style={{ width: "284px" }}>
@@ -16,20 +50,41 @@ function PlanCard({ planname, introduction, plantype, period, constraints, plani
                     </Card.Body>
                     <ListGroup className="list-group-flush">
                         <ListGroup.Item>{plantype}</ListGroup.Item>
-                        <ListGroup.Item>{period}</ListGroup.Item>
+                        <ListGroup.Item>{period} {periodtype}</ListGroup.Item>
+                        <ListGroup.Item>{price}원</ListGroup.Item>
                         <ListGroup.Item>{constraints}</ListGroup.Item>
                     </ListGroup>
                     <Card.Body>
                         {
-                            from === "list" ? (
+                            from === "list" || from === "register" ? (
                                 <Card.Link href={`/plan/${planid}`}>정보 보기</Card.Link>
                             ) : from === "modify" ? (
                                 <Card.Link href={`/plan/modify/${planid}`}>수정하기</Card.Link>
-                            ) : <></>
+                            ) :
+                                <></>
+                        }
+                        {
+                            from === "register" ? (
+                                <Button name={planid}
+                                    // onClick={setPopup}
+                                    onClick={handleOpenModal}>등록</Button>
+                            ) :
+                                <></>
                         }
                     </Card.Body>
                 </Card>
-            </div>
+            </div >
+            <Modal open={modalVisible} onCancel={handleCloseModal} footer={null}>
+                <div style={{ textAlign: 'center' }}>
+                    <h2>{planname}</h2>
+                    <h4>{introduction}</h4>
+                    <Divider />
+                    <p>이용 중인 플랜이 '{planname}'이 맞으신가요?<br />센터 등록일을 선택해 주세요.</p>
+                    <DatePicker onChange={handleDateChange} />
+                    <p>Selected Date: {selectedDate && selectedDate.toString()}</p>
+                    <Button onClick={handlePlanRegister}>등록</Button>
+                </div>
+            </Modal>
         </>
     );
 }

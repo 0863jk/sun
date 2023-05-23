@@ -45,4 +45,17 @@ class CenterMember(models.Model):
 
     def __str__(self):
         return self.id
-    
+
+# class lesson(models.Model):
+#     lessonid = models.AutoField(primary_key=True)
+#     title = models.CharField(max_length=200)
+#     start = models.DateTimeField()
+#     end = models.DateTimeField()
+#     trainer = models.CharField(max_length=200)
+
+#     lessonname = models.CharField(max_length=200)
+#     centerid = models.CharField(max_length=200)
+#     timeid = models.models.IntegerField(blank=True, null=True)
+
+
+

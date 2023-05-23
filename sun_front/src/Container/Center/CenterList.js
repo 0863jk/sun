@@ -17,7 +17,7 @@ function CenterList() {
                         <CardGroup className="CardGroup">
                             {center && center.map(center => (
                                 <Link to={`/main/${center.centerid}`}>
-                                    <CenterCard from="list" centername={center.centername} introduction={center.introduction} manager={center.manager} address={center.address} centerid={center.centerid} />
+                                    <CenterCard from="list" centername={center.centername} introduction={center.introduction} manager={center.manager} address={center.address1 + ' ' + center.address2} centerid={center.centerid} />
                                 </Link>
                             ))}
                         </CardGroup>

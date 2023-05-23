@@ -42,7 +42,7 @@ function CenterSearch() {
                             <CardGroup className="CardGroup">
                             {center && center.map(center => (
                                 <Link to={`/register/${center.centerid}`}>
-                                    <CenterCard from="search" centername={center.centername} introduction={center.introduction} manager={center.manager} address={center.address} centerid={center.centerid} />
+                                    <CenterCard from="search" centername={center.centername} introduction={center.introduction} manager={center.manager} address={center.address1 + ' ' + center.address2} centerid={center.centerid} />
                                 </Link>
                             ))}
                             </CardGroup>

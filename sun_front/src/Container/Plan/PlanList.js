@@ -27,7 +27,7 @@ function PlanList() {
                             <CardGroup className="CardGroup">
                                 {plan && plan.map(plan => (
                                     <Link to={`/plan/${plan.planid}`}>
-                                        <PlanCard from="list" planname={plan.planname} introduction={plan.introduction} plantype={plan.plantype} period={plan.period} constraints={plan.constraints} planid={plan.id}/>
+                                        <PlanCard from="list" planname={plan.planname} introduction={plan.introduction} plantype={plan.plantype} period={plan.period} periodtype={plan.periodtype} price={plan.price} constraints={plan.constraints} planid={plan.id}/>
                                     </Link>
                                 ))}
                             </CardGroup>

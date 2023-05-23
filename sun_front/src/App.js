@@ -43,6 +43,7 @@ function App() {
             <Route path="/" element={<CenterList  />}></Route>
             <Route path="/center/list" element={<CenterList />}></Route>
             <Route path="/register/:pCenterId" element={<CenterRegister />}></Route>
+            <Route path="/register/:pCenterId/:pPlanId" element={<CenterRegister />}></Route>
             <Route path="/center/search" element={<CenterSearch  />}></Route>
             <Route path="/center/register" element={<NewCenter />}></Route>
 
