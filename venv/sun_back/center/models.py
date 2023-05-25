@@ -28,7 +28,7 @@ class Plan(models.Model):
     plantype = models.CharField(choices=PLAN_TYPE, null = False, max_length=255)
     period = models.IntegerField()
     periodtype = models.CharField(choices=PERIOD_TYPE, null = False, max_length=255)
-    constraints = models.CharField(max_length=200)
+    constraints = models.CharField(max_length=200, null=True, blank=True)
     price = models.IntegerField()
 
     def __str__(self):

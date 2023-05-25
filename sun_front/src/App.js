@@ -51,10 +51,10 @@ function App() {
             <Route path="/weekly/:pCenterId" element={<Weekly  />}></Route>
             <Route path="/plan/:pCenterId" element={<PlanList  />}></Route>
             <Route path="/plan/register/:pCenterId" element={<NewPlan />}></Route>
-            <Route path="/plan/:pCenterId/:pUserId" element={<MyPlan  />}></Route>
+            <Route path="/plan/my/:pCenterId" element={<MyPlan />}></Route>
             <Route path="/plan/info/:pCenterId/:pPlanId" element={<PlanModify  />}></Route>
             <Route path="/plan/modify/:pCenterId" element={<PlanManage  />}></Route>
-            <Route path="/plan/modify/:pCenterid/:pPlanId" element={<PlanModify  />}></Route>
+            <Route path="/plan/modify/:pCenterId/:pPlanId" element={<PlanModify  />}></Route>
             <Route path="/plan/list/:pCenterId" element={<PlanList  />}></Route>
             <Route path="/lesson/:pCenterId/:pUserId" element={<LessonHistory  />}></Route>
             <Route path="/lesson/:pLessonId" element={<LessonInfo  />}></Route>

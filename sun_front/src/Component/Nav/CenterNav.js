@@ -13,7 +13,7 @@ function CenterNav({ centerid }) {
 
     useEffect(() => {
         if (localStorage.getItem('token') !== null | localStorage.getItem('token') !== undefined | localStorage.getItem('token') !== 'undefined') {
-            setId(localStorage.getItem('id'));
+            setId(localStorage.getItem('username'));
             setRole(localStorage.getItem('role'));
         } else {
             navigate('http://localhost:3000/login');
@@ -29,7 +29,7 @@ function CenterNav({ centerid }) {
                         <Nav.Link href={`/weekly/${centerid}`}>시간표</Nav.Link>
                         <NavDropdown title="이용권" id="basic-nav-dropdown">
                             <NavDropdown.Item href={`/plan/${centerid}`}>이용권 목록</NavDropdown.Item>
-                            {role === "general" ? (<NavDropdown.Item href={`/plan/${centerid}/${id}`}>나의 이용권 정보</NavDropdown.Item>)
+                            {role === "general" ? (<NavDropdown.Item href={`/plan/my/${centerid}`}>나의 이용권 정보</NavDropdown.Item>)
                                 : role === "manager" ? (
                                     <>
                                         <NavDropdown.Item href={`/plan/register/${centerid}`}>이용권 추가</NavDropdown.Item>
