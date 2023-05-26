@@ -6,6 +6,7 @@ import PlanRegister from "./PlanRegister";
 import TrainerRegister from "./TrainerRegister";
 
 function NewCenter() {
+    const username = localStorage.getItem('username');
     const [page, setPage] = useState('');
     const [centerid, setCenterid] = useState('');
     const [centerInfoData, setCenterInfoData] = useState(null);
@@ -55,23 +56,47 @@ function NewCenter() {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
+                alert("플랜이 정상적으로 등록되었습니다.");
             })
             .catch(error => {
                 console.error('Error:', error);
+                alert("오류");
             });
     };
 
     const registerTrainer = (data) => {
-        data.forEach((userid) => {
+        const managerData = {
+            userid: username,
+            centerid: centerid,
+            role: "manager",
+        }
+        // const managerJson = JSON.stringify(trainerdata);
+        fetch('http://localhost:8000/center/registerCenterMember/', {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify(managerData)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                alert("강사가 정상적으로 등록되었습니다.");
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("오류");
+            });
+
+        const promises = data.map((userid) => {
             const trainerdata = {
                 userid: userid,
-                centerid: centerid
-            }
+                centerid: centerid,
+                role: "trainer"
+            };
             const jsonData = JSON.stringify(trainerdata);
 
             console.log(jsonData);
 
-            fetch('http://localhost:8000/center/registerCenterMember/', {
+            return fetch('http://localhost:8000/center/registerCenterMember/', {
                 method: 'POST',
                 headers: { 'Content-type': 'application/json' },
                 body: jsonData
@@ -79,11 +104,21 @@ function NewCenter() {
                 .then(res => res.json())
                 .then(data => {
                     console.log(data);
+                    return data;
                 })
                 .catch(error => {
                     console.error('Error:', error);
+                    throw error;
                 });
         });
+
+        Promise.all(promises)
+            .then(() => {
+                alert("모든 강사가 정상적으로 등록되었습니다.");
+            })
+            .catch(() => {
+                alert("오류가 발생했습니다.");
+            });
     };
 
 
@@ -99,9 +134,14 @@ function NewCenter() {
                 return res.json();
             }).then(data => {
                 console.log(data);
+                alert("센터가 정상적으로 생성되었습니다.");
                 registerPlan(planData);
                 registerTrainer(trainerdata);
+            }).catch(error => {
+                console.log(error);
+                alert("오류");
             })
+        // window.location.replace(`/center/${centerInfoData.centerid}`);
     };
 
     return (

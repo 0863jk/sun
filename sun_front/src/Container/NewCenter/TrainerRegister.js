@@ -17,7 +17,7 @@ function TrainerRegister({ onSubmit, setPage }) {
 
     useEffect(() => {
         onSubmit(trainerList);
-    }, [trainerList]);
+    }, [onSubmit, trainerList]);
 
     const handleInputChange = (e) => {
         const data = e.target.value;

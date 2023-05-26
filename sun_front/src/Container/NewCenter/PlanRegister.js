@@ -83,11 +83,11 @@ function PlanRegister({ onSubmit, setPage, centerid }) {
                             <Form.Control type="number" placeholder="플랜의 유효기간을 입력해 주세요..." name="period" />
                         </Col>
                         <Col className="nomargin">
-                            <Form.Select name="periodType">
+                            <Form.Select name="periodtype">
                                 <option value="">
                                     일/월/년 선택
                                 </option>
-                                <option value="days" key="dyas">
+                                <option value="days" key="days">
                                     일
                                 </option>
                                 <option value="months" key="months">
