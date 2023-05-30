@@ -1,24 +1,19 @@
 import "./TimeTableRegister.css";
 import LessonInfoCard from "../../Component/Card/LessonInfoCard";
 import CenterNav from "../../Component/Nav/CenterNav";
-import WeeklyTable from "../../Component/TimeTable/WeeklyTable";
 import CardGroup from 'react-bootstrap/CardGroup';
 import Button from 'react-bootstrap/Button';
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import WeeklyTimetable from "../../Component/TimeTable/WeeklyTimeTable";
 
 function TimeTableRegister() {
     const { pCenterId } = useParams();
-    const [centerid, setCenterid] = useState('');
-
-    useEffect(() => {
-        setCenterid(pCenterId);
-    }, []);
 
     return (
         <>
             <div className="header">
-                <CenterNav centerid={centerid} />
+                <CenterNav centerid={pCenterId} />
             </div>
             <div className="MainContainer">
                 <div className="LabelWrapper">
@@ -29,12 +24,13 @@ function TimeTableRegister() {
                                 <LessonInfoCard />
                                 <LessonInfoCard />
                                 <LessonInfoCard />
-                                <Button variant="outline-primary" href="/lesson/register/centerid">추가하기</Button>{' '}
+                                <Button variant="outline-primary" href={`/lesson/register/${pCenterId}`}>추가하기</Button> 
                             </CardGroup>
                         </div>
                     </div>
                     <div className="wrap">
-                        <WeeklyTable />
+                        <WeeklyTimetable centerid={pCenterId} />
+                        {/* <WeeklyTable /> */}
                     </div>
                 </div>
             </div>

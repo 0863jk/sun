@@ -3,20 +3,23 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Link } from 'react-router-dom';
+import useFetch from "../../Hook/useFetch"
 
 const localizer = momentLocalizer(moment);
 
-const timetableData = [
-    {
-        title: 'Lesson A',
-        start: new Date(2023, 4, 22, 9, 0), // 예시 시간표 시작 시간
-        end: new Date(2023, 4, 22, 10, 0), // 예시 시간표 종료 시간
-        trainer: "trainer",
-        lessonId: 'lesson-id-1' // 예시 수업 아이디
-    }
-];
+// const timetableData = [
+//     {
+//         title: 'Lesson A',
+//         start: new Date(2023, 4, 22, 9, 0), // 예시 시간표 시작 시간
+//         end: new Date(2023, 4, 22, 10, 0), // 예시 시간표 종료 시간
+//         trainer: "trainer",
+//         lessonId: 'lesson-id-1' // 예시 수업 아이디
+//     }
+// ];
 
-function WeeklyTimetable() {
+function WeeklyTimetable({centerid}) {
+    const timetableData = useFetch(`http://localhost:8000/center/timetable/getTimetable/${centerid}`);
+
     const events = timetableData.map((event) => {
         return {
             ...event,

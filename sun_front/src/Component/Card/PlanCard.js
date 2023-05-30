@@ -57,9 +57,9 @@ function PlanCard({ centerid, planname, introduction, plantype, period, periodty
                     <Card.Body>
                         {
                             from === "list" ? (
-                                <Card.Link href={`/plan/${planid}`}>정보 보기</Card.Link>
+                                <Card.Link href={`/plan/${centerid}/${planid}`}>정보 보기</Card.Link>
                             ) : from === "modify" ? (
-                                <Card.Link href={`/plan/modify/${planid}`}>수정하기</Card.Link>
+                                <Card.Link href={`/plan/modify/${centerid}/${planid}`}>수정하기</Card.Link>
                             ) : from === "register" ? (
                                         <Button name={planid}
                                             // onClick={setPopup}

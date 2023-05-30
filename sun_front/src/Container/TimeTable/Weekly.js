@@ -19,7 +19,7 @@ function Weekly() {
             </div>
             <div className="LabelWrapper">
                 <div className="wrap MainContainer">
-                    <WeeklyTimetable/>
+                    <WeeklyTimetable centerid={pCenterId}/>
                     {/* <WeeklyTable /> */}
                 </div>
             </div>

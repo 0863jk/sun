@@ -46,16 +46,29 @@ class CenterMember(models.Model):
     def __str__(self):
         return self.id
 
-# class lesson(models.Model):
-#     lessonid = models.AutoField(primary_key=True)
-#     title = models.CharField(max_length=200)
-#     start = models.DateTimeField()
-#     end = models.DateTimeField()
-#     trainer = models.CharField(max_length=200)
+class Lesson(models.Model):
+    lessonid = models.AutoField(primary_key=True)
+    centerid = models.CharField(max_length=200)
+    title = models.CharField(max_length=200)
+    day = models.IntegerField(null=True)
+    startime = models.TimeField(null=True)
+    endtime = models.TimeField(null=True)
+    trainer = models.CharField(max_length=200, null=True)
+    trainerid = models.CharField(max_length=200, null=True)
+    maxCapacity = models.IntegerField(null=True)
 
 #     lessonname = models.CharField(max_length=200)
 #     centerid = models.CharField(max_length=200)
 #     timeid = models.models.IntegerField(blank=True, null=True)
 
+class Timetable(models.Model):
+    lessonid = models.IntegerField(null = True)
+    centerid = models.CharField(max_length=200)
+    title = models.CharField(max_length=200)
+    start = models.DateTimeField()
+    end = models.DateTimeField()
+    trainer = models.CharField(max_length=200, null=True)
+    trainerid = models.CharField(max_length=200, null=True)
+    maxCapacity = models.IntegerField(null=True)
 
 

@@ -7,18 +7,13 @@ import useFetch from "../../Hook/useFetch"
 
 function PlanList() {
     const { pCenterId } = useParams();
-    const [centerid, setCenterid] = useState('');
     const plan = useFetch(`http://localhost:8000/center/plan/getCenterPlans/${pCenterId}`);
-
-    useEffect(() => {
-        setCenterid(pCenterId);
-    }, [])
 
     return (
         <>
             <div>
                 <div className="header">
-                    <CenterNav centerid={centerid} />
+                    <CenterNav centerid={pCenterId} />
                 </div>
                 <div className="MainContainer">
                     <div className="LabelWrapper">
@@ -26,7 +21,7 @@ function PlanList() {
                         <div className="CenterListContainer">
                             <CardGroup className="CardGroup">
                                 {plan && plan.map(plan => (
-                                    <Link to={`/plan/${plan.planid}`}>
+                                    <Link to={`/plan/${pCenterId}/${plan.planid}`}>
                                         <PlanCard from="list" planname={plan.planname} introduction={plan.introduction} plantype={plan.plantype} period={plan.period} periodtype={plan.periodtype} price={plan.price} constraints={plan.constraints} planid={plan.id}/>
                                     </Link>
                                 ))}

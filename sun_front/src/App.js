@@ -52,16 +52,16 @@ function App() {
             <Route path="/plan/:pCenterId" element={<PlanList  />}></Route>
             <Route path="/plan/register/:pCenterId" element={<NewPlan />}></Route>
             <Route path="/plan/my/:pCenterId" element={<MyPlan />}></Route>
-            <Route path="/plan/info/:pCenterId/:pPlanId" element={<PlanModify  />}></Route>
+            <Route path="/plan/:pCenterId/:pPlanId" element={<PlanModify />}></Route>
             <Route path="/plan/modify/:pCenterId" element={<PlanManage  />}></Route>
             <Route path="/plan/modify/:pCenterId/:pPlanId" element={<PlanModify  />}></Route>
             <Route path="/plan/list/:pCenterId" element={<PlanList  />}></Route>
             <Route path="/lesson/:pCenterId/:pUserId" element={<LessonHistory  />}></Route>
-            <Route path="/lesson/:pLessonId" element={<LessonInfo  />}></Route>
+            <Route path="/lesson/:pCenterId/:pLessonId" element={<LessonInfo  />}></Route>
             <Route path="/lesson/rate/:pCenterId/:pLessonId" element={<WriteLessonReview  />}></Route>
             <Route path="/lesson/review/:pCenterId/:pLessonId" element={<LessonReview  />}></Route>
             <Route path="/lesson/register/:pCenterId" element={<LessonRegister  />}></Route>
-            <Route path="/timetable/:pCenterId" element={<TimeTableRegister  />}></Route>
+            <Route path="/timetable/:pCenterId" element={<TimeTableRegister />}></Route>
             <Route path="/timetable/register/:pCenterId" element={<LessonRegister  />}></Route>
             <Route path="/plan/register/:pCenterId" element={<PlanRegister  />}></Route>
             <Route path="/admin/:pCenterId" element={<TrainerManage  />}></Route>
