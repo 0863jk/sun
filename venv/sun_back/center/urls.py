@@ -11,6 +11,7 @@ urlpatterns = [
     path('registerCenter/', views.registerCenter, name="registerCenter"),
     path('registerCenterMember/', views.registerCenterMember, name="registerCenterMember"),
     path('plan/getPlans/', views.getPlans, name="getPlans"),
+    path('plan/getPlan/<str:planid>', views.getPlan, name="getPlan"),
     path('plan/getCenterPlans/<str:centerid>', views.getCenterPlans, name="getCenterPlans"),
     path('plan/getMemberPlan/<str:centerid>/<str:username>', views.getMemberPlan, name="getMemberPlan"),
     path('plan/registerPlan/', views.registerPlan, name="registerCenterPlan"),

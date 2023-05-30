@@ -34,7 +34,14 @@ function CenterRegister() {
     const RegisterMember = (plandata) => {
         const registerDate = new Date(plandata.selectedDate);
         const expireDate = new Date(plandata.selectedDate);
-        expireDate.setMonth(expireDate.getMonth() + 3);
+
+        if (plandata.periodtype === "days") {
+            expireDate.setDate(expireDate.getDate() + plandata.period);
+        } else if (plandata.periodtype === "months") {
+            expireDate.setMonth(expireDate.getMonth() + plandata.period);
+        } else if (plandata.periodtype === "years") {
+            expireDate.setYear(expireDate.getYear() + plandata.period);
+        }
 
         const formattedRegiDate = registerDate.toISOString().split('T')[0];
         const formattedExpiDate = expireDate.toISOString().split('T')[0];

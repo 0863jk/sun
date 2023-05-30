@@ -60,6 +60,14 @@ def getPlans(request):
 
     return Response(serializer.data)
 
+# GET: planid를 받아 plan 정보 불러오기
+@api_view(['GET'])
+def getPlan(request, planid):
+    data = Plan.objects.filter(planid=planid)
+    serializer = PlanDataSerializer(data, many=False)
+
+    return Response(serializer.data)
+
 # GET: centerid를 받아 해당 센터의 plan만 불러오기
 @api_view(['GET'])
 def getCenterPlans(request, centerid):

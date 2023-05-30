@@ -38,7 +38,6 @@ function PlanCard({ centerid, planname, introduction, plantype, period, periodty
         handleCloseModal();
     };
     return (
-        // setPopUp을 보내서 등록을 누르면 True로 뜨게하는 거 어때
         <>
             <div className="PlanCard">
                 <Card style={{ width: "284px" }}>
