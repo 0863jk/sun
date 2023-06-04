@@ -42,7 +42,7 @@ def getAllCenterMember(request):
     
     return Response(serializer.data)
 
-# GET: username을 받아 CenterMember 테이블에서 username이 들어가 있는 centerid list를 받아온 후 centerid에 해당하는 center 정보 불러오기
+# GET: username으로 user가 사용하는 센터 정보 불러오기
 @api_view(['GET'])
 def getMemberCenters(request, username):
     center_ids = CenterMember.objects.filter(userid=username).values_list('centerid')
@@ -104,6 +104,16 @@ def getTimetable(request, centerid):
 def getCenterTrainers(request, centerid):
     trainer_ids = CenterMember.objects.filter(centerid=centerid, role="trainer").values_list('userid')
     datas = User.objects.filter(username__in=trainer_ids)
+
+    serializer = UserDataSerializer(datas, many=True)
+    
+    return Response(serializer.data)
+
+# GET: centerid를 받아 센터 내에 등록된 트레이너 정보 불러오기
+@api_view(['GET'])
+def getCenterMembers(request, centerid):
+    user_ids = CenterMember.objects.filter(centerid=centerid, role="general").values_list('userid')
+    datas = User.objects.filter(username__in=user_ids)
 
     serializer = UserDataSerializer(datas, many=True)
     

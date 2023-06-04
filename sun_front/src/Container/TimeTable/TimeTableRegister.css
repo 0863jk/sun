@@ -1,4 +1,20 @@
+.carouselContainer {
+    margin-top: 20px;
+}
 .CardBtn {
     width: 284px;
     height: 244px;
+}
+
+.slick-arrow {
+    display: flex;
+    z-index: 10;
+    width: 1vw;
+    height: 1vw;
+  }
+
+.carditem {
+    height: 200px;
+    width: 100px;
+    color: black;
 }

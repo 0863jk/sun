@@ -1,34 +1,59 @@
 .weekly-table-container {
-    margin: 20px;
-  }
-  
-  .weekly-table {
-    margin: 0 auto;
-    border-collapse: separate;
-    border-spacing: 0;
-    width: 100%;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  .header-cell {
-    background-color: #f8f9fa;
-    color: #333;
-    font-weight: bold;
-    text-align: center;
-    padding: 5px;
-    border-bottom: none;
-  }
-  
-  .time-cell {
-    text-align: center;
-    padding: 5px;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .lesson-cell {
-    text-align: center;
-    padding: 5px;
-    border-bottom: 1px solid #ddd;
-  }
+  margin: 20px;
+}
+
+.weekly-table {
+  margin: 0 auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.header-cell {
+  background-color: #f8f9fa;
+  color: #333;
+  font-weight: bold;
+  text-align: center;
+  padding: 5px;
+  border-bottom: none;
+}
+
+.time-cell {
+  text-align: center;
+  padding: 5px;
+  border-bottom: 1px solid #ddd;
+}
+
+.lesson-cell {
+  text-align: center;
+  padding: 5px;
+  border-bottom: 1px solid #ddd;
+}
+
+.addLessonBtnContainer {
+  text-align: right;
+}
+
+.btnAddLesson{
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 4px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.btnAddLesson:hover {
+  background-color: #0056b3;
+}
+
+.btnAddLesson:focus {
+  outline: none;
+}
+
+.btnAddLesson:active {
+  background-color: #004080;
+}

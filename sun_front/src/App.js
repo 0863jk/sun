@@ -68,7 +68,7 @@ function App() {
             <Route path="/admin/Trainer/:pCenterId" element={<TrainerManage  />}></Route>
             <Route path="/admin/member/:pCenterId" element={<MemberManage  />}></Route>
             <Route path="/admin/stats/:pCenterId" element={<Stats  />}></Route>
-            <Route path="/admin/lesson/:pCenterId" element={<LessonList  />}></Route>
+            <Route path="/admin/lesson/:pCenterId" element={<LessonList />}></Route>
           </Routes>
         </div>
         <Routes>

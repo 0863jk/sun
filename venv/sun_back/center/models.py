@@ -10,7 +10,7 @@ class Center(models.Model):
     manager = models.CharField(max_length=200)
     # manager = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     address1 = models.CharField(max_length=200)
-    address2 = models.CharField(max_length=200)
+    address2 = models.CharField(max_length=200, null=True)
     bizid = models.CharField(max_length=200)
     created_date = models.DateTimeField(default=timezone.now)
 
@@ -51,9 +51,8 @@ class Lesson(models.Model):
     centerid = models.CharField(max_length=200)
     title = models.CharField(max_length=200)
     day = models.IntegerField(null=True)
-    startime = models.TimeField(null=True)
+    starttime = models.TimeField(null=True)
     endtime = models.TimeField(null=True)
-    trainer = models.CharField(max_length=200, null=True)
     trainerid = models.CharField(max_length=200, null=True)
     maxCapacity = models.IntegerField(null=True)
 
@@ -67,7 +66,6 @@ class Timetable(models.Model):
     title = models.CharField(max_length=200)
     start = models.DateTimeField()
     end = models.DateTimeField()
-    trainer = models.CharField(max_length=200, null=True)
     trainerid = models.CharField(max_length=200, null=True)
     maxCapacity = models.IntegerField(null=True)
 

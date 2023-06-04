@@ -1,74 +1,189 @@
-import React from 'react';
+import "./TimeTable.css";
+import React, { useEffect, useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import useFetch from "../../Hook/useFetch"
+import { DatePicker, Modal } from "antd";
+import { Button, Form } from "react-bootstrap";
 
 const localizer = momentLocalizer(moment);
 
-// const timetableData = [
-//     {
-//         title: 'Lesson A',
-//         start: new Date(2023, 4, 22, 9, 0), // 예시 시간표 시작 시간
-//         end: new Date(2023, 4, 22, 10, 0), // 예시 시간표 종료 시간
-//         trainer: "trainer",
-//         lessonId: 'lesson-id-1' // 예시 수업 아이디
-//     }
-// ];
-
-function WeeklyTimetable({centerid}) {
+function WeeklyTimetable({ centerid, role, from }) {
     const timetableData = useFetch(`http://localhost:8000/center/timetable/getTimetable/${centerid}`);
+    const navigate = useNavigate();
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalType, setModalType] = useState(null);
+    const [selectedLesson, setSelectedLesson] = useState(false);
+    const [selectedDate, setSelectedDate] = useState(null);
+    const trainers = useFetch(`http://localhost:8000/center/getCenterTrainers/${centerid}`);
+
+    const findTrainerName = (trainerId) => {
+        const trainer = trainers.find((trainer) => trainer.username === trainerId);
+        return trainer ? trainer.name : '';
+    };
 
     const events = timetableData.map((event) => {
         return {
             ...event,
             start: moment(event.start).toDate(),
             end: moment(event.end).toDate(),
-            title: `${event.title} (${event.trainer})`, // 강사 이름 추가
+            title: `${event.title} (${findTrainerName(event.trainerid)})`, // 강사 이름 추가
         }
     })
+
     const handleEventClick = (event) => {
-        const lessonId = event.lessonId;
-        // 수업 상세 정보 페이지로 이동
-        // 예시: /lesson/lesson-id-1
-        window.location.href = `/lesson/${lessonId}`;
+        const lessonId = event.id;
+        fetch(`http://localhost:8000/lesson/getLessonInfo/${lessonId}`)
+            .then((response) => response.json())
+            .then((data) => {
+                setSelectedLesson(data);
+                handleOpenModal('lesson');
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        // handleOpenModal("lesson");
+        // const lessonId = event.id;
+        // window.location.href = `/lesson/${lessonId}`;
     };
 
-    // const eventComponents = timetableData.map((event) => {
-    //     return {
-    //         ...event,
-    //         component: (
-    //             <Link to={`/lesson/${event.lessonId}`} className="calendar-event-link">
-    //                 {event.title}
-    //             </Link>
-    //         )
-    //     };
-    // });
-
     const minTime = new Date();
-    minTime.setHours(9, 0, 0); // 8시
+    minTime.setHours(9, 0, 0);
 
     const maxTime = new Date();
-    maxTime.setHours(18, 0, 0); // 11시
+    maxTime.setHours(18, 0, 0);
+
+    const handleOpenModal = (type) => {
+        setModalType(type);
+        setModalVisible(true);
+    };
+
+    const handleCloseModal = () => {
+        setModalVisible(false);
+    };
+
+    const { RangePicker } = DatePicker;
+    const dateFormat = 'YYYY/MM/DD HH:mm';
+
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+    };
+
+    const handleSubmit = (event) => {
+        const formData = new FormData(event.target);
+        const title = formData.get("title");
+        const trainerid = formData.get("trainerid");
+        const maxCapacity = formData.get("maxCapacity");
+
+        const data = {
+            centerid: centerid,
+            title: title,
+            trainerid: trainerid,
+            maxCapacity: maxCapacity,
+            start: selectedDate[0],
+            end: selectedDate[1]
+        }
+
+        fetch('http://localhost:8000/center/timetable/registerTimetable/', {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify(data)
+        })
+            .then(res => {
+                console.log(res);
+                res.json();
+            })
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
 
     return (
-        <div style={{ height: '600px' }}>
-            <Calendar
-                localizer={localizer}
-                events={events}
-                startAccessor="start"
-                endAccessor="end"
-                views={['week']}
-                defaultView="week"
-                step={60} // 시간 단위 (60분)
-                defaultDate={new Date()}
-                min={minTime}
-                max={maxTime}
-                onSelectEvent={handleEventClick}
-                showMultiDayTimes={false}
-            />
+        <div style={{ position: 'relative' }}>
+            {role === "manager" && from === "register" && (
+                <div className="addLessonBtnContainer">
+                    <button className="btnAddLesson" onClick={() => handleOpenModal('addLesson')}>
+                        그 외의 강의 추가하기
+                    </button>
+                </div>
+            )}
+            <div className="calendaContainer" style={{ height: '650px' }}>
+                <Calendar
+                    localizer={localizer}
+                    events={events}
+                    startAccessor="start"
+                    endAccessor="end"
+                    views={['week']}
+                    defaultView="week"
+                    step={60} // 시간 단위 (60분)
+                    defaultDate={new Date()}
+                    min={minTime}
+                    max={maxTime}
+                    onSelectEvent={handleEventClick}
+                    showMultiDayTimes={false}
+                />
+            </div>
+            <Modal open={modalVisible} onCancel={handleCloseModal} footer={null}>
+                <div style={{ textAlign: 'center' }}>
+                    {modalType === 'addLesson' && (
+                        <>
+                            <h3>수업 등록하기</h3>
+                            <Form onSubmit={handleSubmit}>
+                                <Form.Group className="mb-3" controlId="formBasicEmail">
+                                    <Form.Label>수업명</Form.Label>
+                                    <Form.Control type="text" placeholder="수업명" name="title" />
+                                </Form.Group>
+                                <Form.Group className="mb-3" controlId="formBasicEmail">
+                                    <Form.Label>강사 선택</Form.Label>
+                                    <Form.Select name="trainer" >
+                                        <option value="default">
+                                            강사 선택
+                                        </option>
+                                        {trainers && trainers.map(trainers => (
+                                            <option value={trainers.username} key={trainers.id} name="trainerid">
+                                                {trainers.name}
+                                            </option>
+                                        ))}
+                                    </Form.Select>
+                                </Form.Group>
+                                <Form.Group className="mb-3" controlId="formBasicEmail">
+                                    <Form.Label>최대 인원</Form.Label>
+                                    <Form.Control type="number" placeholder="최대 인원 입력" name="maxCapacity" />
+                                </Form.Group>
+                                <Form.Group className="mb-3" controlId="formBasicEmail">
+                                    <Form.Label>요일 및 시간</Form.Label><br />
+                                    <RangePicker showTime format={dateFormat} onChange={handleDateChange} />
+                                </Form.Group>
+
+                                <Button variant="primary" type="submit">
+                                    Submit
+                                </Button>
+                            </Form>
+                        </>
+                    )}
+                    {modalType === "lesson" && (
+                        <>
+                            <h3>레슨 상세 정보</h3>
+                            {selectedLesson && (
+                                <div>
+                                    <p>Lesson ID: {selectedLesson.id}</p>
+                                    <p>{selectedLesson.title}</p>
+                                    <p>{selectedLesson.trainerid}</p>
+                                    <p>{selectedLesson.maxCapacity}</p>
+                                    <Button name="btnBook">예약하기</Button>
+                                </div>
+                            )}
+                        </>
+                    )}
+                </div>
+            </Modal>
         </div>
+
     );
 }
 

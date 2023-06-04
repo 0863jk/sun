@@ -4,53 +4,45 @@ import CardGroup from 'react-bootstrap/CardGroup';
 import Nav from 'react-bootstrap/Nav';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import useFetch from "../../Hook/useFetch";
+import UserCard from "../../Component/Card/UserCard";
+import AdminTap from "./AdminTap";
 
 function MemberManage() {
     const { pCenterId } = useParams();
-    const [centerid, setCenterid] = useState('');
-
-    useEffect(() => {
-        setCenterid(pCenterId);
-    }, []);
+    const members = useFetch(`http://localhost:8000/center/getCenterMembers/${pCenterId}`);
 
     return (
         <>
             <div>
                 <div className="header">
-                    <CenterNav centerid={centerid}/>
+                    <CenterNav centerid={pCenterId} />
                 </div>
                 <div className="MainContainer">
                     <div className="LabelWrapper">
                         <label className="LabelTitle">회원 관리</label>
-                        <div className="Taps">
-                        <Nav className="justify-content-center" activeKey="/home">
+                        <AdminTap centerid={pCenterId} current="member" />
+                        {/* <div className="Taps">
+                            <Nav className="justify-content-center" activeKey="/home">
                                 <Nav.Item>
-                                    <Nav.Link href="/admin/trainer/centerid">강사 관리</Nav.Link>
+                                    <Nav.Link href={`/admin/trainer/${pCenterId}`}>강사 관리</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
-                                    <Nav.Link href="/admin/member/centerid"  className="current">회원 관리</Nav.Link>
+                                    <Nav.Link href={`/admin/member/${pCenterId}`} className="current">회원 관리</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
-                                    <Nav.Link href="/admin/stats/centerid">통계</Nav.Link>
+                                    <Nav.Link href={`/admin/stats/${pCenterId}`}>통계</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
-                                    <Nav.Link href="/admin/lesson/centerid">강의평</Nav.Link>
+                                    <Nav.Link href={`/admin/lesson/${pCenterId}`}>강의평</Nav.Link>
                                 </Nav.Item>
-                                {/* <Nav.Item>
-                                <Nav.Link eventKey="disabled" disabled>
-                                    Disabled
-                                </Nav.Link>
-                            </Nav.Item> */}
                             </Nav>
-                        </div>
+                        </div> */}
                         <div className="CenterListContainer">
                             <CardGroup className="CardGroup">
-                                <StudentCard />
-                                <StudentCard />
-                                <StudentCard />
-                                <StudentCard />
-                                <StudentCard />
-                                <StudentCard />
+                                {members && members.map(members => (
+                                    <UserCard name={members.name} email={members.email} phone={members.phone} />
+                                ))}
                             </CardGroup>
                         </div>
                     </div>

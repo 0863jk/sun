@@ -7,7 +7,7 @@ function TrainerRegister({ onSubmit, setPage }) {
     const username = localStorage.getItem('username');
     const [input, setInput] = useState('');
     const [trainer, setTrainer] = useState([]);
-    const [trainerList, setTrainerList] = useState([username]);
+    const [trainerList, setTrainerList] = useState(null);
 
     useEffect(() => {
         fetch(`http://localhost:8000/account/searchTrainerUser/${input}`)

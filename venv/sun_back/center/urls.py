@@ -8,6 +8,7 @@ urlpatterns = [
     path('getAllCenterMember/', views.getAllCenterMember, name="getAllCenterMember"),
     path('getMemberCenters/<str:username>', views.getMemberCenters, name="getMemberCenters"),
     path('getCenterTrainers/<str:centerid>', views.getCenterTrainers, name="getCenterTrainers"),
+    path('getCenterMembers/<str:centerid>', views.getCenterMembers, name="getCenterMembers"),
     path('registerCenter/', views.registerCenter, name="registerCenter"),
     path('registerCenterMember/', views.registerCenterMember, name="registerCenterMember"),
     path('plan/getPlans/', views.getPlans, name="getPlans"),

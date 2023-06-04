@@ -6,20 +6,16 @@ import WeeklyTimetable from '../../Component/TimeTable/WeeklyTimeTable';
 
 function Weekly() {
     const { pCenterId } = useParams();
-    const [centerid, setCenterid] = useState('');
-
-    useEffect(() => {
-        setCenterid(pCenterId);
-    }, []);
+    const role = localStorage.getItem('role');
 
     return (
         <>
             <div className="header">
-                <CenterNav centerid={centerid}/>
+                <CenterNav centerid={pCenterId}/>
             </div>
             <div className="LabelWrapper">
                 <div className="wrap MainContainer">
-                    <WeeklyTimetable centerid={pCenterId}/>
+                    <WeeklyTimetable centerid={pCenterId} role={role}/>
                     {/* <WeeklyTable /> */}
                 </div>
             </div>

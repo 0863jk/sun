@@ -23,14 +23,21 @@ def postUser(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['POST'])
-def getUsername(request):
-    reqData = request.data
-    username = reqData['username']
-    data = User.objects.filter(username=username)
-    serializer = UserDataSerializer(data, many=True)
+@api_view(['GET'])
+def getUsername(request, username):
+    data = User.objects.get(username=username)
+    serializer = UserDataSerializer(data, many=False)
         
     return Response(serializer.data)
+
+# @api_view(['POST'])
+# def getUsername(request):
+#     reqData = request.data
+#     username = reqData['username']
+#     data = User.objects.filter(username=username)
+#     serializer = UserDataSerializer(data, many=True)
+        
+#     return Response(serializer.data)
 
 @api_view(['GET'])
 def searchTrainerUser(request, username):
