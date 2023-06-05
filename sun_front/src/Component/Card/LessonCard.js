@@ -13,7 +13,6 @@ function LessonCard({ from, lessoninfo, centerid }) {
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
     const trainers = useFetch(`http://localhost:8000/center/getCenterTrainers/${centerid}`);
-    const trainer = useFetch(`http://localhost:8000/account/getUsername/${lessoninfo.trainerid}`);
 
     const handleOpenModal = () => {
         setModalVisible(true);
@@ -39,6 +38,11 @@ function LessonCard({ from, lessoninfo, centerid }) {
         console.log("onChange ", e.target.value);
     };
 
+    const findTrainerName = (trainerId) => {
+        const trainer = trainers.find((trainer) => trainer.username === trainerId);
+        return trainer ? trainer.name : '';
+    };
+
     const handleSubmit = (event) => {
         const formData = new FormData(event.target);
         const title = formData.get("title");
@@ -49,17 +53,18 @@ function LessonCard({ from, lessoninfo, centerid }) {
         const endTime = selectedDate.format("YYYY-MM-DD") + " " + selectedTime[1].format("HH:mm:ss");
 
         const data = {
-            lessonid: lessoninfo.lessonid,
+            lessonid: lessoninfo.id,
             centerid: centerid,
             title: title,
             trainerid: trainerid,
-            maxCapacity: maxCapacity,
+            trainername: `${findTrainerName(trainerid)}`,
+            max_capacity: maxCapacity,
             start: startTime,
             end: endTime
         }
         console.log(data);
 
-        fetch('http://localhost:8000/center/timetable/registerTimetable/', {
+        fetch('http://localhost:8000/center/timetable/registerTimetableBlock/', {
             method: 'POST',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify(data)
@@ -84,12 +89,12 @@ function LessonCard({ from, lessoninfo, centerid }) {
                                     <Card.Title>{lessoninfo.title}</Card.Title>
                                 </Card.Body>
                                 <ListGroup className="list-group-flush">
-                                    <ListGroup.Item>{trainer.name}</ListGroup.Item>
+                                    <ListGroup.Item>{lessoninfo.info_trainername}</ListGroup.Item>
                                     {
                                         from === "register" ? (
                                             <>
-                                                <ListGroup.Item>{lessoninfo.day === 1 ? "월요일" : lessoninfo.day === 2 ? "화요일" : lessoninfo.day === 3 ? "수요일" : lessoninfo.day === 4 ? "목요일" : lessoninfo.day === 5 ? "금요일" : lessoninfo.day === 6 ? "토요일" : lessoninfo.day === 7 ? "일요일" : "설정된 요일 없음"}</ListGroup.Item>
-                                                <ListGroup.Item>{lessoninfo.starttime && lessoninfo.starttime.toString().slice(0, 5)} ~ {lessoninfo.endtime && lessoninfo.endtime.toString().slice(0, 5)}</ListGroup.Item>
+                                                <ListGroup.Item>{lessoninfo.info_day === 1 ? "월요일" : lessoninfo.info_day === 2 ? "화요일" : lessoninfo.info_day === 3 ? "수요일" : lessoninfo.info_day === 4 ? "목요일" : lessoninfo.info_day === 5 ? "금요일" : lessoninfo.info_day === 6 ? "토요일" : lessoninfo.info_day === 7 ? "일요일" : "설정된 요일 없음"}</ListGroup.Item>
+                                                <ListGroup.Item>{lessoninfo.info_start && lessoninfo.info_start.toString().slice(0, 5)} ~ {lessoninfo.info_end && lessoninfo.info_end.toString().slice(0, 5)}</ListGroup.Item>
                                             </>
                                         ) :
                                             from === "info" ?
@@ -139,7 +144,7 @@ function LessonCard({ from, lessoninfo, centerid }) {
                                     </Form.Group>
                                     <Form.Group className="mb-3" controlId="formBasicEmail">
                                         <Form.Label>최대 인원</Form.Label>
-                                        <Form.Control type="number" placeholder="최대 인원 입력" name="maxCapacity" defaultValue={lessoninfo.maxCapacity}/>
+                                        <Form.Control type="number" placeholder="최대 인원 입력" name="maxCapacity" defaultValue={lessoninfo.info_maxCapacity}/>
                                     </Form.Group>
                                     <Form.Group className="mb-3" controlId="formBasicEmail">
                                         <Form.Label>날짜</Form.Label><br />
@@ -147,7 +152,7 @@ function LessonCard({ from, lessoninfo, centerid }) {
                                     </Form.Group>
                                     <Form.Group className="mb-3" controlId="formBasicEmail">
                                         <Form.Label>시간</Form.Label><br />
-                                        <RangePicker onChange={handleTimeChange} defaultValue={lessoninfo.starttime && lessoninfo.endtime && [dayjs(lessoninfo.starttime, 'HH:mm'), dayjs(lessoninfo.endtime, 'HH:mm')]} format="HH:mm" />
+                                        <RangePicker onChange={handleTimeChange} defaultValue={lessoninfo.info_start && lessoninfo.info_end && [dayjs(lessoninfo.info_starttime, 'HH:mm'), dayjs(lessoninfo.info_endtime, 'HH:mm')]} format="HH:mm" />
                                     </Form.Group>
                                     <Button variant="primary" type="submit">
                                         Submit

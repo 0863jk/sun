@@ -1,12 +1,12 @@
 from rest_framework import status
+from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import Center, Plan, CenterMember, Lesson, Timetable
+from .models import Center, Plan, CenterMember, Lesson, TimetableBlock
+from .serializers import CenterDataSerializer, PlanDataSerializer, CenterMemberSerializer, UserPlanSerializer, LessonSerializer, TimetableBlockSerializer
 from accounts.models import User
-from .serializers import CenterDataSerializer, PlanDataSerializer, CenterMemberSerializer, UserPlanSerializer, LessonSerializer, TimetableSerializer
 from accounts.serializers import UserDataSerializer
 from django.shortcuts import render
-
 
 # Create your views here.
 
@@ -83,7 +83,7 @@ def getMemberPlan(request, centerid, username):
     serializer = UserPlanSerializer(data)
     return Response(serializer.data)
 
-# GET: centerid 받아 센터 안의 레슨 불러오기
+# GET: centerid 받아 센터 안의 모든 레슨 불러오기
 @api_view(['GET'])
 def getCenterLesson(request, centerid):
     datas = Lesson.objects.filter(centerid=centerid)
@@ -93,9 +93,9 @@ def getCenterLesson(request, centerid):
 
 # GET: centerid 받아 센터의 시간표 불러오기
 @api_view(['GET'])
-def getTimetable(request, centerid):
-    datas = Timetable.objects.filter(centerid=centerid)
-    serializer = TimetableSerializer(datas, many=True)
+def getCenterTimetable(request, centerid):
+    datas = TimetableBlock.objects.filter(centerid=centerid)
+    serializer = TimetableBlockSerializer(datas, many=True)
 
     return Response(serializer.data)
 
@@ -119,6 +119,21 @@ def getCenterMembers(request, centerid):
     
     return Response(serializer.data)
 
+# GET: id를 받아 Lesson 정보 불러오기
+@api_view(['GET'])
+def getLesson(request, lessonid):
+    data = Lesson.objects.get(lessonid=lessonid)
+    serializer = LessonSerializer(data, many=False)
+
+    return Response(serializer.data)
+
+# GET: id를 받아 timetableblock 정보 불러오기
+@api_view(['GET'])
+def getTimetableBlock(request, blockid):
+    data = TimetableBlock.objects.get(blockid=id)
+    serializer = TimetableBlockSerializer(data, many=False)
+
+    return Response(serializer.data)
 
 # POST: 센터 등록
 @api_view(['POST'])
@@ -161,11 +176,11 @@ def registerLesson(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# POST: Center 내에 Timetable 등록
+# POST: Center 내에 TimetableBlock 등록
 @api_view(['POST'])
-def registerTimetable(request):
+def registerTimetableBlock(request):
     reqData = request.data
-    serializer = TimetableSerializer(data=reqData)
+    serializer = TimetableBlockSerializer(data=reqData)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)

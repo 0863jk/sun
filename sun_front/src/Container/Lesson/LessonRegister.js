@@ -37,7 +37,7 @@ function LessonRegister() {
             end: selectedDate[1]
         }
 
-        fetch('http://localhost:8000/center/timetable/registerTimetable/', {
+        fetch('http://localhost:8000/center/timetable/registerTimetableBlock/', {
             method: 'POST',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify(data)
@@ -87,7 +87,6 @@ function LessonRegister() {
                                     <Form.Label>요일 및 시간</Form.Label><br />
                                     <RangePicker showTime format={dateFormat} onChange={handleDateChange} />
                                 </Form.Group>
-
                                 <Button variant="primary" type="submit">
                                     Submit
                                 </Button>

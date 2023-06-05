@@ -4,34 +4,32 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { Link } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import useFetch from "../../Hook/useFetch";
+import moment from "moment";
 
 function LessonInfo() {
-    const { pCenterId } = useParams();
-    const [centerid, setCenterid] = useState('');
-
-    useEffect(() => {
-        setCenterid(pCenterId);
-    }, []);
+    const { pCenterId, pLessonId } = useParams();
+    const lessonInfo = useFetch(`http://localhost:8000/center/timetable/getTimetableBlock/${pLessonId}`);
+    const trainerInfo = useFetch(`http://localhost:8000/account/getUsername/${lessonInfo.trainerid}`);
 
     return (
         <>
             <div>
                 <div className="header">
-                    <CenterNav centerid={centerid}/>
+                    <CenterNav centerid={pCenterId}/>
                 </div>
                 <div className="MainContainer">
                     <div className="LabelWrapper">
-                        <label className="LabelTitle">강의명</label>
+                        <label className="LabelTitle">강의 정보</label>
                         <div className="CenterListContainer">
                             <div className="PlanCard">
                                 <Card style={{ width: "284px" }}>
                                     <Card.Body>
-                                        <Card.Title>수업명</Card.Title>
+                                        <Card.Title>{lessonInfo.title}</Card.Title>
                                     </Card.Body>
                                     <ListGroup className="list-group-flush">
-                                        <ListGroup.Item>강사명</ListGroup.Item>
-                                        <ListGroup.Item>수업시간</ListGroup.Item>
-                                        <ListGroup.Item>간단한 설명</ListGroup.Item>
+                                        <ListGroup.Item>{trainerInfo.name}</ListGroup.Item>
+                                        <ListGroup.Item>{moment(lessonInfo.start).format("YYYY/MM/DD HH:mm")} ~ {moment(lessonInfo.end).format("YYYY/MM/DD HH:mm")}</ListGroup.Item>
                                     </ListGroup>
                                     <Card.Body>
                                         <Card.Link href="#">신청하기</Card.Link>

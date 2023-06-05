@@ -57,7 +57,7 @@ function App() {
             <Route path="/plan/modify/:pCenterId/:pPlanId" element={<PlanModify  />}></Route>
             <Route path="/plan/list/:pCenterId" element={<PlanList  />}></Route>
             <Route path="/lesson/:pCenterId/:pUserId" element={<LessonHistory  />}></Route>
-            <Route path="/lesson/:pCenterId/:pLessonId" element={<LessonInfo  />}></Route>
+            <Route path="/lesson/info/:pCenterId/:pLessonId" element={<LessonInfo />}></Route>
             <Route path="/lesson/rate/:pCenterId/:pLessonId" element={<WriteLessonReview  />}></Route>
             <Route path="/lesson/review/:pCenterId/:pLessonId" element={<LessonReview  />}></Route>
             <Route path="/lesson/register/:pCenterId" element={<LessonRegister  />}></Route>

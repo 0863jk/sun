@@ -30,6 +30,11 @@ function TimeTableRegister() {
 
     const { RangePicker } = TimePicker;
 
+    const findTrainerName = (trainerId) => {
+        const trainer = trainers.find((trainer) => trainer.username === trainerId);
+        return trainer ? trainer.name : '';
+    };
+
     // input 값 변경 시 데이터 업데이트
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -54,18 +59,18 @@ function TimeTableRegister() {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-
         const starttime = selectedTime[0].format("HH:mm");
         const endtime = selectedTime[1].format("HH:mm");
 
         const data = {
             centerid: pCenterId,
             title: formData.title,
-            day: parseInt(formData.day),
-            starttime: starttime,
-            endtime: endtime,
-            trainerid: formData.trainerid,
-            maxCapacity: formData.maxCapacity,
+            info_day: parseInt(formData.day),
+            info_start: starttime,
+            info_end: endtime,
+            info_trainername: `${findTrainerName(formData.trainerid)}`,
+            info_trainerid: formData.trainerid,
+            info_max_Capacity: formData.maxCapacity,
         };
         console.log(data);
 
@@ -106,7 +111,7 @@ function TimeTableRegister() {
                             {
                                 lessons && lessons.map(lessons => (
                                     <div>
-                                        <LessonCard from="register" lessoninfo={lessons} centerid={pCenterId}/>
+                                        <LessonCard from="register" lessoninfo={lessons} centerid={pCenterId} />
                                     </div>
                                 ))
                             }

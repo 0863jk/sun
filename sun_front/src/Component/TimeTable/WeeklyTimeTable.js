@@ -11,7 +11,7 @@ import { Button, Form } from "react-bootstrap";
 const localizer = momentLocalizer(moment);
 
 function WeeklyTimetable({ centerid, role, from }) {
-    const timetableData = useFetch(`http://localhost:8000/center/timetable/getTimetable/${centerid}`);
+    const timetableData = useFetch(`http://localhost:8000/center/timetable/getCenterTimetable/${centerid}`);
     const navigate = useNavigate();
     const [modalVisible, setModalVisible] = useState(false);
     const [modalType, setModalType] = useState(null);
@@ -29,21 +29,24 @@ function WeeklyTimetable({ centerid, role, from }) {
             ...event,
             start: moment(event.start).toDate(),
             end: moment(event.end).toDate(),
-            title: `${event.title} (${findTrainerName(event.trainerid)})`, // 강사 이름 추가
+            title: `${event.title} (${findTrainerName(event.trainerid)})`,
+            lessontitle: `${event.title}`,
+            trainer: `${findTrainerName(event.trainerid)}` // 강사 이름 추가
         }
     })
 
     const handleEventClick = (event) => {
-        const lessonId = event.id;
-        fetch(`http://localhost:8000/lesson/getLessonInfo/${lessonId}`)
-            .then((response) => response.json())
-            .then((data) => {
-                setSelectedLesson(data);
-                handleOpenModal('lesson');
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+        setSelectedLesson(event);
+        handleOpenModal('lesson');
+        // fetch(`http://localhost:8000/center/timetable/getTimetableBlock/${lessonId}`)
+        //     .then((response) => response.json())
+        //     .then((data) => {
+        //         setSelectedLesson(data);
+        //         handleOpenModal('lesson');
+        //     })
+        //     .catch((error) => {
+        //         console.error('Error:', error);
+        //     });
         // handleOpenModal("lesson");
         // const lessonId = event.id;
         // window.location.href = `/lesson/${lessonId}`;
@@ -70,6 +73,9 @@ function WeeklyTimetable({ centerid, role, from }) {
     const handleDateChange = (date) => {
         setSelectedDate(date);
     };
+    const handleBtnBook = (blockid) => {
+        window.location.href = `/lesson/info/${centerid}/${blockid}`;
+    }
 
     const handleSubmit = (event) => {
         const formData = new FormData(event.target);
@@ -86,7 +92,7 @@ function WeeklyTimetable({ centerid, role, from }) {
             end: selectedDate[1]
         }
 
-        fetch('http://localhost:8000/center/timetable/registerTimetable/', {
+        fetch('http://localhost:8000/center/timetable/registerTimetableBlock/', {
             method: 'POST',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify(data)
@@ -172,10 +178,16 @@ function WeeklyTimetable({ centerid, role, from }) {
                             {selectedLesson && (
                                 <div>
                                     <p>Lesson ID: {selectedLesson.id}</p>
-                                    <p>{selectedLesson.title}</p>
-                                    <p>{selectedLesson.trainerid}</p>
+                                    <p>{selectedLesson.lessontitle}</p>
+                                    <p>{selectedLesson.trainer}</p>
                                     <p>{selectedLesson.maxCapacity}</p>
-                                    <Button name="btnBook">예약하기</Button>
+                                    {
+                                        role === "manager" || role === "trainer" ? (
+                                            <Button name="btnBook" onClick={() => handleBtnBook(selectedLesson.id)}>예약자 명단보기</Button>
+                                        ) : role === "general" ? (
+                                            <Button name="btnBook">예약하기</Button>
+                                        ) : <></>
+                                    }
                                 </div>
                             )}
                         </>
