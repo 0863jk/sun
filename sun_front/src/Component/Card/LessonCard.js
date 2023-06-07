@@ -3,18 +3,25 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { DatePicker, TimePicker, Modal, Divider } from "antd";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import useFetch from "../../Hook/useFetch";
 import dayjs from 'dayjs';
+import Utils from "../../Hook/Utils";
 
 function LessonCard({ from, lessoninfo, centerid }) {
+    const utils = new Utils(centerid);
+    const defaultDate = new Date();
+    defaultDate.setDate(defaultDate.getDate() - defaultDate.getDay() + 8 + lessoninfo.info_day);
+
     const [modalVisible, setModalVisible] = useState(false);
-    const [selectedDate, setSelectedDate] = useState(null);
-    const [selectedTime, setSelectedTime] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(defaultDate.toISOString().substring(0, 10));
+    const [selectedTime, setSelectedTime] = useState([dayjs(lessoninfo.info_start, 'HH:mm'), dayjs(lessoninfo.info_end, 'HH:mm')]);
     const trainers = useFetch(`http://localhost:8000/center/getCenterTrainers/${centerid}`);
 
+
     const handleOpenModal = () => {
+        console.log(defaultDate.toISOString().substring(0, 10));
         setModalVisible(true);
     };
 
@@ -31,7 +38,6 @@ function LessonCard({ from, lessoninfo, centerid }) {
     };
 
     const { RangePicker } = TimePicker;
-
     const dateFormat = 'YYYY/MM/DD';
 
     const onChange = (e) => {
@@ -49,11 +55,11 @@ function LessonCard({ from, lessoninfo, centerid }) {
         const trainerid = formData.get("trainerid");
         const maxCapacity = formData.get("maxCapacity");
 
-        const startTime = selectedDate.format("YYYY-MM-DD") + " " + selectedTime[0].format("HH:mm:ss");
-        const endTime = selectedDate.format("YYYY-MM-DD") + " " + selectedTime[1].format("HH:mm:ss");
+        const startTime = selectedDate + " " + selectedTime[0].format("HH:mm:ss");
+        const endTime = selectedDate + " " + selectedTime[1].format("HH:mm:ss");
 
         const data = {
-            lessonid: lessoninfo.id,
+            lesson_ptr: lessoninfo.id,
             centerid: centerid,
             title: title,
             trainerid: trainerid,
@@ -63,19 +69,22 @@ function LessonCard({ from, lessoninfo, centerid }) {
             end: endTime
         }
         console.log(data);
-
-        fetch('http://localhost:8000/center/timetable/registerTimetableBlock/', {
-            method: 'POST',
-            headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify(data)
+        utils.registerTimetableBlock(data).then(data => {
+            alert("시간표에 등록이 완료되었습니다.");
+            window.location.reload();
         })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+
+        // fetch('http://localhost:8000/center/timetable/registerTimetableBlock/', {
+        //     method: 'POST',
+        //     headers: { 'Content-type': 'application/json' },
+        //     body: JSON.stringify(data)
+        // })
+        //     .then(res => res.json())
+        //     .then(data => {
+        //     })
+        //     .catch(error => {
+        //         console.error('Error:', error);
+        //     });
     }
 
     return (
@@ -93,7 +102,7 @@ function LessonCard({ from, lessoninfo, centerid }) {
                                     {
                                         from === "register" ? (
                                             <>
-                                                <ListGroup.Item>{lessoninfo.info_day === 1 ? "월요일" : lessoninfo.info_day === 2 ? "화요일" : lessoninfo.info_day === 3 ? "수요일" : lessoninfo.info_day === 4 ? "목요일" : lessoninfo.info_day === 5 ? "금요일" : lessoninfo.info_day === 6 ? "토요일" : lessoninfo.info_day === 7 ? "일요일" : "설정된 요일 없음"}</ListGroup.Item>
+                                                <ListGroup.Item>{lessoninfo.info_day === 1 ? "월요일" : lessoninfo.info_day === 2 ? "화요일" : lessoninfo.info_day === 3 ? "수요일" : lessoninfo.info_day === 4 ? "목요일" : lessoninfo.info_day === 5 ? "금요일" : lessoninfo.info_day === 6 ? "토요일" : lessoninfo.info_day === 0 ? "일요일" : "설정된 요일 없음"}</ListGroup.Item>
                                                 <ListGroup.Item>{lessoninfo.info_start && lessoninfo.info_start.toString().slice(0, 5)} ~ {lessoninfo.info_end && lessoninfo.info_end.toString().slice(0, 5)}</ListGroup.Item>
                                             </>
                                         ) :
@@ -124,10 +133,11 @@ function LessonCard({ from, lessoninfo, centerid }) {
                         <>
                             <div style={{ textAlign: 'center' }}>
                                 <label className="LabelTitle">수업 등록</label>
-                                <Form onSubmit={handleSubmit}>
+                                <iframe id="iframe1" name="iframe1" style={{display:"none"}}>test</iframe>
+                                <Form onSubmit={handleSubmit} method="post" target="iframe1">
                                     <Form.Group className="mb-3" controlId="formBasicEmail">
                                         <Form.Label>수업명</Form.Label>
-                                        <Form.Control type="text" placeholder="수업명" name="title" defaultValue={lessoninfo.title}/>
+                                        <Form.Control type="text" placeholder="수업명" name="title" defaultValue={lessoninfo.title} />
                                     </Form.Group>
                                     <Form.Group className="mb-3" controlId="formBasicEmail">
                                         <Form.Label>강사 선택</Form.Label>
@@ -136,7 +146,7 @@ function LessonCard({ from, lessoninfo, centerid }) {
                                                 강사 선택
                                             </option>
                                             {trainers && trainers.map(trainers => (
-                                                <option value={trainers.username} key={trainers.id} selected={lessoninfo.trainerid === trainers.username ? (true) : (false)}>
+                                                <option value={trainers.username} key={trainers.id} selected={lessoninfo.info_trainerid === trainers.username ? (true) : (false)}>
                                                     {trainers.name}
                                                 </option>
                                             ))}
@@ -144,15 +154,15 @@ function LessonCard({ from, lessoninfo, centerid }) {
                                     </Form.Group>
                                     <Form.Group className="mb-3" controlId="formBasicEmail">
                                         <Form.Label>최대 인원</Form.Label>
-                                        <Form.Control type="number" placeholder="최대 인원 입력" name="maxCapacity" defaultValue={lessoninfo.info_maxCapacity}/>
+                                        <Form.Control type="number" placeholder="최대 인원 입력" name="maxCapacity" defaultValue={lessoninfo.info_max_capacity} />
                                     </Form.Group>
                                     <Form.Group className="mb-3" controlId="formBasicEmail">
                                         <Form.Label>날짜</Form.Label><br />
-                                        <DatePicker onChange={handleDateChange} format={dateFormat}/>
+                                        <DatePicker onChange={handleDateChange} format={dateFormat} defaultValue={dayjs(defaultDate.toISOString().substring(0, 10), "YYYY-MM-DD")}/>
                                     </Form.Group>
                                     <Form.Group className="mb-3" controlId="formBasicEmail">
                                         <Form.Label>시간</Form.Label><br />
-                                        <RangePicker onChange={handleTimeChange} defaultValue={lessoninfo.info_start && lessoninfo.info_end && [dayjs(lessoninfo.info_starttime, 'HH:mm'), dayjs(lessoninfo.info_endtime, 'HH:mm')]} format="HH:mm" />
+                                        <RangePicker onChange={handleTimeChange} defaultValue={lessoninfo.info_start && lessoninfo.info_end && [dayjs(lessoninfo.info_start, 'HH:mm'), dayjs(lessoninfo.info_end, 'HH:mm')]} format="HH:mm" />
                                     </Form.Group>
                                     <Button variant="primary" type="submit">
                                         Submit

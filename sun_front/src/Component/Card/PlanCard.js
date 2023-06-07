@@ -1,10 +1,9 @@
 import { useState } from "react";
 import "./Card.css";
 import { Card, ListGroup, Button } from 'react-bootstrap';
-import { Link } from "react-router-dom";
 import { DatePicker, Modal, Divider } from "antd";
 
-function PlanCard({ centerid, planname, introduction, plantype, period, periodtype, price, constraints, planid, from, setPlanData }) {
+function PlanCard({ centerid, planinfo, from, setPlanData }) {
 
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
@@ -23,15 +22,16 @@ function PlanCard({ centerid, planname, introduction, plantype, period, periodty
 
     const handlePlanRegister = () => {
         const planData = {
-            planid: planid,
-            planname: planname,
-            centerid: centerid,
-            introduction: introduction,
-            plantype: plantype,
-            period: period,
-            periodtype: periodtype,
-            price: price,
-            constraints: constraints,
+            planid: planinfo.planid,
+            planname: planinfo.planname,
+            centerid: planinfo.centerid,
+            introduction: planinfo.introduction,
+            plantype: planinfo.plantype,
+            period: planinfo.period,
+            periodtype: planinfo.periodtype,
+            price: planinfo.price,
+            times: planinfo.times,
+            constraints: planinfo.constraints,
             selectedDate: selectedDate,
         };
         setPlanData(planData);
@@ -42,27 +42,35 @@ function PlanCard({ centerid, planname, introduction, plantype, period, periodty
             <div className="PlanCard">
                 <Card style={{ width: "284px" }}>
                     <Card.Body>
-                        <Card.Title>{planname}</Card.Title>
+                        <Card.Title>{planinfo.planname}</Card.Title>
                         <Card.Text>
-                            {introduction}
+                            {planinfo.introduction}
                         </Card.Text>
                     </Card.Body>
                     <ListGroup className="list-group-flush">
-                        <ListGroup.Item>{plantype === "fixed-term" ? "기간제" : plantype === "number-of-times" ? "횟수제" : ""}</ListGroup.Item>
-                        <ListGroup.Item>{period} {periodtype}</ListGroup.Item>
-                        <ListGroup.Item>{price}원</ListGroup.Item>
-                        <ListGroup.Item>{constraints}</ListGroup.Item>
+                        <ListGroup.Item>{planinfo.plantype === "fixed-term" ? "기간제" : planinfo.plantype === "number-of-times" ? "횟수제" : ""}</ListGroup.Item>
+                        <ListGroup.Item>{planinfo.period} {planinfo.periodtype === "months" ? "개월" : planinfo.periodtype === "days" ? "일" : planinfo.periodtype === "years" ? "년" : ""}</ListGroup.Item>
+                        <ListGroup.Item>{planinfo.price}원</ListGroup.Item>
+                        {planinfo.constraints ?
+                            <ListGroup.Item>
+                                {planinfo.constraints}
+                            </ListGroup.Item>
+                            : planinfo.times ?
+                                <ListGroup.Item>
+                                    {planinfo.times}
+                                </ListGroup.Item>
+                                : <></>}
                     </ListGroup>
                     <Card.Body>
                         {
                             from === "list" ? (
-                                <Card.Link href={`/plan/${centerid}/${planid}`}>정보 보기</Card.Link>
+                                <Card.Link href={`/plan/${planinfo.centerid}/${planinfo.planid}`}>정보 보기</Card.Link>
                             ) : from === "modify" ? (
-                                <Card.Link href={`/plan/modify/${centerid}/${planid}`}>수정하기</Card.Link>
+                                <Card.Link href={`/plan/modify/${planinfo.centerid}/${planinfo.planid}`}>수정하기</Card.Link>
                             ) : from === "register" ? (
-                                        <Button name={planid}
-                                            // onClick={setPopup}
-                                            onClick={handleOpenModal}>등록</Button>
+                                <Button
+                                    // onClick={setPopup}
+                                    onClick={handleOpenModal}>등록</Button>
 
                             ) :
                                 <></>
@@ -72,10 +80,10 @@ function PlanCard({ centerid, planname, introduction, plantype, period, periodty
             </div >
             <Modal open={modalVisible} onCancel={handleCloseModal} footer={null}>
                 <div style={{ textAlign: 'center' }}>
-                    <h2>{planname}</h2>
-                    <h4>{introduction}</h4>
+                    <h2>{planinfo.planname}</h2>
+                    <h4>{planinfo.introduction}</h4>
                     <Divider />
-                    <p>이용 중인 플랜이 '{planname}'이 맞으신가요?<br />센터 등록일을 선택해 주세요.</p>
+                    <p>이용 중인 플랜이 '{planinfo.planname}'이 맞으신가요?<br />센터 등록일을 선택해 주세요.</p>
                     <DatePicker onChange={handleDateChange} />
                     <p>Selected Date: {selectedDate && selectedDate.toString()}</p>
                     <Button onClick={handlePlanRegister}>등록</Button>

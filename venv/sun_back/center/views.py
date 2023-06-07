@@ -21,8 +21,8 @@ def getCenters(request):
 # GET: centerid를 받아서 해당 센터 정보만 불러오기
 @api_view(['GET'])
 def getCenter(request, centerid):
-    datas = Center.objects.filter(centerid=centerid)
-    serializer = CenterDataSerializer(datas, many=True)
+    datas = Center.objects.get(centerid=centerid)
+    serializer = CenterDataSerializer(datas, many=False)
 
     return Response(serializer.data)
 
@@ -130,7 +130,7 @@ def getLesson(request, lessonid):
 # GET: id를 받아 timetableblock 정보 불러오기
 @api_view(['GET'])
 def getTimetableBlock(request, blockid):
-    data = TimetableBlock.objects.get(blockid=id)
+    data = TimetableBlock.objects.get(blockid=blockid)
     serializer = TimetableBlockSerializer(data, many=False)
 
     return Response(serializer.data)

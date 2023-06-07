@@ -20,11 +20,10 @@ function PlanRegister({ onSubmit, setPage, centerid }) {
         const formData = new FormData(event.target);
         const planname = formData.get('planname');
         const introduction = formData.get('introduction');
-        const period = formData.get('period');
-        const iPeriod = parseInt(period);
+        const period = parseInt(formData.get('period'));
         const periodtype = formData.get('periodtype');
-        const price = formData.get('price');
-        const iPrice = parseInt(price);
+        const price = parseInt(formData.get('price'));
+        const times = parseInt(formData.get('times'));
         const constraints = formData.get('constraints');
 
         const plan = {
@@ -32,9 +31,10 @@ function PlanRegister({ onSubmit, setPage, centerid }) {
             planname: planname,
             plantype: planType,
             introduction: introduction,
-            period: iPeriod,
+            period: period,
             periodtype: periodtype,
-            price: iPrice,
+            price: price,
+            times: times,
             constraints: constraints,
         };
         onSubmit(plan);
@@ -77,6 +77,10 @@ function PlanRegister({ onSubmit, setPage, centerid }) {
                     <Form.Control type="text" placeholder="간단한 설명을 입력해 주세요..." name="introduction" />
                 </Form.Group>
                 <Form.Group className="mb-3">
+                    <Form.Label>가격</Form.Label>
+                    <Form.Control type="number" placeholder="플랜의 가격을 입력해 주세요..." name="price" />
+                </Form.Group>
+                <Form.Group className="mb-3">
                     <Form.Label>기간 설정</Form.Label>
                     <Row className="nomargin">
                         <Col className="nomargin">
@@ -100,14 +104,23 @@ function PlanRegister({ onSubmit, setPage, centerid }) {
                         </Col>
                     </Row>
                 </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>가격</Form.Label>
-                    <Form.Control type="number" placeholder="플랜의 가격을 입력해 주세요..." name="price" />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>제약 조건</Form.Label>
-                    <Form.Control type="text" placeholder="플랜의 제약 조건을 입력해 주세요..." name="constraints" />
-                </Form.Group>
+                {
+                    planType === "number-of-times" ? (
+                        <>
+                            <Form.Group className="mb-3">
+                                <Form.Label>횟수</Form.Label>
+                                <Form.Control type="number" placeholder="횟수를 입력해 주세요..." name="times" />
+                            </Form.Group>
+                        </>
+                    ) : planType === "fixed-term" ? (
+                        <>
+                            <Form.Group className="mb-3">
+                                <Form.Label>제약조건</Form.Label>
+                                <Form.Control type="text" placeholder="ex. 일주일/3회" name="constraints" />
+                            </Form.Group>
+                        </>
+                    ) : <></>
+                }
                 <Form.Group className="mb-3">
                     <Button variant="primary" onClick={preBtnHandler} className="preBtn">
                         이전

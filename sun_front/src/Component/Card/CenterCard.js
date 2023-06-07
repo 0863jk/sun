@@ -3,20 +3,23 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Link } from "react-router-dom";
 
-function CenterCard({ centername, introduction, manager, address, centerid, from }) {
+function CenterCard({ center, from, openModal }) {
+    const handleOnClick = () => {
+        openModal(center);
+    }
     return (
         <>
             <div className="CenterCard">
                 <Card className="Card" style={{ width: "284px" }}>
                     <Card.Body>
-                        <Card.Title>{centername}</Card.Title>
+                        <Card.Title>{center.centername}</Card.Title>
                         <Card.Text>
-                            {introduction}
+                            {center.introduction}
                         </Card.Text>
                     </Card.Body>
                     <ListGroup className="list-group-flush">
-                        <ListGroup.Item>{manager}</ListGroup.Item>
-                        <ListGroup.Item>{address}</ListGroup.Item>
+                        <ListGroup.Item>{center.manager}</ListGroup.Item>
+                        <ListGroup.Item>{center.address}</ListGroup.Item>
                     </ListGroup>
 
                     <Card.Body>
@@ -25,7 +28,8 @@ function CenterCard({ centername, introduction, manager, address, centerid, from
                                 <></>
                                 // <Card.Link as={Link} to={`/main/${centerid}`}>조회하기</Card.Link>
                             ) : from === "search" ? (
-                                <Card.Link as={Link} to={`/register/${centerid}`}>등록하기</Card.Link>
+                                // <Card.Link as={Link} to={`/register/${center.centerid}`}>등록하기</Card.Link>
+                                <Card.Link as={Link} onClick={handleOnClick}>등록하기</Card.Link>
                             ) : <></>
                         }
                     </Card.Body>

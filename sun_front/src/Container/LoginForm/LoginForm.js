@@ -22,17 +22,13 @@ function LoginForm() {
     const fetchUserData = (username) => {
         const userData = { username: username };
 
-        fetch('http://localhost:8000/account/getUsername/', {
-            method: 'POST',
-            headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify(userData)
-        })
+        fetch(`http://localhost:8000/account/getUsername/${username}`)
             .then(res => res.json())
             .then(data => {
                 // 가져온 유저 데이터 처리
-                const username = data[0].username;
-                const name = data[0].name;
-                const role = data[0].role;
+                const username = data.username;
+                const name = data.name;
+                const role = data.role;
 
                 // localStorage에 저장
                 localStorage.setItem('username', username);
@@ -61,6 +57,9 @@ function LoginForm() {
             body: user
         })
             .then(res => {
+                if (!res.ok) {
+                    throw new Error('오류 발생: ' + res.status); // 오류 발생시 에러를 throw
+                }
                 return res.json();
             })
             .then(data => {

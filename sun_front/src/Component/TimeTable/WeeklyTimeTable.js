@@ -1,22 +1,22 @@
 import "./TimeTable.css";
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { useNavigate } from 'react-router-dom';
 import useFetch from "../../Hook/useFetch"
 import { DatePicker, Modal } from "antd";
 import { Button, Form } from "react-bootstrap";
+import Utils from "../../Hook/Utils";
 
 const localizer = momentLocalizer(moment);
 
 function WeeklyTimetable({ centerid, role, from }) {
-    const timetableData = useFetch(`http://localhost:8000/center/timetable/getCenterTimetable/${centerid}`);
-    const navigate = useNavigate();
+    const utils = new Utils(centerid);
     const [modalVisible, setModalVisible] = useState(false);
     const [modalType, setModalType] = useState(null);
     const [selectedLesson, setSelectedLesson] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
+    const timetableData = useFetch(`http://localhost:8000/center/timetable/getCenterTimetable/${centerid}`);
     const trainers = useFetch(`http://localhost:8000/center/getCenterTrainers/${centerid}`);
 
     const findTrainerName = (trainerId) => {
@@ -38,18 +38,6 @@ function WeeklyTimetable({ centerid, role, from }) {
     const handleEventClick = (event) => {
         setSelectedLesson(event);
         handleOpenModal('lesson');
-        // fetch(`http://localhost:8000/center/timetable/getTimetableBlock/${lessonId}`)
-        //     .then((response) => response.json())
-        //     .then((data) => {
-        //         setSelectedLesson(data);
-        //         handleOpenModal('lesson');
-        //     })
-        //     .catch((error) => {
-        //         console.error('Error:', error);
-        //     });
-        // handleOpenModal("lesson");
-        // const lessonId = event.id;
-        // window.location.href = `/lesson/${lessonId}`;
     };
 
     const minTime = new Date();
@@ -80,33 +68,35 @@ function WeeklyTimetable({ centerid, role, from }) {
     const handleSubmit = (event) => {
         const formData = new FormData(event.target);
         const title = formData.get("title");
-        const trainerid = formData.get("trainerid");
+        const trainerid = formData.get("trainer");
         const maxCapacity = formData.get("maxCapacity");
 
-        const data = {
+        const lessonData = {
             centerid: centerid,
             title: title,
-            trainerid: trainerid,
-            maxCapacity: maxCapacity,
-            start: selectedDate[0],
-            end: selectedDate[1]
         }
 
-        fetch('http://localhost:8000/center/timetable/registerTimetableBlock/', {
-            method: 'POST',
-            headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify(data)
-        })
-            .then(res => {
-                console.log(res);
-                res.json();
+        const timetableBlockData = {
+            centerid: centerid,
+            title: title,
+            trainername: `${findTrainerName(trainerid)}`,
+            trainerid: trainerid,
+            max_capacity: parseInt(maxCapacity),
+            start: selectedDate[0].format("YYYY-MM-DD HH:mm"),
+            end: selectedDate[1].format("YYYY-MM-DD HH:mm")
+        }
+        utils.registerLesson(lessonData).then(data => {
+            console.log('Lesson registered:', data);
+            const newData = {
+                ...timetableBlockData,
+                lesson_ptr: data.id
+            };
+
+            utils.registerTimetableBlock(newData).then(data => {
+                alert("정상적으로 등록이 완료되었습니다.");
+                window.location.reload();
             })
-            .then(data => {
-                console.log(data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+        });
     }
 
     return (
@@ -139,7 +129,8 @@ function WeeklyTimetable({ centerid, role, from }) {
                     {modalType === 'addLesson' && (
                         <>
                             <h3>수업 등록하기</h3>
-                            <Form onSubmit={handleSubmit}>
+                            <iframe id="iframe1" name="iframe1" style={{ display: "none" }}>test</iframe>
+                            <Form onSubmit={handleSubmit} method="post" target="iframe1">
                                 <Form.Group className="mb-3" controlId="formBasicEmail">
                                     <Form.Label>수업명</Form.Label>
                                     <Form.Control type="text" placeholder="수업명" name="title" />
@@ -183,7 +174,7 @@ function WeeklyTimetable({ centerid, role, from }) {
                                     <p>{selectedLesson.maxCapacity}</p>
                                     {
                                         role === "manager" || role === "trainer" ? (
-                                            <Button name="btnBook" onClick={() => handleBtnBook(selectedLesson.id)}>예약자 명단보기</Button>
+                                            <Button name="btnBook" onClick={() => handleBtnBook(selectedLesson.blockid)}>예약자 명단보기</Button>
                                         ) : role === "general" ? (
                                             <Button name="btnBook">예약하기</Button>
                                         ) : <></>

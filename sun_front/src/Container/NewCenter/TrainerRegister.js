@@ -1,5 +1,5 @@
 import "./NewCenter.css";
-import { Form, CardGroup, InputGroup } from 'react-bootstrap';
+import { Form, CardGroup, InputGroup, Button } from 'react-bootstrap';
 import TrainerCard from '../../Component/Card/TrainerCard';
 import { useEffect, useState } from "react";
 
@@ -7,7 +7,7 @@ function TrainerRegister({ onSubmit, setPage }) {
     const username = localStorage.getItem('username');
     const [input, setInput] = useState('');
     const [trainer, setTrainer] = useState([]);
-    const [trainerList, setTrainerList] = useState(null);
+    const [trainerList, setTrainerList] = useState([]);
 
     useEffect(() => {
         fetch(`http://localhost:8000/account/searchTrainerUser/${input}`)
@@ -25,6 +25,9 @@ function TrainerRegister({ onSubmit, setPage }) {
             setInput(e.target.value);
         }
     };
+    const preBtnHandler = () => {
+        setPage('plan');
+    }
 
     const getChkMember = (checkedState, selectedTrainer) => {
         if (checkedState) {
@@ -55,11 +58,11 @@ function TrainerRegister({ onSubmit, setPage }) {
                         </CardGroup>
                     </div>
                 </Form.Group>
-                {/* <Form.Group className="mb-3">
+                <Form.Group className="mb-3">
                     <Button variant="primary" onClick={preBtnHandler} className="preBtn">
                         이전
                     </Button>
-                </Form.Group> */}
+                </Form.Group>
             </Form>
         </>
     );

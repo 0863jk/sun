@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
 import { useNavigate, useParams } from "react-router-dom";
 
 function SelectUserRole() {
+    const [role, setRole] = useState("general");
     const navigate = useNavigate();
 
     const onChange = (e) => {
@@ -28,18 +30,16 @@ function SelectUserRole() {
 }
 
 export default function SignUpForm(props) {
-    const { pUserRole } = useParams();
-
     const handleSumbit = (event) => {
         event.preventDefault();
         const data = new FormData(event.target);
         const username = data.get("username");
+        const role = data.get("role");
         const email = data.get("email");
         const password1 = data.get("password1");
         const password2 = data.get("password2");
         const name = data.get("name");
         const phone = data.get("phone");
-        const role = data.get("role");
         const datas = JSON.stringify({
             username: username,
             email: email,
@@ -56,11 +56,18 @@ export default function SignUpForm(props) {
             body: datas
         })
             .then(res => {
-                return res.json();
+                if (!res.ok) {
+                    throw new Error('오류 발생: ' + res.status); // 오류 발생시 에러를 throw
+                }
+                console.log(res);
+                // return res.json();
             })
             .then(data => {
                 console.log(data);
+                alert("회원가입 처리가 완료되었습니다.");
                 window.location.href = "/login";
+            }).catch(error => {
+                alert("오류: " + error.message);
             });
     }
 
@@ -70,7 +77,20 @@ export default function SignUpForm(props) {
                 <div className='LabelWrapper'>
                     <Form onSubmit={handleSumbit}>
                         <Form.Group className='mb-3'>
-                            <SelectUserRole />
+                            <Form.Select name="role">
+                                <option value="">
+                                    계정 유형 선택
+                                </option>
+                                <option value="general" key="general">
+                                    일반 유저
+                                </option>
+                                <option value="trainer" key="trainer">
+                                    트레이너
+                                </option>
+                                <option value="manager" key="manager">
+                                    센터매니저
+                                </option>
+                            </Form.Select>
                         </Form.Group>
                         <Form.Group as={Row} className="mb-3">
                             <Form.Label column sm="2">
@@ -123,7 +143,6 @@ export default function SignUpForm(props) {
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} className="mb-3">
-                            <Form.Control type="hidden" name="role" value={pUserRole} />
                             <Form.Control type="submit" name="submit" value="Submit" />
                         </Form.Group>
                     </Form>

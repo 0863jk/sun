@@ -2,7 +2,6 @@ import "./TimeTableRegister.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CenterNav from "../../Component/Nav/CenterNav";
-import CardGroup from 'react-bootstrap/CardGroup';
 import Button from 'react-bootstrap/Button';
 import { useParams } from "react-router-dom";
 import WeeklyTimetable from "../../Component/TimeTable/WeeklyTimeTable";
@@ -11,11 +10,12 @@ import Slider from "react-slick";
 import useFetch from "../../Hook/useFetch";
 import { Modal, TimePicker } from "antd";
 import { useState } from "react";
-import moment from "moment";
 import { Card, Form } from "react-bootstrap";
+import Utils from "../../Hook/Utils";
 
 function TimeTableRegister() {
     const { pCenterId } = useParams();
+    const utils = new Utils(pCenterId);
     const role = localStorage.getItem("role");
     const lessons = useFetch(`http://localhost:8000/center/lesson/getCenterLesson/${pCenterId}`)
     const trainers = useFetch(`http://localhost:8000/center/getCenterTrainers/${pCenterId}`);
@@ -23,6 +23,7 @@ function TimeTableRegister() {
     const [selectedTime, setSelectedTime] = useState(null);
     const [formData, setFormData] = useState({
         title: "",
+        summary: "",
         trainerid: "",
         day: "",
         maxCapacity: "",
@@ -65,27 +66,21 @@ function TimeTableRegister() {
         const data = {
             centerid: pCenterId,
             title: formData.title,
+            summary: formData.summary,
             info_day: parseInt(formData.day),
             info_start: starttime,
             info_end: endtime,
             info_trainername: `${findTrainerName(formData.trainerid)}`,
             info_trainerid: formData.trainerid,
-            info_max_Capacity: formData.maxCapacity,
+            info_max_capacity: formData.maxCapacity,
         };
         console.log(data);
+        utils.registerLesson(data).then(data => {
+            console.log('Lesson registered:', data);
 
-        fetch('http://localhost:8000/center/lesson/registerLesson/', {
-            method: 'POST',
-            headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify(data)
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+            alert("정상적으로 등록이 완료되었습니다.");
+            window.location.reload();
+        });
     }
 
 
@@ -109,9 +104,9 @@ function TimeTableRegister() {
                     <div className="carouselContainer">
                         <Slider {...settings}>
                             {
-                                lessons && lessons.map(lessons => (
+                                lessons && lessons.filter(lesson => lesson.info_day && lesson.info_start && lesson.info_end).map(lessons => (
                                     <div>
-                                        <LessonCard from="register" lessoninfo={lessons} centerid={pCenterId} />
+                                        <LessonCard key={lessons.lessonid} from="register" lessoninfo={lessons} centerid={pCenterId} />
                                     </div>
                                 ))
                             }
@@ -141,6 +136,16 @@ function TimeTableRegister() {
                                 placeholder="수업명"
                                 name="title"
                                 value={formData.title}
+                                onChange={handleInputChange}
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                            <Form.Label>설명</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="설명"
+                                name="summary"
+                                value={formData.summary}
                                 onChange={handleInputChange}
                             />
                         </Form.Group>
@@ -178,21 +183,20 @@ function TimeTableRegister() {
                                 value={formData.day}
                                 onChange={handleInputChange}
                             >
-                                <option value="0">요일 선택</option>
+                                <option>요일 선택</option>
                                 <option value="1">월</option>
                                 <option value="2">화</option>
                                 <option value="3">수</option>
                                 <option value="4">목</option>
                                 <option value="5">금</option>
                                 <option value="6">토</option>
-                                <option value="7">일</option>
+                                <option value="0">일</option>
                             </Form.Select>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                             <Form.Label>시간</Form.Label><br />
                             <RangePicker onChange={handleTimeChange} format="HH:mm" value={selectedTime} />
                         </Form.Group>
-                        {/* <Button variant="primary" onClick={handleSubmit}> */}
                         <Button variant="primary" type="submit">
                             Submit
                         </Button>

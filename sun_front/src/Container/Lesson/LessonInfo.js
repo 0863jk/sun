@@ -10,13 +10,12 @@ import moment from "moment";
 function LessonInfo() {
     const { pCenterId, pLessonId } = useParams();
     const lessonInfo = useFetch(`http://localhost:8000/center/timetable/getTimetableBlock/${pLessonId}`);
-    const trainerInfo = useFetch(`http://localhost:8000/account/getUsername/${lessonInfo.trainerid}`);
 
     return (
         <>
             <div>
                 <div className="header">
-                    <CenterNav centerid={pCenterId}/>
+                    <CenterNav centerid={pCenterId} />
                 </div>
                 <div className="MainContainer">
                     <div className="LabelWrapper">
@@ -28,7 +27,7 @@ function LessonInfo() {
                                         <Card.Title>{lessonInfo.title}</Card.Title>
                                     </Card.Body>
                                     <ListGroup className="list-group-flush">
-                                        <ListGroup.Item>{trainerInfo.name}</ListGroup.Item>
+                                        <ListGroup.Item>{lessonInfo.trainername}</ListGroup.Item>
                                         <ListGroup.Item>{moment(lessonInfo.start).format("YYYY/MM/DD HH:mm")} ~ {moment(lessonInfo.end).format("YYYY/MM/DD HH:mm")}</ListGroup.Item>
                                     </ListGroup>
                                     <Card.Body>
@@ -36,6 +35,9 @@ function LessonInfo() {
                                     </Card.Body>
                                 </Card>
                             </div>
+                        </div>
+                        <div className="CenterListContainer">
+                            
                         </div>
                     </div>
                 </div>

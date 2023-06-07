@@ -23,6 +23,6 @@ urlpatterns = [
     path('lesson/registerLesson/', views.registerLesson, name="registerLesson"),
 
     path('timetable/getCenterTimetable/<str:centerid>', views.getCenterTimetable, name="getCenterTimetable"),
-    path('timetable/getTimetableBlock/<str:id>', views.getTimetableBlock, name="getTimetableBlock"),
+    path('timetable/getTimetableBlock/<str:blockid>', views.getTimetableBlock, name="getTimetableBlock"),
     path('timetable/registerTimetableBlock/', views.registerTimetableBlock, name="registerTimetableBlock"),
 ]

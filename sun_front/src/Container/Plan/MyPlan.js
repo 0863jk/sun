@@ -25,9 +25,9 @@ function MyPlan() {
                                 plan ? (
                                     <>
                                         <CardGroup className="CardGroup MyPlan">
-                                            <PlanCard from="list" planname={plan.planname} introduction={plan.introduction} plantype={plan.plantype} period={plan.period} periodtype={plan.periodtype} price={plan.price} constraints={plan.constraints} planid={plan.id} />
+                                            <PlanCard from="list" planinfo={plan} />
                                         </CardGroup>
-                                        <label className="DateInfo">등록일은 {planinfo.registerDate}이며 이용권 만료일은 {planinfo.expireDate}입니다.</label>
+                                        <label className="DateInfo">등록일은 {planinfo.register_date}이며 이용권 만료일은 {planinfo.expire_date}입니다.</label>
                                     </>
                                 ) : (<></>)
                             }

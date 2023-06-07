@@ -1,23 +1,56 @@
 import "./CenterList.css";
 import CenterCard from "../../Component/Card/CenterCard";
 import CardGroup from 'react-bootstrap/CardGroup';
-import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { Divider, Modal } from "antd";
+import { Button } from "react-bootstrap";
+import Utils from "../../Hook/Utils";
 
 
 function CenterSearch() {
+    const utils = new Utils();
+    const username = localStorage.getItem("username");
+    const role = localStorage.getItem("role");
     const [input, setInput] = useState('');
     const [center, setCenter] = useState('');
 
+    const [modalVisible, setModalVisible] = useState(false);
+    const [selectedCenter, setSelectedCenter] = useState("");
+
+    const handleOpenModal = (center) => {
+        setSelectedCenter(center);
+        setModalVisible(true);
+    };
+
+    const handleCloseModal = () => {
+        setModalVisible(false);
+    };
 
     const onChangeHandler = (event) => {
         setInput(event.target.value);
         fetch(`http://localhost:8000/center/searchCenter/${input}`)
             .then(res => { return res.json() })
             .then(data => { setCenter(data) })
+    }
+
+    const btnRegisterHandler = (event) => {
+        if (role === "general") {
+            window.location.replace(`/register/${selectedCenter.centerid}`)
+        } else if (role === "trainer") {
+            const data = {
+                centerid: selectedCenter.centerid,
+                userid: username,
+                role: role,
+                // register_date: new Date(Date.now())
+            }
+            utils.registerCenterMember(data).then(data => {
+                console.log(data);
+                alert("센터에 정상적으로 등록되었습니다.");
+                window.location.replace(`/main/${selectedCenter.centerid}`)
+            })
+        }
     }
 
     return (
@@ -27,23 +60,18 @@ function CenterSearch() {
                     <label className="LabelTitle">센터 검색</label>
                     <div className="ContentContainer">
                         <div className="SearchBar">
-                            <InputGroup className="mb-3">
-                                <Form.Control
-                                    placeholder="센터 ID로 검색"
-                                    aria-describedby="basic-addon2"
-                                    onChange={onChangeHandler}
-                                />
-                                <Button variant="outline-secondary" id="button-addon2">
-                                    Button
-                                </Button>
-                            </InputGroup>
+                            <Form.Control
+                                placeholder="센터 ID로 검색"
+                                aria-describedby="basic-addon2"
+                                onChange={onChangeHandler}
+                            />
                         </div>
                         <div className="CenterListContainer">
                             <div className="CardListContainer">
                                 <CardGroup className="CardGroup">
                                     {center && center.map(center => (
                                         <Link to={`/register/${center.centerid}`} className="LinkWrapper">
-                                            <CenterCard from="search" centername={center.centername} introduction={center.introduction} manager={center.manager} address={center.address1 + ' ' + center.address2} centerid={center.centerid} />
+                                            <CenterCard from="search" center={center} openModal={handleOpenModal} />
                                         </Link>
                                     ))}
                                 </CardGroup>
@@ -52,6 +80,21 @@ function CenterSearch() {
                     </div>
                 </div>
             </div>
+            <Modal open={modalVisible} onCancel={handleCloseModal} footer={null}>
+                <div style={{ textAlign: 'center' }}>
+                    <h3>센터 정보</h3>
+                    <Divider></Divider>
+                    <p>센터명: {selectedCenter.centername}</p>
+                    <p>센터 주소: {selectedCenter.address1} {selectedCenter.address2}</p>
+                    <p>사업자등록번호: {selectedCenter.bizid}</p>
+                    <p>{selectedCenter.introduction}</p>
+                    <p>{selectedCenter.introduction}</p>
+                    <Divider></Divider>
+                    <p>현재 다니고 있는 센터가 "{selectedCenter.centername}" 맞나요?</p>
+                    <Button onClick={btnRegisterHandler}>등록</Button>
+                    {/* <Button>등록</Button> */}
+                </div>
+            </Modal>
         </>
     );
 }

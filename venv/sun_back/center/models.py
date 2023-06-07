@@ -28,7 +28,8 @@ class Plan(models.Model):
     plantype = models.CharField(choices=PLAN_TYPE, null = False, max_length=255)
     period = models.IntegerField()
     periodtype = models.CharField(choices=PERIOD_TYPE, null = False, max_length=255)
-    constraints = models.IntegerField(null=True, blank=True) # 횟수
+    constraints = models.IntegerField(null=True, blank=True) # 횟수제
+    constraints = models.CharField(max_length=200,null=True, blank=True) # 기간제
     price = models.IntegerField()
 
     def __str__(self):
@@ -40,18 +41,18 @@ class CenterMember(models.Model):
     role = models.CharField(null = False, max_length=255)
 
     planid = models.IntegerField(null = True) # 이용 중인 이용권
-    register_date = models.DateField(null=False) # 등록일
-    expire_date = models.DateField(null=False) # 만료일
+    register_date = models.DateField(null=True) # 등록일
+    expire_date = models.DateField(null=True) # 만료일
 
     def __str__(self):
         return self.id
 
 class Lesson(models.Model):
-    id = models.AutoField(primary_key=True)
+    lessonid = models.AutoField(primary_key=True)
     centerid = models.CharField(max_length=200)
     # 기본 정보
     title = models.CharField(max_length=200)
-    summay = models.CharField(max_length=200)
+    summary = models.CharField(max_length=200, null=True)
 
     # 등록할 때 사용될 수 있는 정보
     # 등록 정보
@@ -64,13 +65,18 @@ class Lesson(models.Model):
     info_trainerid = models.CharField(max_length=200, null=True) # 트레이너 아이디
 
 # 실제 시간표에 등록되는 정보
-class TimetableBlock(Lesson):
+class TimetableBlock(models.Model):
     blockid = models.AutoField(primary_key=True)
-    lessonid = models.IntegerField(null = True) # 외래키
-    
+    centerid = models.CharField(max_length=200)
+    lessonid = models.IntegerField(null=True)
+
+    # 기본 정보
+    title = models.CharField(max_length=200)
+    summary = models.CharField(max_length=200, null=True)
+    # 시간 정보
     start = models.DateTimeField()
     end = models.DateTimeField()
-
+    # 트레이너 정보
     trainername = models.CharField(max_length=200, null=True)
     trainerid = models.CharField(max_length=200, null=True)
     
@@ -79,5 +85,6 @@ class TimetableBlock(Lesson):
 
 class Enrolment(models.Model):
     blockid = models.IntegerField(null = False)
+    lessonid = models.IntegerField(null = True)
     userid = models.CharField(max_length=200, null=True) # 수강생 id
-    # attendance = models.
+    attendance = models.BooleanField(default=False) # 출석 여부: 기본 = False

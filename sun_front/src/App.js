@@ -38,8 +38,9 @@ function App() {
         <div className="clearfix">
           <Routes>
             <Route path="/login" element={<LoginForm/>}></Route>
-            <Route path="/signup/*" element={<SignUpForm />}></Route>
-            <Route path="/signup/:pUserRole" element={<SignUpForm />}></Route>
+            <Route path="/signup" element={<SignUpForm />}></Route>
+            {/* <Route path="/signup/*" element={<SignUpForm />}></Route> */}
+            {/* <Route path="/signup/:pUserRole" element={<SignUpForm />}></Route> */}
             <Route path="/" element={<CenterList  />}></Route>
             <Route path="/center/list" element={<CenterList />}></Route>
             <Route path="/register/:pCenterId" element={<CenterRegister />}></Route>

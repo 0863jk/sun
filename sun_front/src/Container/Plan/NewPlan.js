@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import CenterNav from '../../Component/Nav/CenterNav';
 import { useParams } from 'react-router-dom';
 import { Button, Col, Form, Row } from 'react-bootstrap';
+import Utils from '../../Hook/Utils';
 
 function NewPlan() {
     const { pCenterId } = useParams();
+    const utils = new Utils(pCenterId);
     const [centerid, setCenterid] = useState('');
     const [planType, setPlanType] = useState('');
 
@@ -21,11 +23,10 @@ function NewPlan() {
         const formData = new FormData(event.target);
         const planname = formData.get('planname');
         const introduction = formData.get('introduction');
-        const period = formData.get('period');
-        const iPeriod = parseInt(period);
+        const period = parseInt(formData.get('period'));
         const periodtype = formData.get('periodtype');
-        const price = formData.get('price');
-        const iPrice = parseInt(price);
+        const price = parseInt(formData.get('price'));
+        const times = parseInt(formData.get('times'));
         const constraints = formData.get('constraints');
 
         const plan = {
@@ -33,27 +34,19 @@ function NewPlan() {
             planname: planname,
             plantype: planType,
             introduction: introduction,
-            period: iPeriod,
+            period: period,
             periodtype: periodtype,
-            price: iPrice,
+            price: price,
+            times: times,
             constraints: constraints,
         };
 
-        const planJson = JSON.stringify(plan);
-        console.log(planJson);
+        utils.registerPlan(plan).then(data => {
+            console.log('plan registered:', data);
 
-        fetch('http://localhost:8000/center/plan/registerPlan/', {
-            method: 'POST',
-            headers: { 'Content-type': 'application/json' },
-            body: planJson
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+            alert("정상적으로 등록이 완료되었습니다.");
+            window.location.reload();
+        });
     };
 
     return (
@@ -98,6 +91,10 @@ function NewPlan() {
                                 <Form.Control type="text" placeholder="간단한 설명을 입력해 주세요..." name="introduction" />
                             </Form.Group>
                             <Form.Group className="mb-3">
+                                <Form.Label>가격</Form.Label>
+                                <Form.Control type="number" placeholder="플랜의 가격을 입력해 주세요..." name="price" />
+                            </Form.Group>
+                            <Form.Group className="mb-3">
                                 <Form.Label>기간 설정</Form.Label>
                                 <Row className="nomargin">
                                     <Col className="nomargin">
@@ -108,7 +105,7 @@ function NewPlan() {
                                             <option value="">
                                                 일/월/년 선택
                                             </option>
-                                            <option value="days" key="dyas">
+                                            <option value="days" key="days">
                                                 일
                                             </option>
                                             <option value="months" key="months">
@@ -121,14 +118,23 @@ function NewPlan() {
                                     </Col>
                                 </Row>
                             </Form.Group>
-                            <Form.Group className="mb-3">
-                                <Form.Label>가격</Form.Label>
-                                <Form.Control type="number" placeholder="플랜의 가격을 입력해 주세요..." name="price" />
-                            </Form.Group>
-                            <Form.Group className="mb-3">
-                                <Form.Label>제약 조건</Form.Label>
-                                <Form.Control type="text" placeholder="플랜의 제약 조건을 입력해 주세요..." name="constraints" />
-                            </Form.Group>
+                            {
+                                planType === "number-of-times" ? (
+                                    <>
+                                        <Form.Group className="mb-3">
+                                            <Form.Label>횟수</Form.Label>
+                                            <Form.Control type="number" placeholder="횟수를 입력해 주세요..." name="times" />
+                                        </Form.Group>
+                                    </>
+                                ) : planType === "fixed-term" ? (
+                                    <>
+                                        <Form.Group className="mb-3">
+                                            <Form.Label>제약조건</Form.Label>
+                                            <Form.Control type="text" placeholder="ex. 일주일/3회" name="constraints" />
+                                        </Form.Group>
+                                    </>
+                                ) : <></>
+                            }
                             <Form.Group className="mb-3">
                                 <Button variant="primary" type="submit">
                                     생성

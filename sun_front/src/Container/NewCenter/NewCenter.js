@@ -4,6 +4,7 @@ import { Button, Nav } from 'react-bootstrap';
 import CenterInfoRegister from "./CenterInfoRegister";
 import PlanRegister from "./PlanRegister";
 import TrainerRegister from "./TrainerRegister";
+import Utils from "../../Hook/Utils";
 
 function NewCenter() {
     const username = localStorage.getItem('username');
@@ -11,7 +12,7 @@ function NewCenter() {
     const [centerid, setCenterid] = useState('');
     const [centerInfoData, setCenterInfoData] = useState(null);
     const [planData, setPlanData] = useState(null);
-    const [trainerdata, setTrainerdata] = useState(null);
+    const [trainerData, setTrainerData] = useState(null);
 
     useEffect(() => {
         setPage("info");
@@ -41,7 +42,7 @@ function NewCenter() {
     };
 
     const handleTrainerData = (data) => {
-        setTrainerdata(data);
+        setTrainerData(data);
     };
 
     const registerPlan = (data) => {
@@ -70,7 +71,6 @@ function NewCenter() {
             centerid: centerid,
             role: "manager",
         }
-        // const managerJson = JSON.stringify(trainerdata);
         fetch('http://localhost:8000/center/registerCenterMember/', {
             method: 'POST',
             headers: { 'Content-type': 'application/json' },
@@ -79,7 +79,6 @@ function NewCenter() {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
-                alert("강사가 정상적으로 등록되었습니다.");
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -123,24 +122,52 @@ function NewCenter() {
 
 
     const onSubmit = (e) => {
-        const centerJson = JSON.stringify(centerInfoData);
+        const utils = new Utils(centerid);
+        const managerData = {
+            userid: username,
+            centerid: centerid,
+            role: "manager",
+        }
 
-        fetch('http://localhost:8000/center/registerCenter/', {
-            method: 'POST',
-            headers: { 'Content-type': 'application/json' },
-            body: centerJson
-        })
-            .then(res => {
-                return res.json();
-            }).then(data => {
-                console.log(data);
-                alert("센터가 정상적으로 생성되었습니다.");
-                registerPlan(planData);
-                registerTrainer(trainerdata);
-            }).catch(error => {
-                console.log(error);
-                alert("오류");
+        utils.registerCenter(centerInfoData)
+            .then(centerData => {
+                console.log(centerData); // 센터 등록 결과 확인
+                return utils.registerCenterMember(managerData); // 매니저 등록
             })
+            .then(managerData => {
+                console.log(managerData); // 매니저 등록 결과 확인
+                return utils.registerPlan(planData); // 플랜 등록
+            })
+            .then(planData => {
+                console.log(planData); // 플랜 등록 결과 확인
+                const trainerPromises = trainerData.map(trainer => utils.registerCenterMember(trainer));
+                return Promise.all(trainerPromises);
+            })
+            .then(trainerData => {
+                console.log(trainerData); // 트레이너 등록 결과 확인
+                alert("모든 데이터가 정상적으로 등록되었습니다.");
+                // 추가로 수행할 작업이 있다면 여기에 작성
+            })
+            .catch(error => {
+                console.error(error); // 오류 처리
+                alert("데이터 등록에 실패하였습니다.");
+            });
+        // fetch('http://localhost:8000/center/registerCenter/', {
+        //     method: 'POST',
+        //     headers: { 'Content-type': 'application/json' },
+        //     body: centerJson
+        // })
+        //     .then(res => {
+        //         return res.json();
+        //     }).then(data => {
+        //         console.log(data);
+        //         alert("센터가 정상적으로 생성되었습니다.");
+        //         registerPlan(planData);
+        //         registerTrainer(trainerdata);
+        //     }).catch(error => {
+        //         console.log(error);
+        //         alert("오류");
+        //     })
         // window.location.replace(`/center/${centerInfoData.centerid}`);
     };
 
