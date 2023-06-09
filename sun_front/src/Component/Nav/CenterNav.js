@@ -18,7 +18,7 @@ function CenterNav({ centerid }) {
         } else {
             navigate('http://localhost:3000/login');
         }
-    }, [])
+    }, [navigate])
 
     return (
         <>

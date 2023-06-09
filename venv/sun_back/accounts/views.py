@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import User
-from .serializers import UserDataSerializer
+from .serializers import UserSerializer
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
@@ -10,14 +10,14 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 @api_view(['GET'])
 def getUserDatas(request):
     datas = User.objects.all()
-    serializer = UserDataSerializer(datas, many=True)
+    serializer = UserSerializer(datas, many=True)
 
     return Response(serializer.data)
 
 @api_view(['POST'])
 def postUser(request):
     reqData = request.data
-    serializer = UserDataSerializer(data=reqData)
+    serializer = UserSerializer(data=reqData)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -26,7 +26,7 @@ def postUser(request):
 @api_view(['GET'])
 def getUsername(request, username):
     data = User.objects.get(username=username)
-    serializer = UserDataSerializer(data, many=False)
+    serializer = UserSerializer(data, many=False)
         
     return Response(serializer.data)
 
@@ -35,13 +35,13 @@ def getUsername(request, username):
 #     reqData = request.data
 #     username = reqData['username']
 #     data = User.objects.filter(username=username)
-#     serializer = UserDataSerializer(data, many=True)
+#     serializer = UserSerializer(data, many=True)
         
 #     return Response(serializer.data)
 
 @api_view(['GET'])
 def searchTrainerUser(request, username):
     datas = User.objects.filter(username__contains=username, role='trainer')
-    serializer = UserDataSerializer(datas, many=True)
+    serializer = UserSerializer(datas, many=True)
 
     return Response(serializer.data)
