@@ -1,4 +1,4 @@
-from .models import Center, Plan, CenterMember, Lesson, TimetableBlock
+from .models import Center, Plan, CenterMember, Lesson, TimetableBlock, Enrolment
 from rest_framework import serializers
 
 class CenterDataSerializer(serializers.ModelSerializer):
@@ -24,6 +24,11 @@ class LessonSerializer(serializers.ModelSerializer):
 class TimetableBlockSerializer(serializers.ModelSerializer):
     class Meta:
         model = TimetableBlock
+        fields = '__all__'
+
+class EnrolmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Enrolment
         fields = '__all__'
 
 class UserPlanSerializer(serializers.ModelSerializer):

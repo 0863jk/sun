@@ -37,10 +37,15 @@ function CenterNav({ centerid }) {
                                     </>
                                 ) : <></>}
                         </NavDropdown>
-                        <NavDropdown title="레슨" id="basic-nav-dropdown">
-                            {role === "general" ? <NavDropdown.Item href={`/lesson/${centerid}/${id}`}>나의 레슨 기록</NavDropdown.Item> : role === "trainer" ? <NavDropdown.Item href={`/lesson/${centerid}/${id}`}>나의 레슨</NavDropdown.Item> : <></>}
-                            {role === "general" ? <Nav.Link href={`/${centerid}/lesson/evaluate/lessonid`}>강의평 작성하기</Nav.Link> : <></>}
-                        </NavDropdown>
+                        {role === "general" ?
+                            <NavDropdown title="레슨" id="basic-nav-dropdown">
+                                <NavDropdown.Item href={`/lesson/${centerid}/${id}`}>나의 레슨 기록</NavDropdown.Item>
+                            </NavDropdown>
+                            : role === "trainer" ?
+                                <NavDropdown title="레슨" id="basic-nav-dropdown">
+                                    <NavDropdown.Item href={`/lesson/${centerid}/${id}`}>나의 레슨</NavDropdown.Item>
+                                </NavDropdown>
+                                : <></>}
 
                         {role === "manager" ? <Nav.Link href={`/timetable/${centerid}`}>시간표 등록</Nav.Link> : <></>}
                         {role === "manager" ? <Nav.Link href={`/admin/${centerid}`}>관리</Nav.Link> : <></>}

@@ -84,7 +84,18 @@ class TimetableBlock(models.Model):
     number_of_applicants = models.IntegerField(default=0)
 
 class Enrolment(models.Model):
+    centerid = models.CharField(max_length=200)
     blockid = models.IntegerField(null = False)
     lessonid = models.IntegerField(null = True)
-    userid = models.CharField(max_length=200, null=True) # 수강생 id
+    userid = models.CharField(max_length=200, null=False) # 수강생 id
     attendance = models.BooleanField(default=False) # 출석 여부: 기본 = False
+
+class LessonReview(models.Model):
+    centerid = models.CharField(max_length=200)
+    userid = models.CharField(max_length=200, null=False)
+    blockid = models.IntegerField(null = False)
+    lessonid = models.IntegerField(null = True)
+    difficulty = models.IntegerField(null = True)
+    teaching = models.IntegerField(null = True)
+    recommend = models.IntegerField(null = True)
+    comment = models.CharField(max_length=200, null=True)

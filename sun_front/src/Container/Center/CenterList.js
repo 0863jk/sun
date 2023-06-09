@@ -17,8 +17,8 @@ function CenterList() {
                         <div className="CardListContainer">
                             <CardGroup className="CardGroup">
                                 {center && center.map(center => (
-                                    <Link to={`/main/${center.centerid}`} className="LinkWrapper">
-                                        <CenterCard key={center.centerid} from="list" center={center} />
+                                    <Link key={center.centerid} to={`/main/${center.centerid}`} className="LinkWrapper">
+                                        <CenterCard from="list" center={center} />
                                     </Link>
                                 ))}
                             </CardGroup>

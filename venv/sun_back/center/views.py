@@ -1,12 +1,149 @@
+# from rest_framework import status, viewsets
+# from rest_framework.decorators import action
+# from rest_framework.response import Response
+# from .models import Center, Plan, CenterMember, Lesson, TimetableBlock, Enrolment
+# from .serializers import (
+#     CenterDataSerializer,
+#     PlanDataSerializer,
+#     CenterMemberSerializer,
+#     UserPlanSerializer,
+#     LessonSerializer,
+#     TimetableBlockSerializer,
+#     EnrolmentSerializer,
+# )
+# from accounts.models import User
+# from accounts.serializers import UserDataSerializer
+
+# class CenterViewSet(viewsets.ViewSet):
+#     @staticmethod
+#     def list(request):
+#         datas = Center.objects.all()
+#         serializer = CenterDataSerializer(datas, many=True)
+#         return Response(serializer.data)
+
+#     @staticmethod
+#     def retrieve(request, pk=None):
+#         datas = Center.objects.get(centerid=pk)
+#         serializer = CenterDataSerializer(datas, many=False)
+#         return Response(serializer.data)
+    
+#     @action(detail=False, methods=['POST'])
+#     def register(self, request):
+#         reqData = request.data
+#         serializer = CenterDataSerializer(data=reqData)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#     @action(detail=False, methods=['GET'])
+#     def search(self, request):
+#         centerid = request.query_params.get('centerid', '')
+#         datas = Center.objects.filter(centerid__contains=centerid)
+#         serializer = CenterDataSerializer(datas, many=True)
+#         return Response(serializer.data)
+    
+
+# class PlanViewSet(viewsets.ViewSet):
+#     @staticmethod
+#     def list(request):
+#         datas = Plan.objects.all()
+#         serializer = PlanDataSerializer(datas, many=True)
+#         return Response(serializer.data)
+
+#     @staticmethod
+#     def retrieve(request, pk=None):
+#         datas = Plan.objects.get(planid=pk)
+#         serializer = PlanDataSerializer(datas, many=False)
+#         return Response(serializer.data)
+    
+#     @action(detail=False, methods=['POST'])
+#     def register(self, request):
+#         reqData = request.data
+#         serializer = PlanDataSerializer(data=reqData)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+#     @action(detail=False, methods=['GET'])
+#     def getCenterPlans(self, request, centerid):
+#         datas = Plan.objects.filter(centerid=centerid)
+#         serializer = PlanDataSerializer(datas, many=True)
+
+#         return Response(serializer.data)
+    
+#     # @action(detail=False, methods=['GET'])
+#     # def getMemberPlan(request, centerid, username):
+#     #     data = CenterMember.objects.filter(centerid=centerid, userid=username).first()
+#     #     serializer = UserPlanSerializer(data)
+#     #     return Response(serializer.data)
+#     @action(detail=False, methods=['GET'])
+#     def getMemberPlan(self, request):
+#         centerid = request.query_params.get('centerid', '')
+#         userid = request.query_params.get('userid', '')
+#         registerinfo = CenterMember.objects.get(centerid=centerid, userid=userid)
+        
+#         data = Plan.objects.filter(planid=registerinfo.planid)
+
+#         serializer = PlanDataSerializer(data, many=True)
+        
+#         return Response(serializer.data)
+
+# class CenterMemberViewSet(viewsets.ViewSet):
+#     @staticmethod
+#     def list(request):
+#         datas = CenterMember.objects.all()
+#         serializer = CenterMemberSerializer(datas, many=True)
+#         return Response(serializer.data)
+
+#     @action(detail=False, methods=['POST'])
+#     def register(self, request):
+#         reqData = request.data
+#         serializer = CenterMemberSerializer(data=reqData)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+#     @action(detail=False, methods=['GET'])
+#     def getMemberCenters(request, username):
+#         center_ids = CenterMember.objects.filter(userid=username).values_list('centerid')
+#         datas = Center.objects.filter(centerid__in=center_ids)
+
+#         serializer = CenterDataSerializer(datas, many=True)
+        
+#         return Response(serializer.data)
+
+# # class LessonViewSet(viewsets.ViewSet):
+# #     # ... 레슨 뷰셋에 대한 액션들
+
+# # class TimetableBlockViewSet(viewsets.ViewSet):
+# #     # ... 시간표 블록 뷰셋에 대한 액션들
+
+# # class EnrolmentViewSet(viewsets.ViewSet):
+# #     # ... 등록 뷰셋에 대한 액션들
+
+# # class UserViewSet(viewsets.ViewSet):
+# #     # ... 사용자 뷰셋에 대한 액션들
+
+
+
 from rest_framework import status
-from rest_framework import viewsets
-from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import Center, Plan, CenterMember, Lesson, TimetableBlock
-from .serializers import CenterDataSerializer, PlanDataSerializer, CenterMemberSerializer, UserPlanSerializer, LessonSerializer, TimetableBlockSerializer
+from rest_framework.response import Response
+from .models import Center, Plan, CenterMember, Lesson, TimetableBlock, Enrolment
+from .serializers import (
+    CenterDataSerializer,
+    PlanDataSerializer,
+    CenterMemberSerializer,
+    UserPlanSerializer,
+    LessonSerializer,
+    TimetableBlockSerializer,
+    EnrolmentSerializer,
+)
 from accounts.models import User
 from accounts.serializers import UserDataSerializer
-from django.shortcuts import render
 
 # Create your views here.
 
@@ -185,3 +322,50 @@ def registerTimetableBlock(request):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def getEnrolments(request):
+    datas = Enrolment.objects.all()
+    serializer = EnrolmentSerializer(datas, many=True)
+
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def getEnrolment(request, blockid):
+    user_ids = Enrolment.objects.filter(blockid=blockid).values_list('userid')
+    datas = User.objects.filter(username__in=user_ids)
+
+    serializer = UserDataSerializer(datas, many=True)
+    
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def registerEnrolment(request):
+    reqData = request.data
+    serializer = EnrolmentSerializer(data=reqData)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['PUT'])
+def updateTimetableBlock(request, blockid):
+    try:
+        data = TimetableBlock.objects.get(blockid=blockid)
+    except TimetableBlock.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    serializer = TimetableBlockSerializer(data, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def getMemberLessonHistory(request, userid, centerid):
+    blockids = Enrolment.objects.filter(userid=userid, centerid=centerid).values_list('blockid')
+    datas = TimetableBlock.objects.filter(blockid__in=blockids)
+
+    serializer = TimetableBlockSerializer(datas, many=True)
+    
+    return Response(serializer.data)

@@ -69,5 +69,33 @@ class Utils {
             console.error('Error:', error);
         }
     }
+
+    async registerEnrolment(data) {
+        try {
+            const res = await fetch('http://localhost:8000/center/enrolment/registerEnrolment/', {
+                method: 'POST',
+                headers: { 'Content-type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const resData = await res.json();
+            return resData;
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    async updateTimetableBlock(data, blockid) {
+        try {
+            const res = await fetch(`http://localhost:8000/center/timetable/updateTimetableBlock/${blockid}`, {
+                method: 'PUT',
+                headers: { 'Content-type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const resData = await res.json();
+            return resData;
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
 }
 export default Utils;

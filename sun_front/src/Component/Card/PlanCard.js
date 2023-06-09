@@ -50,7 +50,7 @@ function PlanCard({ centerid, planinfo, from, setPlanData }) {
                     <ListGroup className="list-group-flush">
                         <ListGroup.Item>{planinfo.plantype === "fixed-term" ? "기간제" : planinfo.plantype === "number-of-times" ? "횟수제" : ""}</ListGroup.Item>
                         <ListGroup.Item>{planinfo.period} {planinfo.periodtype === "months" ? "개월" : planinfo.periodtype === "days" ? "일" : planinfo.periodtype === "years" ? "년" : ""}</ListGroup.Item>
-                        <ListGroup.Item>{planinfo.price}원</ListGroup.Item>
+                        {/* <ListGroup.Item>{planinfo.price}원</ListGroup.Item> */}
                         {planinfo.constraints ?
                             <ListGroup.Item>
                                 {planinfo.constraints}
@@ -64,7 +64,8 @@ function PlanCard({ centerid, planinfo, from, setPlanData }) {
                     <Card.Body>
                         {
                             from === "list" ? (
-                                <Card.Link href={`/plan/${planinfo.centerid}/${planinfo.planid}`}>정보 보기</Card.Link>
+                                <ListGroup.Item>{planinfo.price}원</ListGroup.Item>
+                                // <Card.Link href={`/plan/${planinfo.centerid}/${planinfo.planid}`}>정보 보기</Card.Link>
                             ) : from === "modify" ? (
                                 <Card.Link href={`/plan/modify/${planinfo.centerid}/${planinfo.planid}`}>수정하기</Card.Link>
                             ) : from === "register" ? (

@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import useFetch from "../../Hook/useFetch";
 import AdminTap from "./AdminTap";
+import UserCard from "../../Component/Card/UserCard";
 
 function TrainerManage() {
     const { pCenterId } = useParams();
@@ -24,7 +25,7 @@ function TrainerManage() {
                         <div className="CenterListContainer">
                             <CardGroup className="CardGroup">
                                 {trainers && trainers.map(trainers => (
-                                    <TrainerCard name={trainers.name} username={trainers.username} email={trainers.email} phone={trainers.phone} />
+                                    <UserCard user={trainers} />
                                 ))}
                             </CardGroup>
                         </div>

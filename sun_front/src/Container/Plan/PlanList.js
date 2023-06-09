@@ -21,9 +21,9 @@ function PlanList() {
                         <div className="CenterListContainer">
                             <CardGroup className="CardGroup">
                                 {plan && plan.map(plan => (
-                                    <Link to={`/plan/${pCenterId}/${plan.planid}`}>
-                                        <PlanCard from="list" planinfo={plan}/>
-                                    </Link>
+                                    // <Link to={`/plan/${pCenterId}/${plan.planid}`} className="LinkWrapper">
+                                        <PlanCard key={plan.id} from="list" planinfo={plan}/>
+                                    // </Link>
                                 ))}
                             </CardGroup>
                         </div>

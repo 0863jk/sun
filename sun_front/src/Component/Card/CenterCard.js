@@ -19,14 +19,13 @@ function CenterCard({ center, from, openModal }) {
                     </Card.Body>
                     <ListGroup className="list-group-flush">
                         <ListGroup.Item>{center.manager}</ListGroup.Item>
-                        <ListGroup.Item>{center.address}</ListGroup.Item>
+                        <ListGroup.Item>{center.address1} {center.address2}</ListGroup.Item>
                     </ListGroup>
 
                     <Card.Body>
                         {
                             from === "list" ? (
-                                <></>
-                                // <Card.Link as={Link} to={`/main/${centerid}`}>조회하기</Card.Link>
+                                <Card.Link as={Link} to={`/main/${center.centerid}`}>조회하기</Card.Link>
                             ) : from === "search" ? (
                                 // <Card.Link as={Link} to={`/register/${center.centerid}`}>등록하기</Card.Link>
                                 <Card.Link as={Link} onClick={handleOnClick}>등록하기</Card.Link>
