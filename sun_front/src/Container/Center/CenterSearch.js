@@ -30,7 +30,7 @@ function CenterSearch() {
 
     const onChangeHandler = (event) => {
         setInput(event.target.value);
-        fetch(`http://localhost:8000/center/searchCenter/${input}`)
+        fetch(`http://localhost:8000/center/search?centerid=${input}`)
             .then(res => { return res.json() })
             .then(data => { setCenter(data) })
     }
@@ -42,13 +42,22 @@ function CenterSearch() {
             const data = {
                 centerid: selectedCenter.centerid,
                 userid: username,
-                role: role,
+                // role: role,
                 // register_date: new Date(Date.now())
             }
             utils.registerCenterMember(data).then(data => {
-                console.log(data);
-                alert("센터에 정상적으로 등록되었습니다.");
-                window.location.replace(`/main/${selectedCenter.centerid}`)
+                if (data) {
+                    if (data.status === 400) {
+                        alert("오류 발생");
+                    } else {
+                        alert("센터에 정상적으로 등록되었습니다.");
+                        window.location.replace(`/main/${selectedCenter.centerid}`)
+                    }
+                } else {
+                    console.log(data);
+                    alert("오류 발생");
+
+                }
             })
         }
     }
@@ -70,7 +79,7 @@ function CenterSearch() {
                             <div className="CardListContainer">
                                 <CardGroup className="CardGroup">
                                     {center && center.map(center => (
-                                        <Link to={`/register/${center.centerid}`} className="LinkWrapper">
+                                        <Link className="LinkWrapper">
                                             <CenterCard from="search" center={center} openModal={handleOpenModal} />
                                         </Link>
                                     ))}

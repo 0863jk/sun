@@ -61,7 +61,9 @@ function Header() {
                             <NavDropdown.Item href="/center/search">센터 ID로 검색</NavDropdown.Item>
                             {role === "manager" ? <NavDropdown.Item href="/center/register">센터 새로 등록</NavDropdown.Item> : <></>}
                         </NavDropdown>
-                        <Nav.Link href="/">시간표</Nav.Link>
+                        {role !== "manager" && (
+                            <Nav.Link href="/timetable">시간표</Nav.Link>
+                        )}
                     </Nav>
                     <Navbar.Collapse className="justify-content-end">
                         {auth ? (<>

@@ -39,7 +39,7 @@ function CenterNav({ centerid }) {
                         </NavDropdown>
                         {role === "general" ?
                             <NavDropdown title="레슨" id="basic-nav-dropdown">
-                                <NavDropdown.Item href={`/lesson/${centerid}/${id}`}>나의 레슨 기록</NavDropdown.Item>
+                                <NavDropdown.Item href={`/lesson/history/${centerid}/${id}`}>나의 레슨 기록</NavDropdown.Item>
                             </NavDropdown>
                             : role === "trainer" ?
                                 <NavDropdown title="레슨" id="basic-nav-dropdown">

@@ -69,6 +69,42 @@ class TimetableBlockViewSet(viewsets.ViewSet):
 
         return Response(serializer.data)
 
+    @action(detail=False, methods=['GET'])
+    def getMemberTimetable(self, request, userid):
+        blockids = Enrolment.objects.filter(userid=userid).values_list('blockid')
+        datas = TimetableBlock.objects.filter(blockid__in=blockids)
+
+        serializer = TimetableBlockSerializer(datas, many=True)
+
+        return Response(serializer.data)
+    
+    @action(detail=False, methods=['GET'])
+    def getTrainerTimetable(self, request, userid):
+        datas = TimetableBlock.objects.filter(trainerid=userid)
+        serializer = TimetableBlockSerializer(datas, many=True)
+
+        return Response(serializer.data)
+    
+    @action(detail=False, methods=['GET'])
+    def getMemberHistory(self, request):
+        userid = request.query_params.get('userid', '')
+        centerid = request.query_params.get('centerid', '')
+
+        blockids = Enrolment.objects.filter(centerid=centerid, userid=userid).values_list('blockid')
+        datas = TimetableBlock.objects.filter(blockid__in=blockids)
+
+        serializer = TimetableBlockSerializer(datas, many=True)
+
+        return Response(serializer.data)
+    
+    @action(detail=False, methods=['GET'])
+    def getTrainerHistory(self, request):
+        userid = request.query_params.get('userid', '')
+        centerid = request.query_params.get('centerid', '')
+        datas = TimetableBlock.objects.filter(trainerid=userid, centerid=centerid)
+        serializer = TimetableBlockSerializer(datas, many=True)    
+        return Response(serializer.data)
+
 class EnrolmentViewSet(viewsets.ViewSet):
     @staticmethod
     def list(request):
@@ -108,10 +144,8 @@ class EnrolmentViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['GET'])
     def getApplicants(self, request):
         blockid = request.query_params.get('blockid', '')
-        userinfo = Enrolment.objects.get(blockid=blockid)
-        
-        data = User.objects.filter(userid=userinfo.userid)
-
+        userids = Enrolment.objects.filter(blockid=blockid).values_list('userid')
+        data = User.objects.filter(username__in=userids)
         serializer = UserSerializer(data, many=True)
         
         return Response(serializer.data)
@@ -137,4 +171,12 @@ class LessonReviewViewSet(viewsets.ViewSet):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    @action(detail=False, methods=['GET'])
+    def getBlockReview(self, request):
+        blockid = request.query_params.get('blockid', '')
+        datas = LessonReview.objects.filter(blockid=blockid)
+        serializer = LessonReviewSerializer(datas, many=True)
+        
+        return Response(serializer.data)
     

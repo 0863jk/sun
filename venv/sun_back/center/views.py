@@ -114,8 +114,7 @@ class MemberViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['GET'])
     def getMemberCenters(self, request):
         userid = request.query_params.get('userid', '')
-        center_ids = Member.objects.get(userid=userid)
-        
+        center_ids = Member.objects.filter(userid=userid).values_list('centerid')
         datas = Center.objects.filter(centerid__in=center_ids)
 
         serializer = CenterSerializer(datas, many=True)
@@ -125,9 +124,19 @@ class MemberViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['GET'])
     def getMembers(self, request):
         centerid = request.query_params.get('centerid', '')
-        user_ids = Member.objects.get(centerid=centerid)
+        user_ids = Member.objects.filter(centerid=centerid).values_list('userid')
+        datas = User.objects.filter(username__in=user_ids)
+
+        serializer = UserSerializer(datas, many=True)
         
-        datas = User.objects.filter(userid__in=user_ids)
+        return Response(serializer.data)
+    
+    @action(detail=False, methods=['GET'])
+    def getMembersByRole(self, request):
+        centerid = request.query_params.get('centerid', '')
+        role = request.query_params.get('role', '')
+        user_ids = Member.objects.filter(centerid=centerid, role=role).values_list('userid')
+        datas = User.objects.filter(username__in=user_ids)
 
         serializer = UserSerializer(datas, many=True)
         

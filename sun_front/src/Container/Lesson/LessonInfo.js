@@ -11,12 +11,12 @@ import moment from "moment";
 function LessonInfo() {
     const { pCenterId, pLessonId } = useParams();
     const role = localStorage.getItem("role");
-    const lesson = useFetch(`http://localhost:8000/center/timetable/getTimetableBlock/${pLessonId}`);
+    const lesson = useFetch(`http://localhost:8000/lesson/timetableblock/retrieve/${pLessonId}`);
     const [applicant, setApplicant] = useState(null);
 
     useEffect(() => {
         if (role === "manager" || role === "trainer") {
-            fetch(`http://localhost:8000/center/enrolment/getEnrolment/${pLessonId}`)
+            fetch(`http://localhost:8000/lesson/enrolment/applicant?blockid=${pLessonId}`)
             .then(res => res.json())
             .then(data => {
                 console.log(data);

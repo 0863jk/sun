@@ -4,7 +4,6 @@ import TrainerCard from '../../Component/Card/TrainerCard';
 import { useEffect, useState } from "react";
 
 function TrainerRegister({ onSubmit, setPage }) {
-    const username = localStorage.getItem('username');
     const [input, setInput] = useState('');
     const [trainer, setTrainer] = useState([]);
     const [trainerList, setTrainerList] = useState([]);

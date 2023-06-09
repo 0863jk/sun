@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 function CenterList() {
     const id = localStorage.getItem('username');
-    const center = useFetch(`http://localhost:8000/center/getMemberCenters/${id}`);
+    const center = useFetch(`http://localhost:8000/center/member/centerlist?userid=${id}`);
 
     return (
         <>
@@ -16,11 +16,13 @@ function CenterList() {
                     <div className="ContentContainer FlexContainer ">
                         <div className="CardListContainer">
                             <CardGroup className="CardGroup">
-                                {center && center.map(center => (
+                                {(center.length > 0) ? center.map(center => (
                                     <Link key={center.centerid} to={`/main/${center.centerid}`} className="LinkWrapper">
                                         <CenterCard from="list" center={center} />
                                     </Link>
-                                ))}
+                                )) : <>
+                                <p>등록된 센터가 없습니다.</p>
+                                </>}
                             </CardGroup>
                         </div>
                     </div>

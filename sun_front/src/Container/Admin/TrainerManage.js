@@ -10,7 +10,7 @@ import UserCard from "../../Component/Card/UserCard";
 
 function TrainerManage() {
     const { pCenterId } = useParams();
-    const trainers = useFetch(`http://localhost:8000/center/getCenterTrainers/${pCenterId}`);
+    const trainers = useFetch(`http://localhost:8000/center/member/get?centerid=${pCenterId}&role=trainer`);
 
     return (
         <>

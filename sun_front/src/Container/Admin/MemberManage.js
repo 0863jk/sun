@@ -10,7 +10,7 @@ import AdminTap from "./AdminTap";
 
 function MemberManage() {
     const { pCenterId } = useParams();
-    const members = useFetch(`http://localhost:8000/center/getCenterMembers/${pCenterId}`);
+    const members = useFetch(`http://localhost:8000/center/member/get?centerid=${pCenterId}&role=general`);
 
     return (
         <>

@@ -18,8 +18,9 @@ function TimeTableRegister() {
     const utils = new Utils(pCenterId);
     const username = localStorage.getItem("username");
     const role = localStorage.getItem("role");
-    const lessons = useFetch(`http://localhost:8000/center/lesson/getCenterLesson/${pCenterId}`)
-    const trainers = useFetch(`http://localhost:8000/center/getCenterTrainers/${pCenterId}`);
+    const lessons = useFetch(`http://localhost:8000/lesson/get/${pCenterId}`)
+    const trainers = useFetch(`http://localhost:8000/center/member/get?centerid=${pCenterId}&role=trainer`);
+    const timetableData = useFetch(`http://localhost:8000/lesson/timetableblock/center/${pCenterId}`);
     const [modalType, setModalType] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedTime, setSelectedTime] = useState(null);
@@ -183,7 +184,7 @@ function TimeTableRegister() {
                                     그 외의 강의 추가하기
                                 </button>
                             </div>
-                            <WeeklyTimetable centerid={pCenterId} role={role} from="register" onClick={handleTimeTableModal} />
+                            <WeeklyTimetable timetableData={timetableData} centerid={pCenterId} role={role} from="register" onClick={handleTimeTableModal} />
                         </div>
                     </div>
                 </div>

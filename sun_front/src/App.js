@@ -25,6 +25,8 @@ import LoginForm from './Container/LoginForm/LoginForm';
 import SignUpForm from './Container/LoginForm/SignUpForm';
 import CenterRegister from './Container/Center/CenterRegister';
 import NewPlan from './Container/Plan/NewPlan';
+import MyLesson from './Container/MyLesson/MyLesson';
+import MyWeekly from './Container/TimeTable/MyWeekly';
 //import Footer from './Component/Footer';
 
 function App() {
@@ -42,6 +44,7 @@ function App() {
             {/* <Route path="/signup/*" element={<SignUpForm />}></Route> */}
             {/* <Route path="/signup/:pUserRole" element={<SignUpForm />}></Route> */}
             <Route path="/" element={<CenterList  />}></Route>
+            <Route path="/timetable" element={<MyWeekly />}></Route>
             <Route path="/center/list" element={<CenterList />}></Route>
             <Route path="/register/:pCenterId" element={<CenterRegister />}></Route>
             <Route path="/register/:pCenterId/:pPlanId" element={<CenterRegister />}></Route>
@@ -57,7 +60,8 @@ function App() {
             <Route path="/plan/modify/:pCenterId" element={<PlanManage  />}></Route>
             <Route path="/plan/modify/:pCenterId/:pPlanId" element={<PlanModify  />}></Route>
             <Route path="/plan/list/:pCenterId" element={<PlanList  />}></Route>
-            <Route path="/lesson/:pCenterId/:pUserId" element={<LessonHistory  />}></Route>
+            <Route path="/lesson/:pCenterId/:pUserId" element={<MyLesson />}></Route>
+            <Route path="/lesson/history/:pCenterId/:pUserId" element={<LessonHistory  />}></Route>
             <Route path="/lesson/info/:pCenterId/:pLessonId" element={<LessonInfo />}></Route>
             <Route path="/lesson/rate/:pCenterId/:pLessonId" element={<WriteLessonReview  />}></Route>
             <Route path="/lesson/review/:pCenterId/:pLessonId" element={<LessonReview  />}></Route>

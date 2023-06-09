@@ -7,7 +7,7 @@ import useFetch from "../../Hook/useFetch"
 
 function PlanList() {
     const { pCenterId } = useParams();
-    const plan = useFetch(`http://localhost:8000/center/plan/getCenterPlans/${pCenterId}`);
+    const plan = useFetch(`http://localhost:8000/center/plan/get/${pCenterId}`);
 
     return (
         <>
@@ -21,9 +21,7 @@ function PlanList() {
                         <div className="CenterListContainer">
                             <CardGroup className="CardGroup">
                                 {plan && plan.map(plan => (
-                                    // <Link to={`/plan/${pCenterId}/${plan.planid}`} className="LinkWrapper">
-                                        <PlanCard key={plan.id} from="list" planinfo={plan}/>
-                                    // </Link>
+                                    <PlanCard key={plan.id} from="list" planinfo={plan} />
                                 ))}
                             </CardGroup>
                         </div>

@@ -8,14 +8,14 @@ import Utils from '../../Hook/Utils';
 import { Button } from 'react-bootstrap';
 import useFetch from '../../Hook/useFetch';
 
-function Weekly() {
+function MyWeekly() {
     const { pCenterId } = useParams();
     const utils = new Utils(pCenterId);
     const username = localStorage.getItem('username');
     const role = localStorage.getItem('role');
     const [lesson, setLesson] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
-    const timetableData = useFetch(`http://localhost:8000/lesson/timetableblock/center/${pCenterId}`);
+    const timetableData = useFetch(`http://localhost:8000/lesson/timetableblock/${role}/${username}`);
 
     const handleOpenModal = (data) => {
         setLesson(data);
@@ -53,9 +53,6 @@ function Weekly() {
 
     return (
         <>
-            <div className="header">
-                <CenterNav centerid={pCenterId}/>
-            </div>
             <div className="LabelWrapper">
                 <div className="wrap MainContainer">
                     <WeeklyTimetable timetableData={timetableData} centerid={pCenterId} role={role} onClick={handleOpenModal}/>
@@ -89,4 +86,4 @@ function Weekly() {
         </>
     );
 }
-export default Weekly;
+export default MyWeekly;

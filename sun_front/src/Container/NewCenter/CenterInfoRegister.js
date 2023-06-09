@@ -93,7 +93,7 @@ function CenterInfoRegister({ data, onSubmit, setPage, setCenterid }) {
 
     // 중복 검사 메소드
     function chkCtId(ctid) {
-        fetch(`http://localhost:8000/center/getCenter/${ctid}`)
+        fetch(`http://localhost:8000/center/search?centerid=${ctid}`)
             .then(res => {
                 return res.json();
             })

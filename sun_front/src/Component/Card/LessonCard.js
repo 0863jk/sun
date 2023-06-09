@@ -17,7 +17,7 @@ function LessonCard({ from, lessoninfo, centerid, onClick }) {
     const newDate = new Date();
     const [selectedDate, setSelectedDate] = useState(defaultDate);
     const [selectedTime, setSelectedTime] = useState([dayjs(lessoninfo.info_start, 'HH:mm'), dayjs(lessoninfo.info_end, 'HH:mm')]);
-    const trainers = useFetch(`http://localhost:8000/center/getCenterTrainers/${centerid}`);
+    const trainers = useFetch(`http://localhost:8000/center/member/get?centerid=${centerid}&role=trainer`);
 
     useEffect(() => {
         if (from === "register") {
@@ -146,8 +146,9 @@ function LessonCard({ from, lessoninfo, centerid, onClick }) {
                                         from === "register" ? (
                                             <Button onClick={handleOpenModal}>시간표에 등록하기</Button>
                                         ) : from === "mylesson" ? (
+                                            <Card.Link onClick={() => onClick(lessoninfo)}>정보 보기</Card.Link>
+                                        ) : from === "lessonhistory" ? (
                                             <Card.Link onClick={() => onClick(lessoninfo)}>강의평 작성하기</Card.Link>
-                                            // <Card.Link href={`/lesson/rate/${lessoninfo.blockid}`}>강의평 작성하기</Card.Link>
                                         ) :
                                             <></>
                                     }

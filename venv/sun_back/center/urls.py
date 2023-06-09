@@ -17,8 +17,10 @@ urlpatterns = [
 
     path('member/list', views.MemberViewSet.as_view({'get': 'list'}), name="getCenterMember"),
     path('member/retrieve/<str:pk>', views.MemberViewSet.as_view({'get': 'list'}), name="getCenterMember"),
-    path('member/get', views.MemberViewSet.as_view({'get': 'getMemberCenters'}), name="getMemberCenters"),
-    path('member/get', views.MemberViewSet.as_view({'get': 'getMembers'}), name="getMembers"),
+    path('member/register', views.MemberViewSet.as_view({'post': 'register'}), name="getCenterMember"),
+    path('member/centerlist', views.MemberViewSet.as_view({'get': 'getMemberCenters'}), name="getMemberCenters"),
+    path('member', views.MemberViewSet.as_view({'get': 'getMembers'}), name="getMembers"),
+    path('member/get', views.MemberViewSet.as_view({'get': 'getMembersByRole'}), name="getMembersByRole"),
 ]
 
 # from django.urls import path

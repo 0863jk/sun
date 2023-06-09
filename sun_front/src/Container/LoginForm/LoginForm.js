@@ -2,26 +2,18 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 function LoginForm() {
     const navigate = useNavigate();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [errors, setErrors] = useState(false);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         if (localStorage.getItem('token') !== null) {
             navigate('/login');
-        } else {
-            setLoading(false);
         }
     }, [])
 
     const fetchUserData = (username) => {
-        const userData = { username: username };
-
         fetch(`http://localhost:8000/account/getUsername/${username}`)
             .then(res => res.json())
             .then(data => {
@@ -58,12 +50,12 @@ function LoginForm() {
         })
             .then(res => {
                 if (!res.ok) {
+                    alert("로그인 실패: 아이디 및 비밀번호를 확인하세요.")
                     throw new Error('오류 발생: ' + res.status); // 오류 발생시 에러를 throw
                 }
                 return res.json();
             })
             .then(data => {
-                const token = data.key;
                 if (data) {
                     localStorage.clear();
                     localStorage.setItem('token', data.key);
@@ -71,10 +63,7 @@ function LoginForm() {
                     fetchUserData(username);
                     window.location.replace('http://localhost:3000/');
                 } else {
-                    setEmail('');
-                    setPassword('');
                     localStorage.clear();
-                    setErrors(true);
                 }
             });
     }

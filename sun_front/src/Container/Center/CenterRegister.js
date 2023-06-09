@@ -51,17 +51,6 @@ function CenterRegister() {
                 console.log(data);
                 alert("센터에 정상적으로 등록되었습니다.");
             })
-            // fetch('http://localhost:8000/center/registerCenterMember/', {
-            //     method: 'POST',
-            //     headers: { 'Content-type': 'application/json' },
-            //     body: jsonData
-            // })
-            //     .then(res => res.json())
-            //     .then(data => {
-
-            //     }).catch(error => {
-            //         alert("Error: " + error);
-            //     });
         }
     }, [registerData, utils]);
 

@@ -11,9 +11,9 @@ function AdminTap({centerid, current}) {
                 <Nav.Item>
                     <Nav.Link href={`/admin/member/${centerid}`} className={current === "member" ? "current" : ""}>회원 관리</Nav.Link>
                 </Nav.Item>
-                <Nav.Item>
+                {/* <Nav.Item>
                     <Nav.Link href={`/admin/stats/${centerid}`} className={current === "stats" ? "current" : ""}>통계</Nav.Link>
-                </Nav.Item>
+                </Nav.Item> */}
                 <Nav.Item>
                     <Nav.Link href={`/admin/lesson/${centerid}`} className={current === "lesson" ? "current" : ""}>강의평</Nav.Link>
                 </Nav.Item>

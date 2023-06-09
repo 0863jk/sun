@@ -10,7 +10,7 @@ import { Button, Form } from "react-bootstrap";
 function LessonHistory() {
     const { pCenterId } = useParams();
     const username = localStorage.getItem("username");
-    const lessons = useFetch(`http://localhost:8000/center/timetable/getMemberLessonHistory/${pCenterId}/${username}`);
+    const lessons = useFetch(`http://localhost:8000/lesson/timetableblock/history/general?centerid=${pCenterId}&userid=${username}`);
     const [selectedLesson, setSelectedLesson] = useState(null);
 
     const [modalVisible, setModalVisible] = useState(false);
@@ -57,7 +57,7 @@ function LessonHistory() {
                                 {
                                     lessons && lessons.map(lessons => (
                                         <>
-                                            <LessonCard from="mylesson" lessoninfo={lessons} onClick={handleOpenModal} />
+                                            <LessonCard from="lessonhistory" lessoninfo={lessons} onClick={handleOpenModal} />
                                         </>
                                     ))
                                 }
@@ -83,25 +83,20 @@ function LessonHistory() {
                                         </div>
                                     </Form.Group>
                                     <Form.Group className="mb-3" controlId="formBasicEmail">
-                                        <Form.Label>강사의 지도는 어땠나요?</Form.Label>
+                                        <Form.Label>강사의 지도는 적절했나요?</Form.Label>
                                         <div >
-                                            <Form.Check inline type="radio" label="매우 좋음" value="5" name="teaching" />
-                                            <Form.Check inline type="radio" label="좋음" value="4" name="teaching" />
-                                            <Form.Check inline type="radio" label="보통" value="3" name="teaching" />
-                                            <Form.Check inline type="radio" label="별로임" value="2" name="teaching" />
-                                            <Form.Check inline type="radio" label="매우 별로임" value="1" name="teaching" />
+                                            <Form.Check inline type="radio" label="매우 그렇디" value="4" name="teaching" />
+                                            <Form.Check inline type="radio" label="그렇다" value="3" name="teaching" />
+                                            <Form.Check inline type="radio" label="아니다" value="2" name="teaching" />
+                                            <Form.Check inline type="radio" label="매우 아니다" value="1" name="teaching" />
                                         </div>
                                     </Form.Group>
                                     <Form.Group className="mb-3" controlId="formBasicEmail">
                                         <Form.Label>이 강의를 추천하시나요?</Form.Label>
                                         <div>
                                             <Form.Check inline type="radio" label="추천함" value="1" name="recommend" />
-                                            <Form.Check inline type="radio" label="추천하지 않음" value="2" name="recommend" />
+                                            <Form.Check inline type="radio" label="추천하지 않음" value="0" name="recommend" />
                                         </div>
-                                    </Form.Group>
-                                    <Form.Group className="mb-3" controlId="formBasicEmail">
-                                        <Form.Label>강사에게 남길 말이 있나요?</Form.Label>
-                                        <Form.Control type="text" name="comment" placeholder="자유롭게 남겨주세요..." />
                                     </Form.Group>
                                     <Button variant="primary" type="submit">
                                         Submit
