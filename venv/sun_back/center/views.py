@@ -74,9 +74,9 @@ class PlanViewSet(viewsets.ViewSet):
         userid = request.query_params.get('userid', '')
         registerinfo = Member.objects.get(centerid=centerid, userid=userid)
         
-        data = Plan.objects.filter(planid=registerinfo.planid)
+        data = Plan.objects.get(planid=registerinfo.planid)
 
-        serializer = PlanSerializer(data, many=True)
+        serializer = PlanSerializer(data, many=False)
         
         return Response(serializer.data)
 
@@ -139,6 +139,16 @@ class MemberViewSet(viewsets.ViewSet):
         datas = User.objects.filter(username__in=user_ids)
 
         serializer = UserSerializer(datas, many=True)
+        
+        return Response(serializer.data)
+    
+    @action(detail=False, methods=['GET'])
+    def getRegisterInfo(self, request):
+        centerid = request.query_params.get('centerid', '')
+        userid = request.query_params.get('userid', '')
+        datas = Member.objects.get(centerid=centerid, userid=userid)
+
+        serializer = MemberSerializer(datas, many=False)
         
         return Response(serializer.data)
     

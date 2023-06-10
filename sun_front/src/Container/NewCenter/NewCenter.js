@@ -5,6 +5,7 @@ import CenterInfoRegister from "./CenterInfoRegister";
 import PlanRegister from "./PlanRegister";
 import TrainerRegister from "./TrainerRegister";
 import Utils from "../../Hook/Utils";
+import NewCenterTap from "./NewCenterTap";
 
 function NewCenter() {
     const username = localStorage.getItem('username');
@@ -89,23 +90,13 @@ function NewCenter() {
 
     return (
         <>
-            <div className="wrap MainContainer">
-                <div className="LabelWrapper">
-                    <label className="LabelTitle">센터 새로 등록</label>
+            <div className="wrap main-container">
+                <div className="label-wrapper">
+                    <label className="label-title">센터 새로 등록</label>
                     <div className="Taps">
-                        <Nav className="justify-content-center" activeKey="/home">
-                            <Nav.Item>
-                                <Nav.Link disabled href="" className={page === 'info' ? "current" : null}>센터 기본 정보 등록</Nav.Link>
-                            </Nav.Item>
-                            <Nav.Item>
-                                <Nav.Link disabled href="" className={page === 'plan' ? "current" : null}>이용권 정보 등록</Nav.Link>
-                            </Nav.Item>
-                            <Nav.Item>
-                                <Nav.Link disabled href="" className={page === 'trainer' ? "current" : null}>강사 등록</Nav.Link>
-                            </Nav.Item>
-                        </Nav>
+                        <NewCenterTap page={page} />
                     </div>
-                    <div className="ContentContainer">
+                    <div className="content-container">
                         {
                             page === 'info' ? <CenterInfoRegister data={centerInfoData} onSubmit={handleCenterInfoSubmit} setPage={setPageHandler} setCenterid={handleCenterId} /> :
                                 page === 'plan' ? <PlanRegister data={planData} onSubmit={handlePlanSubmit} centerid={centerid} setPage={setPageHandler} /> :
@@ -115,7 +106,7 @@ function NewCenter() {
                         {
                             centerInfoData !== null && planData !== null ?
                                 (<Button variant="primary" onClick={onSubmit}>
-                                    Submit
+                                    등록하기
                                 </Button>) : <></>
                         }
                     </div>

@@ -21,7 +21,6 @@ function CenterCard({ center, from, openModal }) {
                         <ListGroup.Item>{center.manager}</ListGroup.Item>
                         <ListGroup.Item>{center.address1} {center.address2}</ListGroup.Item>
                     </ListGroup>
-
                     <Card.Body>
                         {
                             from === "list" ? (

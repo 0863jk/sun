@@ -97,6 +97,19 @@ class TimetableBlockViewSet(viewsets.ViewSet):
 
         return Response(serializer.data)
     
+    @action(detail=False, methods=['PUT'])
+    def update(self, request, blockid):
+        try:
+            data = TimetableBlock.objects.get(blockid=blockid)
+        except TimetableBlock.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = TimetableBlockSerializer(data, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
     @action(detail=False, methods=['GET'])
     def getTrainerHistory(self, request):
         userid = request.query_params.get('userid', '')
@@ -126,20 +139,6 @@ class EnrolmentViewSet(viewsets.ViewSet):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    @action(detail=False, methods=['PUT'])
-    def update(self, request, blockid):
-        try:
-            data = TimetableBlock.objects.get(blockid=blockid)
-        except TimetableBlock.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
-        serializer = TimetableBlockSerializer(data, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
     
     @action(detail=False, methods=['GET'])
     def getApplicants(self, request):

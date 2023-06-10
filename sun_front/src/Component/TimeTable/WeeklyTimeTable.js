@@ -14,7 +14,7 @@ function WeeklyTimetable({ timetableData, centerid, onClick }) {
             ...event,
             start: moment(event.start).toDate(),
             end: moment(event.end).toDate(),
-            title: `${event.title} (${event.trainername}))`,
+            title: `${event.title} (${event.trainername})`,
             lessontitle: `${event.title}`,
         }
     })

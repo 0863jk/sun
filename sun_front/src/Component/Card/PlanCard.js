@@ -40,7 +40,7 @@ function PlanCard({ centerid, planinfo, from, setPlanData }) {
     return (
         <>
             <div className="PlanCard">
-                <Card style={{ width: "284px" }}>
+                <Card className="Card" style={{ width: "200px" }}>
                     <Card.Body>
                         <Card.Title>{planinfo.planname}</Card.Title>
                         <Card.Text>

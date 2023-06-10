@@ -1,6 +1,5 @@
 import { useParams } from 'react-router-dom';
 import CenterNav from '../../Component/Nav/CenterNav';
-import WeeklyTable from '../../Component/TimeTable/WeeklyTable';
 import { useEffect, useState } from 'react';
 import WeeklyTimetable from '../../Component/TimeTable/WeeklyTimeTable';
 import { Modal } from 'antd';
@@ -54,11 +53,13 @@ function Weekly() {
     return (
         <>
             <div className="header">
-                <CenterNav centerid={pCenterId}/>
+                <CenterNav centerid={pCenterId} />
             </div>
-            <div className="LabelWrapper">
-                <div className="wrap MainContainer">
-                    <WeeklyTimetable timetableData={timetableData} centerid={pCenterId} role={role} onClick={handleOpenModal}/>
+            <div className="main-container">
+                <div className="label-wrapper">
+                    <div className='timetable-wrapper'>
+                        <WeeklyTimetable timetableData={timetableData} centerid={pCenterId} role={role} onClick={handleOpenModal} />
+                        </div>
                 </div>
             </div>
             <Modal open={modalVisible} onCancel={handleCloseModal} footer={null}>
@@ -68,9 +69,9 @@ function Weekly() {
                             <h3>레슨 상세 정보</h3>
                             {lesson && (
                                 <div>
-                                    <p>{lesson.lessontitle}</p>
-                                    <p>{lesson.summary}</p>
-                                    <p>{lesson.trainer}</p>
+                                    <p>레슨명: {lesson.lessontitle}</p>
+                                    <p>레슨 설명: {lesson.summary}</p>
+                                    <p>강사: {lesson.trainername}</p>
                                     <p>{lesson.number_of_applicants} / {lesson.max_capacity}</p>
                                     {
                                         role === "manager" || role === "trainer" ? (

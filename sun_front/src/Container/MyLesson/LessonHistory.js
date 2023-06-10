@@ -6,9 +6,11 @@ import { useEffect, useState } from "react";
 import useFetch from "../../Hook/useFetch";
 import { Divider, Modal } from "antd";
 import { Button, Form } from "react-bootstrap";
+import Utils from "../../Hook/Utils";
 
 function LessonHistory() {
     const { pCenterId } = useParams();
+    const utils = new Utils(pCenterId);
     const username = localStorage.getItem("username");
     const lessons = useFetch(`http://localhost:8000/lesson/timetableblock/history/general?centerid=${pCenterId}&userid=${username}`);
     const [selectedLesson, setSelectedLesson] = useState(null);
@@ -33,6 +35,7 @@ function LessonHistory() {
         const comment = formData.get('comment');
 
         const data = {
+            centerid: pCenterId,
             userid: username,
             blockid: selectedLesson.blockid,
             lessonid: selectedLesson.lessonid,
@@ -41,17 +44,23 @@ function LessonHistory() {
             recommend: recommend,
             comment: comment,
         }
+        
+        utils.registerLessonReview(data).then(data => {
+            console.log(data);
+            alert("등록되었습니다.");
+            window.location.reload();
+        })
     }
 
     return (
         <>
-            <div>
-                <div className="header">
-                    <CenterNav centerid={pCenterId} />
-                </div>
-                <div className="MainContainer">
-                    <div className="LabelWrapper">
-                        <label className="LabelTitle">나의 레슨 기록</label>
+            <div className="header">
+                <CenterNav centerid={pCenterId} />
+            </div>
+            <div className="main-container">
+                <div className="label-wrapper">
+                    <label className="label-title">나의 레슨 기록</label>
+                    <div className="content-container">
                         <div className="CenterListContainer">
                             <CardGroup className="CardGroup">
                                 {

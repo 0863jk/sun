@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import "./NewCenter.css";
+import { useEffect, useState } from "react";
 import { Modal } from "antd";
 import { Button, Form, Col, Row } from 'react-bootstrap';
 import DaumPostcode from 'react-daum-postcode';
@@ -11,7 +11,7 @@ const initialValue = {
     address1: "",
     address2: "",
     introduction: "",
-    password: "",   
+    password: "",
 };
 
 function CenterInfoRegister({ data, onSubmit, setPage, setCenterid }) {
@@ -19,7 +19,7 @@ function CenterInfoRegister({ data, onSubmit, setPage, setCenterid }) {
     const { centername, centerid, bizid, address1, address2, introduction, password } = inputValues;
 
     useEffect(() => {
-        if(data) {
+        if (data) {
             setInputValues(data);
         }
     }, [data])
@@ -159,63 +159,65 @@ function CenterInfoRegister({ data, onSubmit, setPage, setCenterid }) {
                 </Modal>
             )}
             <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3">
-                    <Form.Label>센터명</Form.Label>
-                    <Form.Control type="text" placeholder="센터 이름을 입력해 주세요..." name="centername" onChange={onChangeInput} value={centername}/>
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>센터ID</Form.Label>
-                    <Form.Group className="mb-3 nomargin" as={Row} >
-                        <Col xs={9} className="nomargin">
-                            <Form.Control type="text" name="centerid" placeholder="센터 아이디를 입력해 주세요..." readOnly={ctIdState ? true : false} onChange={onChangeInput} value={centerid} />
-                        </Col>
-                        <Col className="nomargin">
-                            <Form.Control type="Button" value="중복 검사" onClick={handleCtIdState} />
-                        </Col>
+                <div className="form-wrapper">
+                    <Form.Group className="mb-3">
+                        <Form.Label>센터명</Form.Label>
+                        <Form.Control type="text" placeholder="센터 이름을 입력해 주세요..." name="centername" onChange={onChangeInput} value={centername} />
                     </Form.Group>
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>주소</Form.Label>
-                    <Form.Group as={Row}>
-                        <Row className="nomargin">
-                            <Col className="my-1 nomargin" xs={7}>
-                                <Form.Control type="text" name="address1" onChange={onChangeInput} value={inputAddressValue || address1} placeholder="도로명 주소를 입력해 주세요..." onClick={onToggleModal} contentEditable="false" />
+                    <Form.Group className="mb-3">
+                        <Form.Label>센터ID</Form.Label>
+                        <Form.Group className="mb-3 nomargin" as={Row} >
+                            <Col xs={9} className="nomargin">
+                                <Form.Control type="text" name="centerid" placeholder="센터 아이디를 입력해 주세요..." readOnly={ctIdState ? true : false} onChange={onChangeInput} value={centerid} />
                             </Col>
-                            <Col className="my-1 nomargin">
-                                <Form.Control type="Button" value="주소 찾기" onClick={onToggleModal} />
+                            <Col className="nomargin">
+                                <Form.Control type="Button" value="중복 검사" onClick={handleCtIdState} />
                             </Col>
-                        </Row>
-                        <Row className="nomargin">
-                            <Col className="my-1 nomargin">
-                                <Form.Control type="text" name="address2" placeholder="상세 주소를 입력해 주세요... " onChange={onChangeInput} value={address2}/>
-                            </Col>
-                        </Row>
+                        </Form.Group>
                     </Form.Group>
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>사업자 등록번호</Form.Label>
-                    <Form.Group className="mb-3 nomargin" as={Row} >
-                        <Col xs={9} className="nomargin">
-                            <Form.Control type="text" name="bizid" placeholder="사업자 등록번호를 입력해 주세요..." onChange={onChangeInput} readOnly={bizIdState ? true : false} value={bizid} />
-                        </Col>
-                        <Col className="nomargin">
-                            <Form.Control type="Button" value="유효성 검사" onClick={handleBizId} />
-                        </Col>
+                    <Form.Group className="mb-3">
+                        <Form.Label>주소</Form.Label>
+                        <Form.Group as={Row}>
+                            <Row className="nomargin">
+                                <Col className="my-1 nomargin" xs={7}>
+                                    <Form.Control type="text" name="address1" onChange={onChangeInput} value={inputAddressValue || address1} placeholder="도로명 주소를 입력해 주세요..." onClick={onToggleModal} contentEditable="false" />
+                                </Col>
+                                <Col className="my-1 nomargin">
+                                    <Form.Control type="Button" value="주소 찾기" onClick={onToggleModal} />
+                                </Col>
+                            </Row>
+                            <Row className="nomargin">
+                                <Col className="my-1 nomargin">
+                                    <Form.Control type="text" name="address2" placeholder="상세 주소를 입력해 주세요... " onChange={onChangeInput} value={address2} />
+                                </Col>
+                            </Row>
+                        </Form.Group>
                     </Form.Group>
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>센터소개</Form.Label>
-                    <Form.Control type="text" name="introduction" placeholder="센터 소개를 입력해 주세요..." onChange={onChangeInput} value={introduction} />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" name="password" placeholder="센터를 관리할 때 사용할 비밀번호를 입력해 주세요..." onChange={onChangeInput} value={password} />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Button variant="primary" type="submit">
-                        다음
-                    </Button>
-                </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>사업자 등록번호</Form.Label>
+                        <Form.Group className="mb-3 nomargin" as={Row} >
+                            <Col xs={9} className="nomargin">
+                                <Form.Control type="text" name="bizid" placeholder="사업자 등록번호를 입력해 주세요..." onChange={onChangeInput} readOnly={bizIdState ? true : false} value={bizid} />
+                            </Col>
+                            <Col className="nomargin">
+                                <Form.Control type="Button" value="유효성 검사" onClick={handleBizId} />
+                            </Col>
+                        </Form.Group>
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>센터소개</Form.Label>
+                        <Form.Control type="text" name="introduction" placeholder="센터 소개를 입력해 주세요..." onChange={onChangeInput} value={introduction} />
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control type="password" name="password" placeholder="센터를 관리할 때 사용할 비밀번호를 입력해 주세요..." onChange={onChangeInput} value={password} />
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Button variant="primary" type="submit">
+                            다음
+                        </Button>
+                    </Form.Group>
+                </div>
             </Form>
         </>
     );

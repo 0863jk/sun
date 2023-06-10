@@ -2,12 +2,25 @@
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+    transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+    margin: 10px;
+    flex: 0 0 300px;
+}
+.PlanCard {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+    margin-bottom: 20px;
 }
 
 .Card {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     border: none;
     transition: box-shadow 0.3s ease-in-out;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .Card:hover {
@@ -37,12 +50,7 @@
 }
 
 .Card.Link {
-    color: #007bff;
     font-size: 14px;
     text-decoration: none;
     transition: color 0.3s ease-in-out;
-}
-
-.Card.Link:hover {
-    color: #0056b3;
 }

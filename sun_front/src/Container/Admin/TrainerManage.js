@@ -18,16 +18,18 @@ function TrainerManage() {
                 <div className="header">
                     <CenterNav centerid={pCenterId} />
                 </div>
-                <div className="MainContainer">
-                    <div className="LabelWrapper">
-                        <label className="LabelTitle">강사 관리</label>
+                <div className="main-container">
+                    <div className="label-wrapper">
+                        <label className="label-title">강사 관리</label>
                         <AdminTap centerid={pCenterId} current="trainer" />
-                        <div className="CenterListContainer">
-                            <CardGroup className="CardGroup">
-                                {trainers && trainers.map(trainers => (
-                                    <UserCard user={trainers} />
-                                ))}
-                            </CardGroup>
+                        <div className="content-container">
+                            <div className="CenterListContainer">
+                                <CardGroup className="CardGroup">
+                                    {trainers && trainers.map(trainers => (
+                                        <UserCard user={trainers} />
+                                    ))}
+                                </CardGroup>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -10,11 +10,11 @@ function CenterList() {
 
     return (
         <>
-            <div className="wrap MainContainer">
-                <div className="LabelWrapper">
-                    <label className="LabelTitle">나의 센터</label>
-                    <div className="ContentContainer FlexContainer ">
-                        <div className="CardListContainer">
+            <div className="main-container">
+                <div className="label-wrapper">
+                    <label className="label-title">나의 센터</label>
+                    <div className="content-container">
+                        <div className="cardlist-container">
                             <CardGroup className="CardGroup">
                                 {(center.length > 0) ? center.map(center => (
                                     <Link key={center.centerid} to={`/main/${center.centerid}`} className="LinkWrapper">

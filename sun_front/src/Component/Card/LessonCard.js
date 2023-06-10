@@ -89,8 +89,8 @@ function LessonCard({ from, lessoninfo, centerid, onClick }) {
 
     return (
         <>
-            <div className="LessonCard">
-                <Card style={{ width: "284px" }}>
+            <div className="PlanCard">
+                <Card className="Card" style={{ width: "284px" }}>
                     {
                         lessoninfo && (
                             <>
@@ -98,7 +98,7 @@ function LessonCard({ from, lessoninfo, centerid, onClick }) {
                                     <Card.Title>{lessoninfo.title}</Card.Title>
                                     {lessoninfo.trainername && (
                                         <ListGroup.Item>{lessoninfo.trainername} 강사</ListGroup.Item>
-                                        )}
+                                    )}
                                     {lessoninfo.info_trainername && (
                                         <ListGroup.Item>{lessoninfo.info_trainername}</ListGroup.Item>
                                     )}
@@ -132,8 +132,8 @@ function LessonCard({ from, lessoninfo, centerid, onClick }) {
                                                         {
                                                             lessoninfo.start && (
                                                                 <>
-                                                                <ListGroup.Item>{lessoninfo.end && lessoninfo.start.toString().slice(0, 10)}</ListGroup.Item>
-                                                                <ListGroup.Item>{lessoninfo.start && lessoninfo.start.toString().slice(11, 16)} ~ {lessoninfo.end && lessoninfo.end.toString().slice(11, 16)}</ListGroup.Item>
+                                                                    <ListGroup.Item>{lessoninfo.end && lessoninfo.start.toString().slice(0, 10)}</ListGroup.Item>
+                                                                    <ListGroup.Item>{lessoninfo.start && lessoninfo.start.toString().slice(11, 16)} ~ {lessoninfo.end && lessoninfo.end.toString().slice(11, 16)}</ListGroup.Item>
                                                                 </>
                                                             )
                                                         }
@@ -144,7 +144,7 @@ function LessonCard({ from, lessoninfo, centerid, onClick }) {
                                 <Card.Body>
                                     {
                                         from === "register" ? (
-                                            <Button onClick={handleOpenModal}>시간표에 등록하기</Button>
+                                            <Card.Link onClick={handleOpenModal}>시간표에 등록하기</Card.Link>
                                         ) : from === "mylesson" ? (
                                             <Card.Link onClick={() => onClick(lessoninfo)}>정보 보기</Card.Link>
                                         ) : from === "lessonhistory" ? (
@@ -157,61 +157,60 @@ function LessonCard({ from, lessoninfo, centerid, onClick }) {
                         )
                     }
                 </Card>
-                <Modal open={modalVisible} onCancel={handleCloseModal} footer={null}>
-                    {lessoninfo && (
-                        <>
-                            <div style={{ textAlign: 'center' }}>
-                                <label className="LabelTitle">수업 등록</label>
-                                <iframe title="none-display-frame" id="iframe1" name="iframe1" style={{ display: "none" }}>test</iframe>
-                                <Form onSubmit={handleSubmit} method="post" target="iframe1">
-                                    <Form.Group className="mb-3" controlId="formBasicEmail">
-                                        <Form.Label>수업명</Form.Label>
-                                        <Form.Control type="text" placeholder="수업명" name="title" defaultValue={lessoninfo.title} />
-                                    </Form.Group>
-                                    <Form.Group className="mb-3" controlId="formBasicEmail">
-                                        <Form.Label>설명</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="설명"
-                                            name="summary"
-                                            defaultValue={lessoninfo.summary}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group className="mb-3" controlId="formBasicEmail">
-                                        <Form.Label>강사 선택</Form.Label>
-                                        <Form.Select name="trainerid" onChange={onChange}>
-                                            <option value="default">
-                                                강사 선택
-                                            </option>
-                                            {trainers && trainers.map(trainers => (
-                                                <option value={trainers.username} key={trainers.id} selected={lessoninfo.info_trainerid === trainers.username ? (true) : (false)}>
-                                                    {trainers.name}
-                                                </option>
-                                            ))}
-                                        </Form.Select>
-                                    </Form.Group>
-                                    <Form.Group className="mb-3" controlId="formBasicEmail">
-                                        <Form.Label>최대 인원</Form.Label>
-                                        <Form.Control type="number" placeholder="최대 인원 입력" name="maxCapacity" defaultValue={lessoninfo.info_max_capacity} />
-                                    </Form.Group>
-                                    <Form.Group className="mb-3" controlId="formBasicEmail">
-                                        <Form.Label>날짜</Form.Label><br />
-                                        <DatePicker onChange={handleDateChange} format={dateFormat} defaultValue={dayjs(defaultDate, "YYYY-MM-DD")} />
-                                    </Form.Group>
-                                    <Form.Group className="mb-3" controlId="formBasicEmail">
-                                        <Form.Label>시간</Form.Label><br />
-                                        <RangePicker onChange={handleTimeChange} defaultValue={lessoninfo.info_start && lessoninfo.info_end && [dayjs(lessoninfo.info_start, 'HH:mm'), dayjs(lessoninfo.info_end, 'HH:mm')]} format="HH:mm" />
-                                    </Form.Group>
-                                    <Button variant="primary" type="submit">
-                                        Submit
-                                    </Button>
-                                </Form>
-                            </div>
-                        </>
-                    )}
-                </Modal>
             </div>
-
+            <Modal open={modalVisible} onCancel={handleCloseModal} footer={null}>
+                {lessoninfo && (
+                    <>
+                        <div style={{ textAlign: 'center' }}>
+                            <h3>수업 등록</h3>
+                            <iframe title="none-display-frame" id="iframe1" name="iframe1" style={{ display: "none" }}>test</iframe>
+                            <Form onSubmit={handleSubmit} method="post" target="iframe1">
+                                <Form.Group className="mb-3" controlId="formBasicEmail">
+                                    <Form.Label>수업명</Form.Label>
+                                    <Form.Control type="text" placeholder="수업명" name="title" defaultValue={lessoninfo.title} />
+                                </Form.Group>
+                                <Form.Group className="mb-3" controlId="formBasicEmail">
+                                    <Form.Label>설명</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="설명"
+                                        name="summary"
+                                        defaultValue={lessoninfo.summary}
+                                    />
+                                </Form.Group>
+                                <Form.Group className="mb-3" controlId="formBasicEmail">
+                                    <Form.Label>강사 선택</Form.Label>
+                                    <Form.Select name="trainerid" onChange={onChange}>
+                                        <option value="default">
+                                            강사 선택
+                                        </option>
+                                        {trainers && trainers.map(trainers => (
+                                            <option value={trainers.username} key={trainers.id} selected={lessoninfo.info_trainerid === trainers.username ? (true) : (false)}>
+                                                {trainers.name}
+                                            </option>
+                                        ))}
+                                    </Form.Select>
+                                </Form.Group>
+                                <Form.Group className="mb-3" controlId="formBasicEmail">
+                                    <Form.Label>최대 인원</Form.Label>
+                                    <Form.Control type="number" placeholder="최대 인원 입력" name="maxCapacity" defaultValue={lessoninfo.info_max_capacity} />
+                                </Form.Group>
+                                <Form.Group className="mb-3" controlId="formBasicEmail">
+                                    <Form.Label>날짜</Form.Label><br />
+                                    <DatePicker onChange={handleDateChange} format={dateFormat} defaultValue={dayjs(defaultDate, "YYYY-MM-DD")} />
+                                </Form.Group>
+                                <Form.Group className="mb-3" controlId="formBasicEmail">
+                                    <Form.Label>시간</Form.Label><br />
+                                    <RangePicker onChange={handleTimeChange} defaultValue={lessoninfo.info_start && lessoninfo.info_end && [dayjs(lessoninfo.info_start, 'HH:mm'), dayjs(lessoninfo.info_end, 'HH:mm')]} format="HH:mm" />
+                                </Form.Group>
+                                <Button variant="primary" type="submit">
+                                    Submit
+                                </Button>
+                            </Form>
+                        </div>
+                    </>
+                )}
+            </Modal>
         </>
     );
 }

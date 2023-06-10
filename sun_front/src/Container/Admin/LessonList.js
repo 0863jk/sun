@@ -21,7 +21,7 @@ function LessonList() {
     useEffect(() => {
         if (selectedLesson) {
             fetch(`http://localhost:8000/lesson/lessonreview/get?blockid=${selectedLesson.blockid}`)
-                .then(res => console.log(res))
+                .then(res => {return res.json()})
                 .then(data => setReviews(data));
         }
     }, [selectedLesson]);
@@ -37,14 +37,14 @@ function LessonList() {
 
     return (
         <>
-            <div>
-                <div className="header">
-                    <CenterNav centerid={pCenterId} />
-                </div>
-                <div className="MainContainer">
-                    <div className="LabelWrapper">
-                        <label className="LabelTitle">강의평</label>
-                        <AdminTap centerid={pCenterId} current="lesson" />
+            <div className="header">
+                <CenterNav centerid={pCenterId} />
+            </div>
+            <div className="main-container">
+                <div className="label-wrapper">
+                    <label className="label-title">강의평</label>
+                    <AdminTap centerid={pCenterId} current="lesson" />
+                    <div className="content-container">
                         <div className="CenterListContainer">
                             <CardGroup className="CardGroup">
                                 {
@@ -69,7 +69,7 @@ function LessonList() {
                                     reviews ? (
                                         <>
                                             <p>총 {reviews.length}개의 리뷰가 존재합니다.</p>
-                                            <Table striped bordered hover>
+                                            <Table striped bordered >
                                                 <thead>
                                                     <tr>
                                                         <th colSpan={3}>난이도</th>
@@ -88,7 +88,7 @@ function LessonList() {
                                                     </tr>
                                                 </tbody>
                                             </Table>
-                                            <Table striped bordered hover>
+                                            <Table striped bordered >
                                                 <thead>
                                                     <tr>
                                                         <th colSpan={5}>강사의 지도가 적절했나요?</th>
@@ -97,7 +97,7 @@ function LessonList() {
                                                 <tbody>
                                                     <tr>
                                                         <td>매우 그렇다</td>
-                                                        <td>그렇디</td>
+                                                        <td>그렇다</td>
                                                         <td>아니다</td>
                                                         <td>매우 아니다</td>
                                                     </tr>
@@ -109,7 +109,7 @@ function LessonList() {
                                                     </tr>
                                                 </tbody>
                                             </Table>
-                                            <Table striped bordered hover>
+                                            <Table striped bordered >
                                                 <thead>
                                                     <tr>
                                                         <th colSpan={2}>추천 여부</th>
@@ -121,8 +121,8 @@ function LessonList() {
                                                         <td>추천하지 않음</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>{reviews.filter(review => review.recommend=== 1).length}</td>
-                                                        <td>{reviews.filter(review => review.recommend=== 0).length}</td>
+                                                        <td>{reviews.filter(review => review.recommend === 1).length}</td>
+                                                        <td>{reviews.filter(review => review.recommend === 0).length}</td>
                                                     </tr>
                                                 </tbody>
                                             </Table>

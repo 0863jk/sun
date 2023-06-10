@@ -1,33 +1,6 @@
 import { useState } from 'react';
-import { Col, Form, Row } from 'react-bootstrap';
+import { Button, Col, Form, Row } from 'react-bootstrap';
 import { useNavigate, useParams } from "react-router-dom";
-
-function SelectUserRole() {
-    const [role, setRole] = useState("general");
-    const navigate = useNavigate();
-
-    const onChange = (e) => {
-        console.log("onChange ", e.target.value);
-        navigate(`/signup/${e.target.value}`);
-    };
-
-    return (
-        <Form.Select onChange={onChange}>
-            <option value="">
-                계정 유형 선택
-            </option>
-            <option value="general" key="general">
-                일반 유저
-            </option>
-            <option value="trainer" key="trainer">
-                트레이너
-            </option>
-            <option value="manager" key="manager">
-                센터매니저
-            </option>
-        </Form.Select>
-    );
-}
 
 export default function SignUpForm(props) {
     const handleSumbit = (event) => {
@@ -71,81 +44,103 @@ export default function SignUpForm(props) {
             });
     }
 
+    const Logo = <img src={process.env.PUBLIC_URL + '/img/Logo.png'} alt="logo" style={{
+        height: '200px',
+        width: '200px',
+    }} />;
+
     return (
         <>
-            <div className="MainContainer wrap">
-                <div className='LabelWrapper'>
-                    <Form onSubmit={handleSumbit}>
-                        <Form.Group className='mb-3'>
-                            <Form.Select name="role">
-                                <option value="">
-                                    계정 유형 선택
-                                </option>
-                                <option value="general" key="general">
-                                    일반 유저
-                                </option>
-                                <option value="trainer" key="trainer">
-                                    트레이너
-                                </option>
-                                <option value="manager" key="manager">
-                                    센터매니저
-                                </option>
-                            </Form.Select>
-                        </Form.Group>
-                        <Form.Group as={Row} className="mb-3">
-                            <Form.Label column sm="2">
-                                ID
-                            </Form.Label>
-                            <Col sm="10">
-                                <Form.Control type="text" placeholder="ID를 입력해 주세요..." name="username" />
-                            </Col>
-                        </Form.Group>
-                        <Form.Group as={Row} className="mb-3">
-                            <Form.Label column sm="2">
-                                Email
-                            </Form.Label>
-                            <Col>
-                                <Form.Control type="email" placeholder="email@example.com" name="email" />
-                            </Col>
-                        </Form.Group>
+            <div className="main-container">
+                <div className='label-wrapper'>
+                    <div className='logo-container'>
+                        <div>
+                            {Logo}
+                        </div>
+                        <div>
+                            <h1 className="sun-title">SUN</h1>
+                            <h5 className="sun-subtitle">Shape Up Now!</h5>
+                        </div>
+                    </div>
+                    <div className="login-container">
+                        <Form onSubmit={handleSumbit}>
+                            <div className='form-wrapper'>
+                                <Form.Group as={Row} className="mb-3">
+                                    <Form.Label column sm="2">
+                                        ID
+                                    </Form.Label>
+                                    <Col sm="10">
+                                        <Form.Control type="text" placeholder="ID를 입력해 주세요..." name="username" />
+                                    </Col>
+                                </Form.Group>
+                                <Form.Group as={Row} className="mb-3">
+                                    <Form.Label column sm="2">
+                                        Email
+                                    </Form.Label>
+                                    <Col>
+                                        <Form.Control type="email" placeholder="email@example.com" name="email" />
+                                    </Col>
+                                </Form.Group>
 
-                        <Form.Group as={Row} className="mb-3">
-                            <Form.Label column sm="2">
-                                비밀번호
-                            </Form.Label>
-                            <Col sm="10">
-                                <Form.Control type="password" placeholder="비밀번호" name="password1" />
-                            </Col>
-                        </Form.Group>
-                        <Form.Group as={Row} className="mb-3">
-                            <Form.Label column sm="2">
-                                비밀번호 확인
-                            </Form.Label>
-                            <Col>
-                                <Form.Control type="password" placeholder="비밀번호 확인" name="password2" />
-                            </Col>
-                        </Form.Group>
-
-                        <Form.Group as={Row} className="mb-3">
-                            <Form.Label column sm="2">
-                                Name
-                            </Form.Label>
-                            <Col>
-                                <Form.Control type="text" placeholder="이름을 입력해 주세요..." name="name" />
-                            </Col>
-                        </Form.Group>
-                        <Form.Group as={Row} className="mb-3">
-                            <Form.Label column sm="2">
-                                Phone
-                            </Form.Label>
-                            <Col>
-                                <Form.Control type="text" placeholder="010-0000-0000" name="phone" />
-                            </Col>
-                        </Form.Group>
-                        <Form.Group as={Row} className="mb-3">
-                            <Form.Control type="submit" name="submit" value="Submit" />
-                        </Form.Group>
-                    </Form>
+                                <Form.Group as={Row} className="mb-3">
+                                    <Form.Label column sm="2">
+                                        비밀번호
+                                    </Form.Label>
+                                    <Col sm="10">
+                                        <Form.Control type="password" placeholder="비밀번호" name="password1" />
+                                    </Col>
+                                </Form.Group>
+                                <Form.Group as={Row} className="mb-3">
+                                    <Form.Label column sm="2">
+                                        비밀번호 확인
+                                    </Form.Label>
+                                    <Col>
+                                        <Form.Control type="password" placeholder="비밀번호 확인" name="password2" />
+                                    </Col>
+                                </Form.Group>
+                                <Form.Group as={Row} className="mb-3">
+                                    <Form.Label column sm="2">
+                                        계정 유형
+                                    </Form.Label>
+                                    <Col>
+                                        <Form.Select name="role">
+                                            <option value="">
+                                                계정 유형 선택
+                                            </option>
+                                            <option value="general" key="general">
+                                                일반 유저
+                                            </option>
+                                            <option value="trainer" key="trainer">
+                                                트레이너
+                                            </option>
+                                            <option value="manager" key="manager">
+                                                센터매니저
+                                            </option>
+                                        </Form.Select>
+                                    </Col>
+                                </Form.Group>
+                                <Form.Group as={Row} className="mb-3">
+                                    <Form.Label column sm="2">
+                                        Name
+                                    </Form.Label>
+                                    <Col>
+                                        <Form.Control type="text" placeholder="이름을 입력해 주세요..." name="name" />
+                                    </Col>
+                                </Form.Group>
+                                <Form.Group as={Row} className="mb-3">
+                                    <Form.Label column sm="2">
+                                        Phone
+                                    </Form.Label>
+                                    <Col>
+                                        <Form.Control type="text" placeholder="010-0000-0000" name="phone" />
+                                    </Col>
+                                </Form.Group>
+                            </div>
+                            <Form.Group as={Row} className="mb-3">
+                                <Form.Control type="submit" name="submit" value="SUBMIT" className="btn-login" />
+                            </Form.Group>
+                        </Form>
+                    </div>
                 </div>
             </div>
         </>

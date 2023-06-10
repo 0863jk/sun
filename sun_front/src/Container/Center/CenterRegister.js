@@ -8,8 +8,7 @@ import Utils from "../../Hook/Utils";
 function CenterRegister() {
     const { pCenterId } = useParams();
     const utils = new Utils(pCenterId);
-    const center = useFetch(`http://localhost:8000/center/getCenter/${pCenterId}`)
-    const plan = useFetch(`http://localhost:8000/center/plan/getCenterPlans/${pCenterId}`);
+    const plan = useFetch(`http://localhost:8000/center/plan/get/${pCenterId}`);
     const username = localStorage.getItem("username");
     const role = localStorage.getItem("role");
     const inputValue = {
@@ -50,6 +49,7 @@ function CenterRegister() {
             utils.registerCenterMember(registerData).then(data => {
                 console.log(data);
                 alert("센터에 정상적으로 등록되었습니다.");
+                window.location.reload("/center/list");
             })
         }
     }, [registerData, utils]);
@@ -57,12 +57,12 @@ function CenterRegister() {
     return (
         <>
             <div>
-                <div className="MainContainer">
-                    <div className="LabelWrapper">
+                <div className="wrap main-container">
+                    <div className="label-wrapper">
                         {
                             role === "general" && (
                                 <>
-                                    <label className="LabelTitle">이용권 목록</label>
+                                    <label className="label-title">이용권 목록</label>
                                     <p>사용 중인 플랜을 선택해 주세요.</p>
                                     <div className="CenterListContainer">
                                         <CardGroup className="CardGroup">

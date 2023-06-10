@@ -14,14 +14,14 @@ function MemberManage() {
 
     return (
         <>
-            <div>
-                <div className="header">
-                    <CenterNav centerid={pCenterId} />
-                </div>
-                <div className="MainContainer">
-                    <div className="LabelWrapper">
-                        <label className="LabelTitle">회원 관리</label>
-                        <AdminTap centerid={pCenterId} current="member" />
+            <div className="header">
+                <CenterNav centerid={pCenterId} />
+            </div>
+            <div className="main-container">
+                <div className="label-wrapper">
+                    <label className="label-title">회원 관리</label>
+                    <AdminTap centerid={pCenterId} current="member" />
+                    <div className="content-container">
                         <div className="CenterListContainer">
                             <CardGroup className="CardGroup">
                                 {members && members.map(members => (

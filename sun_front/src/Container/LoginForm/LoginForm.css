@@ -1,162 +1,55 @@
-
-.container {
-    background-color: transparent;
-    padding: 10px 40px;
-    border-radius: 5px;
+@font-face {
+    font-family: 'Dovemayo_gothic';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
 }
 
-.container h1 {
+@font-face {
+    font-family: 'LOTTERIACHAB';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/LOTTERIACHAB.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.logo-container {
     text-align: center;
+    align-items: center;
     margin-bottom: 30px;
 }
 
-.container a {
-    text-decoration: none;
-    color: blue;
-}
-
-.btnLogin {
-    cursor: pointer;
-    display: inline-block;
-    width: 100%;
-    background-color: black;
-    color: white;
-    padding: 15px;
-    font-family: inherit;
-    font-size: 16px;
-    border: 0;
-    border-radius: 5px;
-}
-
-.btnLogin:focus {
-    outline: 0;
-}
-
-.btnLogin:active {
-    transform: scale(0.98);
-}
-
-.text {
-    margin-top: 30px;
-}
-
-.form-control {
-    position: relative;
-    margin: 10px 0 20px;
-    width: 300px;
-}
-
-.form-control input {
-    background-color: transparent;
-    border: 0;
-    border-bottom: 2px #fff solid;
-    display: block;
-    width: 100%;
-    padding: 15px 0;
-    font-size: 14px;
-    color: black;
-    text-align: left;
-}
-
-.form-control input:focus,
-.form-control input:valid {
-    outline: 0;
-    border-bottom-color: black;
-}
-
-.form-control label {
-    position: absolute;
-    top: 15px;
-    left: 0;
-    pointer-events: none;
-}
-
-form p {
-    letter-spacing: 0.3rem;
-    display: flex;
-    justify-content: space-between;
-}
-
-.form-control label {
-    display: inline-block;
-    font-size: 18px;
-    min-width: 5px;
-    transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-.form-radio {
-    width: 100%;
-    overflow: hidden;
-    margin-bottom: 15px;
-
-}
-
-.button-wrap {
-    position: relative;
+.login-container {
+    width: 900px;
     text-align: center;
-    top: 50%;
-    display: flex;
-    justify-content: space-around;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    padding-bottom: 20px;
 }
 
-.button-label {
-    display: inline-block;
-    padding: 1em 2em;
-    margin: 0.5em;
-    cursor: pointer;
-    color: #292929;
-    border-radius: 0.25em;
-    background: #efefef;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0 -3px 0 rgba(0, 0, 0, 0.22);
-    transition: 0.3s;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+.sun-title {
+    font-family: 'LOTTERIACHAB';
+    font-size: 72px;
+    text-align: center;
+    color: #FFD700;
+    margin-bottom: 0;
 }
 
-.button-label h1 {
-    font-size: 1em;
-    font-family: "Lato", sans-serif;
+.sun-subtitle {
+    margin-top: 0;
+    font-family: 'Dovemayo_gothic';
+    text-align: center;
 }
 
-.button-label:hover {
-    background: #d6d6d6;
-    color: #101010;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0 -3px 0 rgba(0, 0, 0, 0.32);
-}
-
-.button-label:active {
-    transform: translateY(2px);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0px -1px 0 rgba(0, 0, 0, 0.22);
-}
-
-#yes-button:checked+.button-label {
-    background: black;
+.btn-login {
+    font-family: 'LOTTERIACHAB';
+    font-size: 30px;
     color: white;
+    background-color: #FFD700;
+    height: auto;
+    margin: auto;
 }
-
-#yes-button:checked+.button-label:hover {
-    background: black;
+.btn-login:focus {
     color: white;
-}
-
-#no-button:checked+.button-label {
-    background: black;
-    color: white;
-}
-
-#no-button:checked+.button-label:hover {
-    background: black;
-    color: white;
-}
-
-.hidden {
-    display: none;
-}
-
-.form-control input:focus+label,
-.form-control input:valid+label {
-    color: black;
-    transform: translateY(-30px);
+    background-color: #FFD700;
 }

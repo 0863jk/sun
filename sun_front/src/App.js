@@ -27,22 +27,22 @@ import CenterRegister from './Container/Center/CenterRegister';
 import NewPlan from './Container/Plan/NewPlan';
 import MyLesson from './Container/MyLesson/MyLesson';
 import MyWeekly from './Container/TimeTable/MyWeekly';
+import Footer from './Component/Footer';
 //import Footer from './Component/Footer';
 
 function App() {
 
   return (
-    <div>
+    <div className='clearfix'>
       <BrowserRouter>
         <div className="header">
           <Header  />
         </div>
-        <div className="clearfix">
+        {/* <div className="clearfix"> */}
+        <div>
           <Routes>
             <Route path="/login" element={<LoginForm/>}></Route>
             <Route path="/signup" element={<SignUpForm />}></Route>
-            {/* <Route path="/signup/*" element={<SignUpForm />}></Route> */}
-            {/* <Route path="/signup/:pUserRole" element={<SignUpForm />}></Route> */}
             <Route path="/" element={<CenterList  />}></Route>
             <Route path="/timetable" element={<MyWeekly />}></Route>
             <Route path="/center/list" element={<CenterList />}></Route>
@@ -81,7 +81,7 @@ function App() {
         </Routes>
       </BrowserRouter>
       <div className='wrap'>
-        {/* <Footer /> */}
+        <Footer />
       </div>
     </div>
   );

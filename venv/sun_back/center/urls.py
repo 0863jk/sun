@@ -21,6 +21,7 @@ urlpatterns = [
     path('member/centerlist', views.MemberViewSet.as_view({'get': 'getMemberCenters'}), name="getMemberCenters"),
     path('member', views.MemberViewSet.as_view({'get': 'getMembers'}), name="getMembers"),
     path('member/get', views.MemberViewSet.as_view({'get': 'getMembersByRole'}), name="getMembersByRole"),
+    path('member/registerinfo', views.MemberViewSet.as_view({'get': 'getRegisterInfo'}), name="getRegisterInfo"),
 ]
 
 # from django.urls import path

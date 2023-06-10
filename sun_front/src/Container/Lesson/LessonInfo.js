@@ -17,11 +17,11 @@ function LessonInfo() {
     useEffect(() => {
         if (role === "manager" || role === "trainer") {
             fetch(`http://localhost:8000/lesson/enrolment/applicant?blockid=${pLessonId}`)
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                setApplicant(data);
-            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    setApplicant(data);
+                })
         }
     }, [pLessonId, role])
 
@@ -31,26 +31,22 @@ function LessonInfo() {
                 <div className="header">
                     <CenterNav centerid={pCenterId} />
                 </div>
-                <div className="MainContainer">
-                    <div className="LabelWrapper">
-                        <label className="LabelTitle">강의 정보</label>
-                        <div className="CenterListContainer">
+                <div className="main-container">
+                    <div className="label-wrapper">
+                        <label className="label-title">강의 정보</label>
+                        <div className="centerlist-container">
                             <div className="PlanCard">
-                                <Card style={{ width: "284px" }}>
+                                <Card className="Card" style={{ width: "284px" }}>
                                     <Card.Body>
                                         <Card.Title>{lesson.title}</Card.Title>
                                     </Card.Body>
                                     <ListGroup className="list-group-flush">
                                         <ListGroup.Item>{lesson.trainername}</ListGroup.Item>
-                                        <ListGroup.Item>{moment(lesson.start).format("YYYY/MM/DD HH:mm")} ~ {moment(lesson.end).format("YYYY/MM/DD HH:mm")}</ListGroup.Item>
+                                        <ListGroup.Item>{moment(lesson.start).format("YYYY/MM/DD")}</ListGroup.Item>
+                                        <ListGroup.Item>{moment(lesson.start).format("HH:mm")} ~ {moment(lesson.end).format("HH:mm")}</ListGroup.Item>
                                     </ListGroup>
-                                    {
-                                        role === "general" && (
-                                            <Card.Body>
-                                                <Card.Link href="#">신청하기</Card.Link>
-                                            </Card.Body>
-                                        )
-                                    }
+                                    <Card.Body>
+                                    </Card.Body>
                                 </Card>
                             </div>
                         </div>

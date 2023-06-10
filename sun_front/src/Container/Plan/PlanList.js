@@ -15,15 +15,17 @@ function PlanList() {
                 <div className="header">
                     <CenterNav centerid={pCenterId} />
                 </div>
-                <div className="MainContainer">
-                    <div className="LabelWrapper">
-                        <label className="LabelTitle">이용권 목록</label>
-                        <div className="CenterListContainer">
+                <div className="main-container">
+                    <div className="label-wrapper">
+                        <label className="label-title">이용권 목록</label>
+                        <div className="content-container">
+                        <div className="cardlist-container">
                             <CardGroup className="CardGroup">
                                 {plan && plan.map(plan => (
                                     <PlanCard key={plan.id} from="list" planinfo={plan} />
                                 ))}
                             </CardGroup>
+                        </div>
                         </div>
                     </div>
                 </div>

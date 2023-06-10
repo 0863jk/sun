@@ -53,9 +53,11 @@ function MyWeekly() {
 
     return (
         <>
-            <div className="LabelWrapper">
-                <div className="wrap MainContainer">
-                    <WeeklyTimetable timetableData={timetableData} centerid={pCenterId} role={role} onClick={handleOpenModal}/>
+            <div className="main-container">
+                <div className="label-wrapper">
+                    <div className='timetable-wrapper'>
+                        <WeeklyTimetable timetableData={timetableData} centerid={pCenterId} role={role} onClick={handleOpenModal} />
+                    </div>
                 </div>
             </div>
             <Modal open={modalVisible} onCancel={handleCloseModal} footer={null}>

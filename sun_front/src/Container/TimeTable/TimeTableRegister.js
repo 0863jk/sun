@@ -155,25 +155,27 @@ function TimeTableRegister() {
             <div className="header">
                 <CenterNav centerid={pCenterId} />
             </div>
-            <div className="MainContainer">
-                <div className="LabelWrapper">
-                    <label className="LabelTitle">시간표 등록</label>
+            <div className="main-container">
+                <div className="label-wrapper">
+                    <label className="label-title">시간표 등록</label>
                     <div className="carouselContainer">
                         <Slider {...settings}>
                             {
-                                lessons && lessons.filter(lesson => lesson.info_day && lesson.info_start && lesson.info_end).map(lessons => (
+                                lessons && lessons.map(lessons => (
                                     <div>
                                         <LessonCard key={lessons.lessonid} from="register" lessoninfo={lessons} centerid={pCenterId} />
                                     </div>
                                 ))
                             }
                             <div>
-                                <Card>
-                                    <Card.Body>
-                                        <Card.Title>새 강의 프리셋</Card.Title>
-                                        <Button onClick={() => handleOpenModal("addLesson")}>만들기</Button>
-                                    </Card.Body>
-                                </Card>
+                                <div className="PlanCard">
+                                    <Card className="Card" style={{ width: "284px" }}>
+                                        <Card.Body>
+                                            <Card.Title>새 강의 프리셋</Card.Title>
+                                            <Button onClick={() => handleOpenModal("addLesson")}>만들기</Button>
+                                        </Card.Body>
+                                    </Card>
+                                </div>
                             </div>
                         </Slider>
                     </div>
@@ -184,7 +186,9 @@ function TimeTableRegister() {
                                     그 외의 강의 추가하기
                                 </button>
                             </div>
-                            <WeeklyTimetable timetableData={timetableData} centerid={pCenterId} role={role} from="register" onClick={handleTimeTableModal} />
+                            <div className="timetable-wrapper">
+                                <WeeklyTimetable timetableData={timetableData} centerid={pCenterId} role={role} from="register" onClick={handleTimeTableModal} />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -195,7 +199,7 @@ function TimeTableRegister() {
                         <>
                             <h3>새 강의 프리셋 추가하기</h3>
                             <iframe title="non-disply-title" id="iframe1" name="iframe1" style={{ display: "none" }}></iframe>
-                            <Form onSubmit={handleLessonSubmit}  method="post" target="iframe1">
+                            <Form onSubmit={handleLessonSubmit} method="post" target="iframe1">
                                 <Form type="hidden" name="type"></Form>
                                 <Form.Group className="mb-3" controlId="formBasicEmail">
                                     <Form.Label>수업명</Form.Label>
@@ -314,24 +318,24 @@ function TimeTableRegister() {
                     {
                         modalType === "TimetableBlock" && (
                             <>
-                            <h3>레슨 상세 정보</h3>
-                            {lesson && (
-                                <div>
-                                    <p>{lesson.lessontitle}</p>
-                                    <p>{lesson.summary}</p>
-                                    <p>{lesson.trainer}</p>
-                                    <p>{lesson.number_of_applicants} / {lesson.max_capacity}</p>
-                                    {
-                                        role === "manager" || role === "trainer" ? (
-                                            // <Button name="btnBook" onClick={() => viewApplicantListBtnHandler(lesson.blockid)}>예약자 명단보기</Button>
-                                            <Button name="btnViewApplicant" onClick={onClickHandler}>예약자 명단보기</Button>
-                                        ) : role === "general" ? (
-                                            <Button name="btnBook" onClick={onClickHandler}>예약하기</Button>
-                                        ) : <></>
-                                    }
-                                </div>
-                            )}
-                        </>
+                                <h3>레슨 상세 정보</h3>
+                                {lesson && (
+                                    <div>
+                                        <p>{lesson.lessontitle}</p>
+                                        <p>{lesson.summary}</p>
+                                        <p>{lesson.trainer}</p>
+                                        <p>{lesson.number_of_applicants} / {lesson.max_capacity}</p>
+                                        {
+                                            role === "manager" || role === "trainer" ? (
+                                                // <Button name="btnBook" onClick={() => viewApplicantListBtnHandler(lesson.blockid)}>예약자 명단보기</Button>
+                                                <Button name="btnViewApplicant" onClick={onClickHandler}>예약자 명단보기</Button>
+                                            ) : role === "general" ? (
+                                                <Button name="btnBook" onClick={onClickHandler}>예약하기</Button>
+                                            ) : <></>
+                                        }
+                                    </div>
+                                )}
+                            </>
                         )
                     }
                 </div>

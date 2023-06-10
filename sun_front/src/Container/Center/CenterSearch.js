@@ -64,10 +64,10 @@ function CenterSearch() {
 
     return (
         <>
-            <div className="MainContainer">
-                <div className="LabelWrapper">
-                    <label className="LabelTitle">센터 검색</label>
-                    <div className="ContentContainer">
+            <div className="wrap main-container">
+                <div className="label-wrapper">
+                    <label className="label-title">센터 검색</label>
+                    <div className="content-container">
                         <div className="SearchBar">
                             <Form.Control
                                 placeholder="센터 ID로 검색"
