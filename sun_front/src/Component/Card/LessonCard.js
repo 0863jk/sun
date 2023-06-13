@@ -11,21 +11,24 @@ import Utils from "../../Hook/Utils";
 
 function LessonCard({ from, lessoninfo, centerid, onClick }) {
     const utils = new Utils(centerid);
-    const [defaultDate, setDefaultDate] = useState("");
+    const [defaultDate, setDefaultDate] = useState();
     const [modalVisible, setModalVisible] = useState(false);
 
-    const newDate = new Date();
-    const [selectedDate, setSelectedDate] = useState(defaultDate);
+    const [selectedDate, setSelectedDate] = useState();
     const [selectedTime, setSelectedTime] = useState([dayjs(lessoninfo.info_start, 'HH:mm'), dayjs(lessoninfo.info_end, 'HH:mm')]);
     const trainers = useFetch(`http://localhost:8000/center/member/get?centerid=${centerid}&role=trainer`);
 
     useEffect(() => {
         if (from === "register") {
+            const newDate = new Date();
             newDate.setDate(newDate.getDate() - newDate.getDay() + 7 + lessoninfo.info_day);
-            setDefaultDate(newDate.toISOString().substring(0, 10));
-            setSelectedDate(newDate.toISOString().substring(0, 10));
+            setDefaultDate(dayjs(newDate));
         }
-    }, [defaultDate, lessoninfo.info_day, newDate])
+    }, [from, lessoninfo.info_day])
+
+    useEffect(() => {
+        setSelectedDate(dayjs(defaultDate));
+    }, [modalVisible])
 
     const handleOpenModal = () => {
         // console.log(defaultDate.toISOString().substring(0, 10));
@@ -37,6 +40,7 @@ function LessonCard({ from, lessoninfo, centerid, onClick }) {
     };
 
     const handleDateChange = (date) => {
+        console.log("onChange" + date.toString());
         setSelectedDate(date);
     };
 
@@ -63,8 +67,8 @@ function LessonCard({ from, lessoninfo, centerid, onClick }) {
         const summary = formData.get("summary");
         const maxCapacity = formData.get("maxCapacity");
 
-        const startTime = selectedDate + " " + selectedTime[0].format("HH:mm:ss");
-        const endTime = selectedDate + " " + selectedTime[1].format("HH:mm:ss");
+        const startTime = selectedDate.format("YYYY-MM-DD") + " " + selectedTime[0].format("HH:mm:ss");
+        const endTime = selectedDate.format("YYYY-MM-DD") + " " + selectedTime[1].format("HH:mm:ss");
         console.log(startTime, endTime);
 
         const data = {
@@ -146,7 +150,7 @@ function LessonCard({ from, lessoninfo, centerid, onClick }) {
                                         from === "register" ? (
                                             <Card.Link onClick={handleOpenModal}>시간표에 등록하기</Card.Link>
                                         ) : from === "mylesson" ? (
-                                            <Card.Link onClick={() => onClick(lessoninfo)}>정보 보기</Card.Link>
+                                            <Card.Link onClick={() => onClick(lessoninfo)}>강의평 보기</Card.Link>
                                         ) : from === "lessonhistory" ? (
                                             <Card.Link onClick={() => onClick(lessoninfo)}>강의평 작성하기</Card.Link>
                                         ) :
@@ -197,7 +201,7 @@ function LessonCard({ from, lessoninfo, centerid, onClick }) {
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="formBasicEmail">
                                     <Form.Label>날짜</Form.Label><br />
-                                    <DatePicker onChange={handleDateChange} format={dateFormat} defaultValue={dayjs(defaultDate, "YYYY-MM-DD")} />
+                                    <DatePicker onChange={handleDateChange} format={dateFormat} defaultValue={dayjs(defaultDate)} />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="formBasicEmail">
                                     <Form.Label>시간</Form.Label><br />

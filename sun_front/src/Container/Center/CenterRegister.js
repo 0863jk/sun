@@ -49,7 +49,7 @@ function CenterRegister() {
             utils.registerCenterMember(registerData).then(data => {
                 console.log(data);
                 alert("센터에 정상적으로 등록되었습니다.");
-                window.location.reload("/center/list");
+                window.location.replace("/center/list");
             })
         }
     }, [registerData, utils]);

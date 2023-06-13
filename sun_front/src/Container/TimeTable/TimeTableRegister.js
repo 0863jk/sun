@@ -27,7 +27,8 @@ function TimeTableRegister() {
     const [selectedDate, setSelectedDate] = useState(null);
     const [lesson, setLesson] = useState(null);
     const { RangePicker } = TimePicker;
-    const dateFormat = 'YYYY/MM/DD HH:mm';
+    const dateFormat = 'YYYY/MM/DD';
+    const newDate = new Date();
 
     const findTrainerName = (trainerId) => {
         const trainer = trainers.find((trainer) => trainer.username === trainerId);
@@ -102,6 +103,9 @@ function TimeTableRegister() {
         const summary = formData.get("summary");
         const trainerid = formData.get("trainerid");
         const maxCapacity = formData.get("maxCapacity");
+        const date = selectedDate.format("YYYY-MM-DD");
+        const starttime = selectedTime[0].format("HH:mm");
+        const endtime = selectedTime[1].format("HH:mm");
 
         const data = {
             centerid: pCenterId,
@@ -110,21 +114,16 @@ function TimeTableRegister() {
             trainerid: trainerid,
             trainername: `${findTrainerName(trainerid)}`,
             max_capacity: parseInt(maxCapacity),
-            start: selectedDate[0].format("YYYY-MM-DD HH:mm"),
-            end: selectedDate[1].format("YYYY-MM-DD HH:mm")
+            start: date + " " + starttime,
+            end: date + " " + endtime
         }
 
         utils.registerTimetableBlock(data)
-            .then(res => {
-                if (!res.ok) {
-                    alert("오류");
-                }
-            })
             .then(data => {
-                console.log('TimetableBlock registered:', data);
-                alert("정상적으로 등록이 완료되었습니다.");
+                console.log(data);
+                alert("시간표에 등록이 완료되었습니다.");
                 window.location.reload();
-            });
+            })
     }
     const onClickHandler = (event) => {
         event.preventDefault();
@@ -163,7 +162,7 @@ function TimeTableRegister() {
                             {
                                 lessons && lessons.map(lessons => (
                                     <div>
-                                        <LessonCard key={lessons.lessonid} from="register" lessoninfo={lessons} centerid={pCenterId} />
+                                        <LessonCard key={lessons.lessonid} from="register" lessoninfo={lessons} centerid={pCenterId} newDate={newDate}/>
                                     </div>
                                 ))
                             }

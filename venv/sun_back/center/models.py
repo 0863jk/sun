@@ -28,7 +28,7 @@ class Plan(models.Model):
     plantype = models.CharField(choices=PLAN_TYPE, null = False, max_length=255)
     period = models.IntegerField()
     periodtype = models.CharField(choices=PERIOD_TYPE, null = False, max_length=255)
-    constraints = models.IntegerField(null=True, blank=True) # 횟수제
+    times = models.IntegerField(null=True, blank=True) # 횟수제
     constraints = models.CharField(max_length=200,null=True, blank=True) # 기간제
     price = models.IntegerField()
 

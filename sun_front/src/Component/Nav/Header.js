@@ -62,8 +62,7 @@ function Header() {
                                     <Nav className="me-auto">
                                         <Nav.Link href="/center/list">나의 센터</Nav.Link>
                                         <NavDropdown title="센터 등록" id="basic-nav-dropdown">
-                                            <NavDropdown.Item href="/center/search">센터 ID로 검색</NavDropdown.Item>
-                                            {role === "manager" ? <NavDropdown.Item href="/center/register">센터 새로 등록</NavDropdown.Item> : <></>}
+                                            {role === "manager" ? <NavDropdown.Item href="/center/register">센터 새로 등록</NavDropdown.Item> : <NavDropdown.Item href="/center/search">센터 ID로 검색</NavDropdown.Item>}
                                         </NavDropdown>
                                         {role !== "manager" && (
                                             <Nav.Link href="/timetable">시간표</Nav.Link>
@@ -75,7 +74,7 @@ function Header() {
                         <Navbar.Collapse className="justify-content-end">
                             {auth ? (<>
                                 <NavDropdown title={name} id="basic-nav-dropdown">
-                                    <NavDropdown.Item disabled="true">{role}</NavDropdown.Item>
+                                    <NavDropdown.Item disabled="true">{role === "manager" ? (<>관리자</>): role === "trainer" ? (<>트레이너</>) : role === "general" ? (<>일반사용자</>) : <></>}</NavDropdown.Item>
                                     <NavDropdown.Item href="#action/3.2">프로필 수정</NavDropdown.Item>
                                     <NavDropdown.Divider />
                                     <NavDropdown.Item onClick={handleLogout}>로그아웃</NavDropdown.Item>

@@ -48,8 +48,8 @@ function CenterInfoRegister({ data, onSubmit, setPage, setCenterid }) {
         const introduction = formData.get('introduction');
         const password = formData.get('password');
 
-        // if (centerid !== "" && centerid !== "" && centername !== "" && address !== "" && password !== "") {
-        //     if (bizIdState === true && ctIdState === true) {
+        if (centerid !== "" && centerid !== "" && centername !== "" && address1 !== "" && address2 !== "" && password !== "") {
+            if (bizIdState === true && ctIdState === true) {
         const centerInfo = {
             centername: centername,
             centerid: centerid,
@@ -63,16 +63,16 @@ function CenterInfoRegister({ data, onSubmit, setPage, setCenterid }) {
         onSubmit(centerInfo);
         // setCenterid(centerid);
         setPage('plan');
-        //     } else if (bizIdState === false && ctIdState === true) {
-        //         alert('사업자 등록 번호 유효성 검사를 진행해 주세요.');
-        //     } else if (bizIdState === true && ctIdState === false) {
-        //         alert('센터ID 중복 검사를 진행해 주세요.');
-        //     } else {
-        //         alert('오류 발생');
-        //     }
-        // } else {
-        //     alert('필수 데이터를 삽입해 주세요.');
-        // }
+            } else if (bizIdState === false && ctIdState === true) {
+                alert('사업자 등록 번호 유효성 검사를 진행해 주세요.');
+            } else if (bizIdState === true && ctIdState === false) {
+                alert('센터ID 중복 검사를 진행해 주세요.');
+            } else {
+                alert('오류 발생');
+            }
+        } else {
+            alert('필수 데이터를 삽입해 주세요.');
+        }
     };
 
     // 주소 등록 모달 관리
@@ -93,12 +93,12 @@ function CenterInfoRegister({ data, onSubmit, setPage, setCenterid }) {
 
     // 중복 검사 메소드
     function chkCtId(ctid) {
-        fetch(`http://localhost:8000/center/search?centerid=${ctid}`)
+        fetch(`http://localhost:8000/center/retrieve/${ctid}`)
             .then(res => {
                 return res.json();
             })
             .then(data => {
-                if (data[0] !== undefined && data[0] !== null && data[0] !== "undefined" && data[0] !== "" && data[0] !== "null") {
+                if (data !== undefined && data !== null && data !== "undefined" && data !== "" && data !== "null") {
                     setCtIdState(false);
                     alert("사용 불가능한 아이디입니다.");
                 } else {
@@ -106,6 +106,8 @@ function CenterInfoRegister({ data, onSubmit, setPage, setCenterid }) {
                     alert("사용 가능한 아이디입니다.")
                 }
             }).catch(error => {
+                setCtIdState(true);
+                alert("사용 가능한 아이디입니다.")
             })
     }
 

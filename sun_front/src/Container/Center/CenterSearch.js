@@ -42,7 +42,7 @@ function CenterSearch() {
             const data = {
                 centerid: selectedCenter.centerid,
                 userid: username,
-                // role: role,
+                role: role,
                 // register_date: new Date(Date.now())
             }
             utils.registerCenterMember(data).then(data => {
@@ -95,8 +95,6 @@ function CenterSearch() {
                     <Divider></Divider>
                     <p>센터명: {selectedCenter.centername}</p>
                     <p>센터 주소: {selectedCenter.address1} {selectedCenter.address2}</p>
-                    <p>사업자등록번호: {selectedCenter.bizid}</p>
-                    <p>{selectedCenter.introduction}</p>
                     <p>{selectedCenter.introduction}</p>
                     <Divider></Divider>
                     <p>현재 다니고 있는 센터가 "{selectedCenter.centername}" 맞나요?</p>

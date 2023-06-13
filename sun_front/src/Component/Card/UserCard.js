@@ -5,8 +5,8 @@ import ListGroup from 'react-bootstrap/ListGroup';
 function UserCard({user}) {
     return (
         <>
-            <div className="StudentCard">
-                <Card style={{ width: "284px" }}>
+            <div className="UserCard">
+                <Card style={{ width: "200px" }}>
                     <Card.Body>
                         <Card.Title>{user.name}</Card.Title>
                     </Card.Body>

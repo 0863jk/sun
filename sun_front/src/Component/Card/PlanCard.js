@@ -40,7 +40,7 @@ function PlanCard({ centerid, planinfo, from, setPlanData }) {
     return (
         <>
             <div className="PlanCard">
-                <Card className="Card" style={{ width: "200px" }}>
+                <Card className="Card" style={{ width: "210px" }}>
                     <Card.Body>
                         <Card.Title>{planinfo.planname}</Card.Title>
                         <Card.Text>
@@ -57,7 +57,7 @@ function PlanCard({ centerid, planinfo, from, setPlanData }) {
                             </ListGroup.Item>
                             : planinfo.times ?
                                 <ListGroup.Item>
-                                    {planinfo.times}
+                                    {planinfo.times}회
                                 </ListGroup.Item>
                                 : <></>}
                     </ListGroup>

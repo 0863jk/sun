@@ -80,6 +80,7 @@ function NewCenter() {
             .then(trainerData => {
                 console.log(trainerData); // 트레이너 등록 결과 확인
                 alert("모든 데이터가 정상적으로 등록되었습니다.");
+                window.location.replace("/center/list")
                 // 추가로 수행할 작업이 있다면 여기에 작성
             })
             .catch(error => {
