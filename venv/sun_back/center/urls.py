@@ -4,10 +4,10 @@ from center import views
 app_name = 'center'
 
 urlpatterns = [
-    path('list', views.CenterViewSet.as_view({'get': 'list'}), name="getCenters"),
-    path('retrieve/<str:pk>', views.CenterViewSet.as_view({'get': 'retrieve'}), name="getCenter"),
+    path('list', views.CenterViewSet.as_view({'get': 'get'}), name="getCenters"),
+    path('retrieve/<str:pk>', views.CenterViewSet.as_view({'get': 'get_object'}), name="getCenter"),
     path('search', views.CenterViewSet.as_view({'get': 'search'}), name="searchCenter"),
-    path('register', views.CenterViewSet.as_view({'post': 'register'}), name="registerCenter"),
+    path('register', views.CenterViewSet.as_view({'post': 'put'}), name="registerCenter"),
     
     path('plan/list', views.PlanViewSet.as_view({'get': 'list'}), name="getPlans"),
     path('plan/retrieve/<str:pk>', views.PlanViewSet.as_view({'get': 'getCenterPlans'}), name="getPlans"),
