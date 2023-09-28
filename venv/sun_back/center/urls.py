@@ -3,21 +3,40 @@ from center import views
 
 app_name = 'center'
 
+center_list = views.CenterViewSet.as_view({'get': 'list', 'post': 'create'})
+center_detail = views.CenterViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})
+plan_list = views.PlanViewSet.as_view({'get': 'list', 'post': 'create'})
+plan_detail = views.PlanViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})
+member_list = views.MemberViewSet.as_view({'get': 'list', 'post': 'create'})
+member_detail = views.MemberViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})
+
 urlpatterns = [
-    path('list', views.CenterViewSet.as_view({'get': 'get'}), name="getCenters"),
-    path('retrieve/<str:pk>', views.CenterViewSet.as_view({'get': 'get_object'}), name="getCenter"),
-    path('search', views.CenterViewSet.as_view({'get': 'search'}), name="searchCenter"),
-    path('register', views.CenterViewSet.as_view({'post': 'put'}), name="registerCenter"),
+    # path('list', views.CenterViewSet.as_view({'get': 'get'}), name="getCenters"),
+    # path('retrieve/<str:pk>', views.CenterViewSet.as_view({'get': 'get_object'}), name="getCenter"),
+    # path('search', views.CenterViewSet.as_view({'get': 'search'}), name="searchCenter"),
+    # path('register', views.CenterViewSet.as_view({'post': 'put'}), name="registerCenter"),
+    # path('delete/<str:pk>', views.CenterViewSet.as_view({'get': 'delete'}), name="registerCenter"),
+
+    path('', center_list),
+    path('<str:pk>', center_detail),
+    # path('blog/<str:pk>/delete', views.CenterViewSet.as_view({'delete': 'destroy'})),
     
-    path('plan/list', views.PlanViewSet.as_view({'get': 'list'}), name="getPlans"),
-    path('plan/retrieve/<str:pk>', views.PlanViewSet.as_view({'get': 'getCenterPlans'}), name="getPlans"),
-    path('plan/register', views.PlanViewSet.as_view({'post': 'register'}), name="registerCenter"),
+
+    # path('plan/list', views.PlanViewSet.as_view({'get': 'list'}), name="getPlans"),
+    # path('plan/retrieve/<str:pk>', views.PlanViewSet.as_view({'get': 'getCenterPlans'}), name="getPlans"),
+    # path('plan/register', views.PlanViewSet.as_view({'post': 'register'}), name="registerCenter"),
+
+    path('plan/', plan_list),
+    path('plan/<str:pk>/', plan_detail),
     path('plan/get/<str:centerid>', views.PlanViewSet.as_view({'get': 'getCenterPlans'}), name="getCenterPlans"),
     path('plan/get', views.PlanViewSet.as_view({'get': 'getMemberPlan'}), name="getMemberPlan"),
 
-    path('member/list', views.MemberViewSet.as_view({'get': 'list'}), name="getCenterMember"),
-    path('member/retrieve/<str:pk>', views.MemberViewSet.as_view({'get': 'list'}), name="getCenterMember"),
-    path('member/register', views.MemberViewSet.as_view({'post': 'register'}), name="getCenterMember"),
+    path('member/', member_list),
+    path('member/<str:pk>/', member_detail),
+
+    # path('member/list', views.MemberViewSet.as_view({'get': 'list'}), name="getCenterMember"),
+    # path('member/retrieve/<str:pk>', views.MemberViewSet.as_view({'get': 'list'}), name="getCenterMember"),
+    # path('member/register', views.MemberViewSet.as_view({'post': 'register'}), name="getCenterMember"),
     path('member/centerlist', views.MemberViewSet.as_view({'get': 'getMemberCenters'}), name="getMemberCenters"),
     path('member', views.MemberViewSet.as_view({'get': 'getMembers'}), name="getMembers"),
     path('member/get', views.MemberViewSet.as_view({'get': 'getMembersByRole'}), name="getMembersByRole"),

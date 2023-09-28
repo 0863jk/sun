@@ -11,27 +11,29 @@ from .serializers import (
 from accounts.models import User
 from accounts.serializers import UserSerializer
 
-class LessonViewSet(viewsets.ViewSet):
-    @staticmethod
-    def list(request):
-        datas = Lesson.objects.all()
-        serializer = LessonSerializer(datas, many=True)
-        return Response(serializer.data)
+class LessonViewSet(viewsets.ModelViewSet):
+    queryset = Lesson.objects.all()
+    serializer_class = LessonSerializer
+    # @staticmethod
+    # def list(request):
+    #     datas = Lesson.objects.all()
+    #     serializer = LessonSerializer(datas, many=True)
+    #     return Response(serializer.data)
 
-    @staticmethod
-    def retrieve(request, pk=None):
-        datas = Lesson.objects.get(lessonid=pk)
-        serializer = LessonSerializer(datas, many=False)
-        return Response(serializer.data)
+    # @staticmethod
+    # def retrieve(request, pk=None):
+    #     datas = Lesson.objects.get(lessonid=pk)
+    #     serializer = LessonSerializer(datas, many=False)
+    #     return Response(serializer.data)
     
-    @action(detail=False, methods=['POST'])
-    def register(self, request):
-        reqData = request.data
-        serializer = LessonSerializer(data=reqData)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # @action(detail=False, methods=['POST'])
+    # def register(self, request):
+    #     reqData = request.data
+    #     serializer = LessonSerializer(data=reqData)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     @action(detail=False, methods=['GET'])
     def getCenterLessons(self, request, centerid):
@@ -41,26 +43,29 @@ class LessonViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
 class TimetableBlockViewSet(viewsets.ViewSet):
-    @staticmethod
-    def list(request):
-        datas = TimetableBlock.objects.all()
-        serializer = TimetableBlockSerializer(datas, many=True)
-        return Response(serializer.data)
+    queryset = TimetableBlock.objects.all()
+    serializer_class = TimetableBlockSerializer
 
-    @staticmethod
-    def retrieve(request, pk=None):
-        datas = TimetableBlock.objects.get(blockid=pk)
-        serializer = TimetableBlockSerializer(datas, many=False)
-        return Response(serializer.data)
+    # @staticmethod
+    # def list(request):
+    #     datas = TimetableBlock.objects.all()
+    #     serializer = TimetableBlockSerializer(datas, many=True)
+    #     return Response(serializer.data)
 
-    @action(detail=False, methods=['POST'])
-    def register(self, request):
-        reqData = request.data
-        serializer = TimetableBlockSerializer(data=reqData)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # @staticmethod
+    # def retrieve(request, pk=None):
+    #     datas = TimetableBlock.objects.get(blockid=pk)
+    #     serializer = TimetableBlockSerializer(datas, many=False)
+    #     return Response(serializer.data)
+
+    # @action(detail=False, methods=['POST'])
+    # def register(self, request):
+    #     reqData = request.data
+    #     serializer = TimetableBlockSerializer(data=reqData)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     @action(detail=False, methods=['GET'])
     def getCenterTimetable(self, request, centerid):
@@ -97,18 +102,18 @@ class TimetableBlockViewSet(viewsets.ViewSet):
 
         return Response(serializer.data)
     
-    @action(detail=False, methods=['PUT'])
-    def update(self, request, blockid):
-        try:
-            data = TimetableBlock.objects.get(blockid=blockid)
-        except TimetableBlock.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+    # @action(detail=False, methods=['PUT'])
+    # def update(self, request, blockid):
+    #     try:
+    #         data = TimetableBlock.objects.get(blockid=blockid)
+    #     except TimetableBlock.DoesNotExist:
+    #         return Response(status=status.HTTP_404_NOT_FOUND)
 
-        serializer = TimetableBlockSerializer(data, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    #     serializer = TimetableBlockSerializer(data, data=request.data, partial=True)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     @action(detail=False, methods=['GET'])
     def getTrainerHistory(self, request):
@@ -119,26 +124,29 @@ class TimetableBlockViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
 class EnrolmentViewSet(viewsets.ViewSet):
-    @staticmethod
-    def list(request):
-        datas = Enrolment.objects.all()
-        serializer = EnrolmentSerializer(datas, many=True)
-        return Response(serializer.data)
+    queryset = Enrolment.objects.all()
+    serializer_class = EnrolmentSerializer
 
-    @staticmethod
-    def retrieve(request, pk=None):
-        datas = Enrolment.objects.get(id=pk)
-        serializer = EnrolmentSerializer(datas, many=False)
-        return Response(serializer.data)
+    # @staticmethod
+    # def list(request):
+    #     datas = Enrolment.objects.all()
+    #     serializer = EnrolmentSerializer(datas, many=True)
+    #     return Response(serializer.data)
 
-    @action(detail=False, methods=['POST'])
-    def register(self, request):
-        reqData = request.data
-        serializer = EnrolmentSerializer(data=reqData)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # @staticmethod
+    # def retrieve(request, pk=None):
+    #     datas = Enrolment.objects.get(id=pk)
+    #     serializer = EnrolmentSerializer(datas, many=False)
+    #     return Response(serializer.data)
+
+    # @action(detail=False, methods=['POST'])
+    # def register(self, request):
+    #     reqData = request.data
+    #     serializer = EnrolmentSerializer(data=reqData)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     @action(detail=False, methods=['GET'])
     def getApplicants(self, request):
@@ -150,26 +158,29 @@ class EnrolmentViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
 class LessonReviewViewSet(viewsets.ViewSet):
-    @staticmethod
-    def list(request):
-        datas = LessonReview.objects.all()
-        serializer = LessonReviewSerializer(datas, many=True)
-        return Response(serializer.data)
+    queryset = LessonReview.objects.all()
+    serializer_class = LessonReviewSerializer
 
-    @staticmethod
-    def retrieve(request, pk=None):
-        datas = LessonReview.objects.get(id=pk)
-        serializer = LessonReviewSerializer(datas, many=False)
-        return Response(serializer.data)
+    # @staticmethod
+    # def list(request):
+    #     datas = LessonReview.objects.all()
+    #     serializer = LessonReviewSerializer(datas, many=True)
+    #     return Response(serializer.data)
 
-    @action(detail=False, methods=['POST'])
-    def register(self, request):
-        reqData = request.data
-        serializer = LessonReviewSerializer(data=reqData)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # @staticmethod
+    # def retrieve(request, pk=None):
+    #     datas = LessonReview.objects.get(id=pk)
+    #     serializer = LessonReviewSerializer(datas, many=False)
+    #     return Response(serializer.data)
+
+    # @action(detail=False, methods=['POST'])
+    # def register(self, request):
+    #     reqData = request.data
+    #     serializer = LessonReviewSerializer(data=reqData)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     @action(detail=False, methods=['GET'])
     def getBlockReview(self, request):

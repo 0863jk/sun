@@ -4,34 +4,30 @@ import CardGroup from 'react-bootstrap/CardGroup';
 import CenterNav from "../../Component/Nav/CenterNav";
 import PlanModifyCard from "../../Component/Card/PlanModifyCard";
 import { useEffect, useState } from "react";
+import useFetch from "../../Hook/useFetch";
 
 function PlanManage() {
     const { pCenterId } = useParams();
-    const [centerid, setCenterid] = useState('');
+    const plan = useFetch(`http://localhost:8000/center/plan/get/${pCenterId}`);
 
-    useEffect(() => {
-        setCenterid(pCenterId);
-    }, []);
 
     return (
         <>
             <div>
                 <div className="header">
-                    <CenterNav centerid={centerid}/>
+                    <CenterNav centerid={pCenterId} />
                 </div>
-                <div className="MainContainer">
-                    <div className="LabelWrapper">
-                        <label className="LabelTitle">이용권 목록</label>
-                        <div className="CenterListContainer">
-                            <CardGroup className="CardGroup">
-                                <PlanModifyCard />
-                                <PlanModifyCard />
-                                <PlanModifyCard />
-                                <PlanModifyCard />
-                                <PlanModifyCard />
-                                <PlanModifyCard />
-                                <PlanModifyCard />
-                            </CardGroup>
+                <div className="main-container">
+                    <div className="label-wrapper">
+                        <label className="label-title">이용권 목록</label>
+                        <div className="content-container">
+                            <div className="cardlist-container">
+                                <CardGroup className="CardGroup">
+                                    {plan && plan.map(plan => (
+                                        <PlanCard key={plan.id} from="manage" planinfo={plan} />
+                                    ))}
+                                </CardGroup>
+                            </div>
                         </div>
                     </div>
                 </div>

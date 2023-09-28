@@ -14,6 +14,7 @@ function Weekly() {
     const role = localStorage.getItem('role');
     const [lesson, setLesson] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
+    const centerInfo = useFetch(``);
     const timetableData = useFetch(`http://localhost:8000/lesson/timetableblock/center/${pCenterId}`);
 
     const handleOpenModal = (data) => {

@@ -20,6 +20,15 @@ function PlanCard({ centerid, planinfo, from, setPlanData }) {
         setSelectedDate(date);
     };
 
+    const handleDelete = (pId) => {
+        fetch(`http://localhost:8000/center/plan/${pId}/`, {
+            method: 'DELETE',
+            body: JSON.stringify({
+                planid: pId,
+            })
+        })
+    }
+
     const handlePlanRegister = () => {
         const planData = {
             planid: planinfo.planid,
@@ -72,7 +81,14 @@ function PlanCard({ centerid, planinfo, from, setPlanData }) {
                                 <Button
                                     // onClick={setPopup}
                                     onClick={handleOpenModal}>등록</Button>
-
+                            ) : from === "manage" ? (
+                                <>
+                                    <Button href={`/plan/modify/${planinfo.centerid}/${planinfo.planid}`}>수정</Button>
+                                    <Button
+                                        onClick={() => handleDelete(planinfo.planid)}>삭제</Button>
+                                    {/* <Card.Link href={`/plan/modify/${planinfo.centerid}/${planinfo.planid}`}>수정하기</Card.Link>
+                                    <Card.Link href={`/plan/modify/${planinfo.centerid}/${planinfo.planid}`}>삭제하기</Card.Link> */}
+                                </>
                             ) :
                                 <></>
                         }

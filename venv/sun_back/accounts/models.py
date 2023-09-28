@@ -1,6 +1,6 @@
 import uuid
 from django.db import models
-from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.contrib.auth.models import AbstractUser
     
 class User(AbstractUser):
     # REQUIRED_FIELDS = ['password', 'email', 'name', 'phone']
@@ -13,3 +13,6 @@ class User(AbstractUser):
     name = models.CharField(max_length=150, unique=False, verbose_name='name')
     phone = models.CharField(null=False, blank=False, unique=False, max_length=255)
     role = models.CharField(choices=ROLE_CHOICES, null = False, max_length=255)
+    
+    def __str__(self):
+        return self.username
