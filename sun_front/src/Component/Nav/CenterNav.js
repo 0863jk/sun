@@ -49,7 +49,7 @@ function CenterNav({ centerid }) {
                                 </NavDropdown>
                                 : <></>}
 
-                        {role === "manager" ? <Nav.Link href={`/timetable/${centerid}`}>시간표 등록</Nav.Link> : <></>}
+                        {role === "manager" ? <Nav.Link href={`/timetable/manage/${centerid}`}>시간표 관리</Nav.Link> : <></>}
                         {role === "manager" ? <Nav.Link href={`/admin/${centerid}`}>관리</Nav.Link> : <></>}
                     </Nav>
                 </Container>

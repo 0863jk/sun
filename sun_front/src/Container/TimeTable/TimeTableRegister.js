@@ -156,8 +156,7 @@ function TimeTableRegister() {
             </div>
             <div className="main-container">
                 <div className="label-wrapper">
-                    <label className="label-title">시간표 등록</label>
-                    <div className="carouselContainer">
+                    {/* <div className="carouselContainer">
                         <Slider {...settings}>
                             {
                                 lessons && lessons.map(lessons => (
@@ -177,13 +176,16 @@ function TimeTableRegister() {
                                 </div>
                             </div>
                         </Slider>
-                    </div>
+                    </div> */}
                     <div className="wrap">
                         <div style={{ position: 'relative' }}>
                             <div className="addLessonBtnContainer">
-                                <button className="btnAddLesson" onClick={() => handleOpenModal('addTimetableBlock')}>
+                                {/* <button className="btnAddLesson" onClick={() => handleOpenModal('addTimetableBlock')}>
                                     그 외의 강의 추가하기
-                                </button>
+                                </button> */}
+                                <Button className="btnAddLesson" location={`/timetable/register/${pCenterId}`} href={`/timetable/register/${pCenterId}`}>
+                                    시간표 등록
+                                </Button>
                             </div>
                             <div className="timetable-wrapper">
                                 <WeeklyTimetable timetableData={timetableData} centerid={pCenterId} role={role} from="register" onClick={handleTimeTableModal} />
@@ -192,7 +194,7 @@ function TimeTableRegister() {
                     </div>
                 </div>
             </div>
-            <Modal open={modalVisible} onCancel={handleCloseModal} footer={null}>
+            {/* <Modal open={modalVisible} onCancel={handleCloseModal} footer={null}>
                 <div style={{ textAlign: 'center' }}>
                     {modalType === "addLesson" && (
                         <>
@@ -338,7 +340,7 @@ function TimeTableRegister() {
                         )
                     }
                 </div>
-            </Modal>
+            </Modal> */}
         </>
     );
 }

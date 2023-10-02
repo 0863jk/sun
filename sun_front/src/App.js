@@ -28,6 +28,7 @@ import NewPlan from './Container/Plan/NewPlan';
 import MyLesson from './Container/MyLesson/MyLesson';
 import MyWeekly from './Container/TimeTable/MyWeekly';
 import Footer from './Component/Footer';
+import TimeTableRegisterTest from './Container/TimeTable/TimeTableRegisterTest';
 //import Footer from './Component/Footer';
 
 function App() {
@@ -66,8 +67,13 @@ function App() {
             <Route path="/lesson/rate/:pCenterId/:pLessonId" element={<WriteLessonReview  />}></Route>
             <Route path="/lesson/review/:pCenterId/:pLessonId" element={<LessonReview  />}></Route>
             <Route path="/lesson/register/:pCenterId" element={<LessonRegister  />}></Route>
-            <Route path="/timetable/:pCenterId" element={<TimeTableRegister />}></Route>
-            <Route path="/timetable/register/:pCenterId" element={<LessonRegister  />}></Route>
+            
+            {/* 시간표 등록 */}
+            {/* <Route path="/timetable/:pCenterId" element={<TimeTableRegister />}></Route> */}
+            <Route path="/timetable/manage/:pCenterId" element={<TimeTableRegister />}></Route>
+            <Route path="/timetable/register/:pCenterId" element={<TimeTableRegisterTest  />}></Route>
+
+            {/* <Route path="/timetable/register/:pCenterId" element={<LessonRegister  />}></Route> */}
             <Route path="/plan/register/:pCenterId" element={<PlanRegister  />}></Route>
             <Route path="/admin/:pCenterId" element={<TrainerManage  />}></Route>
             <Route path="/admin/Trainer/:pCenterId" element={<TrainerManage  />}></Route>
