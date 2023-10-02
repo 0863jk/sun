@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     # my app
     'accounts',
     'center',
-    'lesson',
+    'program',
 ]
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [

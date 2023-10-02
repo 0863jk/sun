@@ -5,10 +5,14 @@ app_name = 'center'
 
 center_list = views.CenterViewSet.as_view({'get': 'list', 'post': 'create'})
 center_detail = views.CenterViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})
-plan_list = views.PlanViewSet.as_view({'get': 'list', 'post': 'create'})
-plan_detail = views.PlanViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})
+# plan_list = views.PlanViewSet.as_view({'get': 'list', 'post': 'create'})
+# plan_detail = views.PlanViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})
+pass_list = views.PassViewSet.as_view({'get': 'list', 'post': 'create'})
+pass_detail = views.PassViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})
 member_list = views.MemberViewSet.as_view({'get': 'list', 'post': 'create'})
 member_detail = views.MemberViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})
+payments_list = views.PaymentsViewSet.as_view({'get': 'list', 'post': 'create'})
+payments_detail = views.PaymentsViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})
 
 urlpatterns = [
     # path('list', views.CenterViewSet.as_view({'get': 'get'}), name="getCenters"),
@@ -17,8 +21,8 @@ urlpatterns = [
     # path('register', views.CenterViewSet.as_view({'post': 'put'}), name="registerCenter"),
     # path('delete/<str:pk>', views.CenterViewSet.as_view({'get': 'delete'}), name="registerCenter"),
 
-    path('', center_list),
-    path('<str:pk>', center_detail),
+    path('info', center_list),
+    path('info/<str:pk>', center_detail),
     # path('blog/<str:pk>/delete', views.CenterViewSet.as_view({'delete': 'destroy'})),
     
 
@@ -26,13 +30,17 @@ urlpatterns = [
     # path('plan/retrieve/<str:pk>', views.PlanViewSet.as_view({'get': 'getCenterPlans'}), name="getPlans"),
     # path('plan/register', views.PlanViewSet.as_view({'post': 'register'}), name="registerCenter"),
 
-    path('plan/', plan_list),
-    path('plan/<str:pk>/', plan_detail),
-    path('plan/get/<str:centerid>', views.PlanViewSet.as_view({'get': 'getCenterPlans'}), name="getCenterPlans"),
-    path('plan/get', views.PlanViewSet.as_view({'get': 'getMemberPlan'}), name="getMemberPlan"),
+    path('pass/', pass_list),
+    path('pass/<str:pk>', pass_detail),
+    path('pass/get/<str:center_id>', views.PassViewSet.as_view({'get': 'getCenterPasses'}), name="getCenterPasses"),
+    path('pass/get', views.PassViewSet.as_view({'get': 'getMemberPass'}), name="getMemberPass"),
+    # path('plan/', plan_list),
+    # path('plan/<str:pk>/', plan_detail),
+    # path('plan/get/<str:centerid>', views.PlanViewSet.as_view({'get': 'getCenterPlans'}), name="getCenterPlans"),
+    # path('plan/get', views.PlanViewSet.as_view({'get': 'getMemberPlan'}), name="getMemberPlan"),
 
     path('member/', member_list),
-    path('member/<str:pk>/', member_detail),
+    path('member/<str:pk>', member_detail),
 
     # path('member/list', views.MemberViewSet.as_view({'get': 'list'}), name="getCenterMember"),
     # path('member/retrieve/<str:pk>', views.MemberViewSet.as_view({'get': 'list'}), name="getCenterMember"),
@@ -41,6 +49,9 @@ urlpatterns = [
     path('member', views.MemberViewSet.as_view({'get': 'getMembers'}), name="getMembers"),
     path('member/get', views.MemberViewSet.as_view({'get': 'getMembersByRole'}), name="getMembersByRole"),
     path('member/registerinfo', views.MemberViewSet.as_view({'get': 'getRegisterInfo'}), name="getRegisterInfo"),
+    
+    path('payments/', payments_list),
+    path('payments/<str:pk>', payments_detail),
 ]
 
 # from django.urls import path
