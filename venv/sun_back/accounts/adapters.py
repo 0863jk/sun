@@ -8,12 +8,18 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         user = super().save_user(request, user, form, False)
         # 추가 저장 필드
         name = data.get('name')
-        phone = data.get('phone')
+        phone1 = data.get('phone1')
+        phone2 = data.get('phone2')
+        phone3 = data.get('phone3')
         role = data.get('role')
         if name:
             user.name = name
-        if phone:
-            user.phone = phone
+        if phone1:
+            user.phone1 = phone1
+        if phone2:
+            user.phone2 = phone2
+        if phone3:
+            user.phone3 = phone3
         if role:
             user.role = role
 

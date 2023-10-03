@@ -8,25 +8,34 @@ class UserSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CustomRegisterSerializer(RegisterSerializer):
-    name = serializers.CharField(required=True)
-    phone = serializers.CharField(required=True)
+    first_name = serializers.CharField(required=True)
+    last_name = serializers.CharField(required=True)
+    # name = serializers.CharField(required=True)
+    phone1 = serializers.CharField(required=True)
+    phone2 = serializers.CharField(required=True)
+    phone3 = serializers.CharField(required=True)
     role = serializers.CharField(required=True)
 
     def get_cleaned_data(self):
-        super().get_cleaned_data()
-        self.cleaned_data['name'] = self.validated_data.get('name', '')
-        self.cleaned_data['phone'] = self.validated_data.get('phone', '')
-        self.cleaned_data['role'] = self.validated_data.get('role', '')
-        return self.cleaned_data
+        data = super().get_cleaned_data()
+        data['first_name'] = self.validated_data.get('first_name', '')
+        data['last_name'] = self.validated_data.get('last_name', '')
+        data['name'] = data['last_name'] + data['first_name']
+        data['phone1'] = self.validated_data.get('phone1', '')
+        data['phone2'] = self.validated_data.get('phone2', '')
+        data['phone3'] = self.validated_data.get('phone3', '')
+        data['role'] = self.validated_data.get('role', '')
+        return data
     
-    def save(self, request):
-        user = super().save(request)
-        user.name = self.cleaned_data['name']
-        user.phone = self.cleaned_data['phone']
-        user.role = self.cleaned_data['role']
-        # user.phone_number = self.cleaned_data['phone_number']
-        user.save()
-        return user
+    # def save(self, request):
+    #     user = super().save(request)
+    #     user.name = self.cleaned_data['name']
+    #     user.phone1 = self.cleaned_data['phone1']
+    #     user.phone2 = self.cleaned_data['phone2']
+    #     user.phone3 = self.cleaned_data['phone3']
+    #     user.role = self.cleaned_data['role']
+    #     user.save()
+    #     return user
 
         # return data
 

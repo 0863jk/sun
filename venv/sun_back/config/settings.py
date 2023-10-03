@@ -62,7 +62,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-    ]
+    ],
+    'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
+    'ACCOUNT_ADAPTER': 'accounts.adapters.CustomAccountAdapter'
 }
 
 MIDDLEWARE = [
@@ -116,6 +118,7 @@ AUTHENTICATION_BACKENDS = (
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_FIRST_NAME_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
