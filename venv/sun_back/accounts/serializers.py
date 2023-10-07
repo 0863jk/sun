@@ -1,6 +1,8 @@
 from .models import User
 from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
+from dj_rest_auth.serializers import UserDetailsSerializer
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -10,7 +12,6 @@ class UserSerializer(serializers.ModelSerializer):
 class CustomRegisterSerializer(RegisterSerializer):
     first_name = serializers.CharField(required=True)
     last_name = serializers.CharField(required=True)
-    # name = serializers.CharField(required=True)
     phone1 = serializers.CharField(required=True)
     phone2 = serializers.CharField(required=True)
     phone3 = serializers.CharField(required=True)
@@ -27,20 +28,20 @@ class CustomRegisterSerializer(RegisterSerializer):
         data['role'] = self.validated_data.get('role', '')
         return data
     
-    # def save(self, request):
-    #     user = super().save(request)
-    #     user.name = self.cleaned_data['name']
-    #     user.phone1 = self.cleaned_data['phone1']
-    #     user.phone2 = self.cleaned_data['phone2']
-    #     user.phone3 = self.cleaned_data['phone3']
-    #     user.role = self.cleaned_data['role']
-    #     user.save()
-    #     return user
+    def save(self, request):
+        user = super().save(request)
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.name = self.cleaned_data['name']
+        user.phone1 = self.cleaned_data['phone1']
+        user.phone2 = self.cleaned_data['phone2']
+        user.phone3 = self.cleaned_data['phone3']
+        user.role = self.cleaned_data['role']
 
-        # return data
-
-        # return {
-        #     'name': self.validated_data.get('name', ''), # Custom field
-        #     'phone': self.validated_data.get('phone', ''), # Custom field
-        #     'role' : self.validated_data.get('role', '') # Custom field
-        # }
+        user.save()
+        return user
+    
+class CustomUserDetailsSerializer(UserDetailsSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'name', 'email', 'role')
