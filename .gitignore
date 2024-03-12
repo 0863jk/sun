@@ -1,3 +1,4 @@
-node_modules
+/node_modules
 *.pyc
+/lib
 db.sqlite3
