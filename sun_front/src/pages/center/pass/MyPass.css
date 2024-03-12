@@ -1,0 +1,19 @@
+.MyPlanContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    /* background-color: #f2f2f2; */
+}
+
+.CardGroup.MyPlan {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.DateInfo {
+    text-align: center;
+    color: #666666;
+    font-size: 14px;
+}
