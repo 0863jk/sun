@@ -1,4 +1,5 @@
-from rest_framework import status
+from rest_framework import status, viewsets
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import User
@@ -39,9 +40,26 @@ def getUsername(request, username):
         
 #     return Response(serializer.data)
 
-@api_view(['GET'])
-def searchTrainerUser(request, username):
-    datas = User.objects.filter(username__contains=username, role='trainer')
-    serializer = UserSerializer(datas, many=True)
+# @api_view(['GET'])
+# def searchTrainerUser(request, username):
+#     datas = User.objects.filter(username__contains=username, role='instroctor')
+#     serializer = UserSerializer(datas, many=True)
 
-    return Response(serializer.data)
+#     return Response(serializer.data)
+
+class UserViewSet(viewsets.ViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    @action(detail=False, methods=['GET'])
+    def searchUserByUsername(self, request):
+        username=request.query_params.get('username', '')
+        name=request.query_params.get('name', '')
+        role=request.query_params.get('role', '')
+        email=request.query_params.get('email', '')
+        datas = User.objects.filter(role=role)
+        datas = datas.filter(username__contains=username, email__contains=email, name__contains=name)
+        # datas = datas.filter(username__contains=username)
+        serializer = UserSerializer(datas, many=True)
+        
+        return Response(serializer.data)

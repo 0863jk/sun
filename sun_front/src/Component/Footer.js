@@ -4,11 +4,11 @@ import "./Footer.css"
 function Footer() {
     return (
         <>
-            <footer class="footer">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <p class="text-center">&copy; 2023 SUN. All Rights Reserved.</p>
+            <footer className="footer">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-12">
+                            <p className="text-center">&copy; 2023 SUN. All Rights Reserved.</p>
                         </div>
                     </div>
                 </div>

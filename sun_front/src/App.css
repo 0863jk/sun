@@ -1,4 +1,5 @@
 .clearfix {
+    font-family: 'NanumSquareNeo-Variable';
     width: 100%;
     align-items: center;
     height: 100vh;
@@ -11,40 +12,98 @@
     display: flex;
     justify-content: center;
     padding: auto;
-    /* align-items: center; */
 }
+
+.title-wrap {
+    max-width: 1200px;
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.title-container {
+    max-width: 1200px;
+    text-align: left;
+}
+
+.content-wrap {
+    width: 1200px;
+    text-align: center;
+    align-items: center;
+    padding: 0 auto;
+}
+
+.content-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.cardlist-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
 
 .label-wrapper {
     width: 1200px;
     margin: 0 auto;
     margin-top: 30px;
-    text-align: center;
 }
 
-.content-container {
-    margin-top: 20px;
-    margin-bottom: 30px;
-}
 
-.cardlist-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.form-wrapper {
-    margin-bottom: 30px;
+.form-container {
     width: 1000px;
-    margin: auto;
 }
 
 .timetable-wrapper {
+    width: 1200px;
     margin-bottom: 30px;
 }
 
 .label-title {
-    font-size: 30px;
+    font-size: 25px;
     font-weight: bold;
+    margin-right: 10px;
+}
+
+.card-container {
+    position: relative;
+}
+
+.card-overlay {
+    position: absolute;
+    display: none;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
     text-align: center;
+    color: white;
+    border-radius: 6px;
+    margin: 10px;
+    margin-bottom: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    cursor: pointer;
+}
+
+.card-container:hover .card-overlay {
+    display: flex;
+    opacity: 1;
+}
+
+.card-container .card-overlay::before {
+    content: "";
+    display: block;
+    margin-top: 10px;
+    /* 이 비율을 조절해서 크기를 맞출 수 있습니다. */
 }
 
 ul {

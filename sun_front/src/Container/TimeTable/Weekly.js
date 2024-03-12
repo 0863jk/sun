@@ -15,7 +15,7 @@ function Weekly() {
     const [lesson, setLesson] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
     const centerInfo = useFetch(``);
-    const timetableData = useFetch(`http://localhost:8000/lesson/timetableblock/center/${pCenterId}`);
+    // const timetableData = useFetch(`http://localhost:8000/lesson/timetableblock/center/${pCenterId}`);
 
     const handleOpenModal = (data) => {
         setLesson(data);
@@ -59,11 +59,18 @@ function Weekly() {
             <div className="main-container">
                 <div className="label-wrapper">
                     <div className='timetable-wrapper'>
-                        <WeeklyTimetable timetableData={timetableData} centerid={pCenterId} role={role} onClick={handleOpenModal} />
-                        </div>
+                        <WeeklyTimetable
+                            // timetableData={timetableData}
+                            centerid={pCenterId}
+                            role={role}
+                            onClick={handleOpenModal} />
+                    </div>
                 </div>
             </div>
-            <Modal open={modalVisible} onCancel={handleCloseModal} footer={null}>
+            <Modal
+                open={modalVisible}
+                onCancel={handleCloseModal}
+                footer={null}>
                 <div style={{ textAlign: 'center' }}>
                     {lesson && (
                         <>
@@ -76,7 +83,6 @@ function Weekly() {
                                     <p>{lesson.number_of_applicants} / {lesson.max_capacity}</p>
                                     {
                                         role === "manager" || role === "trainer" ? (
-                                            // <Button name="btnBook" onClick={() => viewApplicantListBtnHandler(lesson.blockid)}>예약자 명단보기</Button>
                                             <Button name="btnViewApplicant" onClick={onClickHandler}>예약자 명단보기</Button>
                                         ) : role === "general" ? (
                                             <Button name="btnBook" onClick={onClickHandler}>예약하기</Button>

@@ -3,7 +3,6 @@ from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from dj_rest_auth.serializers import UserDetailsSerializer
 
-
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -44,4 +43,4 @@ class CustomRegisterSerializer(RegisterSerializer):
 class CustomUserDetailsSerializer(UserDetailsSerializer):
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'name', 'email', 'role')
+        fields = ('username', 'first_name', 'last_name', 'name', 'email', 'role', 'phone1', 'phone2', 'phone3')
